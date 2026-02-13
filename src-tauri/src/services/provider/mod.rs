@@ -5,6 +5,7 @@
 mod endpoints;
 mod gemini_auth;
 mod live;
+mod models;
 mod usage;
 
 use indexmap::IndexMap;
@@ -18,6 +19,7 @@ use crate::provider::{Provider, UsageResult};
 use crate::services::mcp::McpService;
 use crate::settings::CustomEndpoint;
 use crate::store::AppState;
+pub use models::FetchOpenAiModelsResponse;
 
 // Re-export sub-module functions for external access
 pub use live::{
@@ -787,6 +789,25 @@ impl ProviderService {
             access_token,
             user_id,
             template_type,
+        )
+        .await
+    }
+
+    pub async fn fetch_openai_models(
+        state: &AppState,
+        app_type: AppType,
+        provider_id: Option<&str>,
+        base_url: &str,
+        api_key: &str,
+        timeout_secs: Option<u64>,
+    ) -> Result<FetchOpenAiModelsResponse, AppError> {
+        models::fetch_openai_models(
+            state,
+            app_type,
+            provider_id,
+            base_url,
+            api_key,
+            timeout_secs,
         )
         .await
     }
