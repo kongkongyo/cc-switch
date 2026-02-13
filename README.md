@@ -15,11 +15,11 @@ English | [中文](README_ZH.md) | [日本語](README_JA.md) | [Changelog](CHANG
 
 ## ❤️Sponsor
 
-[![MiniMax](assets/partners/banners/minimax-en.jpg)](https://bit.ly/3Nue8mA)
+[![MiniMax](assets/partners/banners/minimax-en.jpeg)](https://platform.minimax.io/subscribe/coding-plan?code=ClLhgxr2je&source=link)
 
-MiniMax M2.1 is an open-source, SOTA model built for real-world development and agentic workflows. It delivers top-tier performance on major coding benchmarks such as SWE, VIBE, and Multi-SWE. Powered by a 10B active / 230B total MoE architecture, M2.1 enables faster inference, easier deployment, and even local execution. It excels at coding, navigating digital environments, and handling long, multi-step tasks at scale.
+MiniMax-M2.5 is a SOTA large language model designed for real-world productivity. Trained in a diverse range of complex real-world digital working environments, M2.5 builds upon the coding expertise of M2.1 to extend into general office work, reaching fluency in generating and operating Word, Excel, and Powerpoint files, context switching between diverse software environments, and working across different agent and human teams. Scoring 80.2% on SWE-Bench Verified, 51.3% on Multi-SWE-Bench, and 76.3% on BrowseComp, M2.5 is also more token efficient than previous generations, having been trained to optimize its actions and output through planning.
 
-[Click](https://bit.ly/3Nue8mA) to get an exclusive 12% off the MiniMax Coding Plan!
+[Click](https://platform.minimax.io/subscribe/coding-plan?code=ClLhgxr2je&source=link) to get an exclusive 12% off the MiniMax Coding Plan!
 
 ---
 

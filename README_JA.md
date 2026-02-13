@@ -15,11 +15,11 @@
 
 ## ❤️スポンサー
 
-[![MiniMax](assets/partners/banners/minimax-en.jpg)](https://bit.ly/3Nue8mA)
+[![MiniMax](assets/partners/banners/minimax-en.jpeg)](https://platform.minimax.io/subscribe/coding-plan?code=ClLhgxr2je&source=link)
 
-MiniMax M2.1 は、実務開発とエージェントワークフロー向けに構築されたオープンソースの最先端モデルです。100 億のアクティブパラメータ / 2,300 億の総パラメータを持つ MoE アーキテクチャにより、高速な推論、簡単なデプロイ、ローカル実行にも対応します。SWE、VIBE、Multi-SWE などの主要コーディングベンチマークでトップクラスの性能を発揮し、コーディング、デジタル環境のナビゲーション、大規模な多段階タスクの処理に優れています。
+MiniMax-M2.5 は、実際の生産性向上のために設計された最先端の大規模言語モデルです。多様で複雑な実環境のデジタルワークスペースでトレーニングされた M2.5 は、M2.1 のコーディング能力をベースに一般的なオフィス業務へと拡張し、Word・Excel・PowerPoint ファイルの生成と操作、多様なソフトウェア環境間のコンテキスト切り替え、異なるエージェントや人間チーム間での協働を流暢にこなします。SWE-Bench Verified で 80.2%、Multi-SWE-Bench で 51.3%、BrowseComp で 76.3% を達成し、計画的な行動と出力の最適化トレーニングにより、前世代よりもトークン効率に優れています。
 
-[こちら](https://bit.ly/3Nue8mA)から MiniMax Coding Plan の限定 12% オフを入手！
+[こちら](https://platform.minimax.io/subscribe/coding-plan?code=ClLhgxr2je&source=link)から MiniMax Coding Plan の限定 12% オフを入手！
 
 ---
 
