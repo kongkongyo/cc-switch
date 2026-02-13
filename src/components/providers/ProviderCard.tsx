@@ -50,6 +50,36 @@ interface ProviderCardProps {
   activeProviderId?: string; // 代理当前实际使用的供应商 ID（用于故障转移模式下标注绿色边框）
 }
 
+const extractModelName = (
+  provider: Provider,
+  appId: AppId,
+): string | null => {
+  const config = provider.settingsConfig;
+  if (!config || typeof config !== "object") return null;
+
+  const env = (config as Record<string, any>)?.env;
+
+  if (appId === "claude") {
+    const model = env?.ANTHROPIC_MODEL;
+    if (typeof model === "string" && model.trim()) return model.trim();
+  }
+
+  if (appId === "gemini") {
+    const model = env?.GEMINI_MODEL;
+    if (typeof model === "string" && model.trim()) return model.trim();
+  }
+
+  if (appId === "codex") {
+    const toml = (config as Record<string, any>)?.config;
+    if (typeof toml === "string") {
+      const match = toml.match(/^model\s*=\s*"([^"]+)"/m);
+      if (match?.[1]) return match[1];
+    }
+  }
+
+  return null;
+};
+
 const extractApiUrl = (provider: Provider, fallbackText: string) => {
   if (provider.notes?.trim()) {
     return provider.notes.trim();
@@ -116,6 +146,10 @@ export function ProviderCard({
   const fallbackUrlText = t("provider.notConfigured", {
     defaultValue: "未配置接口地址",
   });
+
+  const modelName = useMemo(() => {
+    return extractModelName(provider, appId);
+  }, [provider, appId]);
 
   const displayUrl = useMemo(() => {
     return extractApiUrl(provider, fallbackUrlText);
@@ -275,6 +309,15 @@ export function ProviderCard({
                   </span>
                 )}
             </div>
+
+            {modelName && (
+              <span
+                className="inline-flex items-center text-xs text-muted-foreground bg-muted/50 px-1.5 py-0.5 rounded"
+                title={modelName}
+              >
+                <span className="truncate max-w-[200px]">{modelName}</span>
+              </span>
+            )}
 
             {displayUrl && (
               <button
