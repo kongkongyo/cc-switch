@@ -10,7 +10,7 @@ import {
   SelectTrigger,
   SelectValue,
 } from "@/components/ui/select";
-import { Plus, Trash2, ChevronRight } from "lucide-react";
+import { Plus, Trash2, ChevronRight, Download, Loader2 } from "lucide-react";
 import { ApiKeySection } from "./shared";
 import { opencodeNpmPackages } from "@/config/opencodeProviderPresets";
 import { cn } from "@/lib/utils";
@@ -153,6 +153,10 @@ interface OpenCodeFormFieldsProps {
   // Extra Options
   extraOptions: Record<string, string>;
   onExtraOptionsChange: (options: Record<string, string>) => void;
+  onFetchModels?: () => void;
+  isFetchingModels?: boolean;
+  fetchedModelOptions?: string[];
+  onImportFetchedModels?: () => void;
 }
 
 export function OpenCodeFormFields({
@@ -171,6 +175,10 @@ export function OpenCodeFormFields({
   onModelsChange,
   extraOptions,
   onExtraOptionsChange,
+  onFetchModels,
+  isFetchingModels = false,
+  fetchedModelOptions = [],
+  onImportFetchedModels,
 }: OpenCodeFormFieldsProps) {
   const { t } = useTranslation();
 
@@ -485,17 +493,61 @@ export function OpenCodeFormFields({
           <FormLabel>
             {t("opencode.models", { defaultValue: "Models" })}
           </FormLabel>
-          <Button
-            type="button"
-            variant="outline"
-            size="sm"
-            onClick={handleAddModel}
-            className="h-7 gap-1"
-          >
-            <Plus className="h-3.5 w-3.5" />
-            {t("opencode.addModel", { defaultValue: "Add" })}
-          </Button>
+          <div className="flex items-center gap-2">
+            {onFetchModels && (
+              <Button
+                type="button"
+                variant="outline"
+                size="sm"
+                onClick={onFetchModels}
+                disabled={isFetchingModels}
+                className="h-7 gap-1"
+              >
+                {isFetchingModels ? (
+                  <Loader2 className="h-3.5 w-3.5 animate-spin" />
+                ) : (
+                  <Download className="h-3.5 w-3.5" />
+                )}
+                {t("providerForm.autoFetchModels", {
+                  defaultValue: "自动获取模型",
+                })}
+              </Button>
+            )}
+            {onImportFetchedModels && (
+              <Button
+                type="button"
+                variant="outline"
+                size="sm"
+                onClick={onImportFetchedModels}
+                disabled={fetchedModelOptions.length === 0}
+                className="h-7 gap-1"
+              >
+                <Plus className="h-3.5 w-3.5" />
+                {t("opencode.importFetchedModels", {
+                  defaultValue: "导入已获取模型",
+                })}
+              </Button>
+            )}
+            <Button
+              type="button"
+              variant="outline"
+              size="sm"
+              onClick={handleAddModel}
+              className="h-7 gap-1"
+            >
+              <Plus className="h-3.5 w-3.5" />
+              {t("opencode.addModel", { defaultValue: "Add" })}
+            </Button>
+          </div>
         </div>
+        {fetchedModelOptions.length > 0 && (
+          <p className="text-xs text-muted-foreground">
+            {t("providerForm.fetchedModelCount", {
+              count: fetchedModelOptions.length,
+              defaultValue: "已获取 {{count}} 个模型，可一键导入。",
+            })}
+          </p>
+        )}
 
         {Object.keys(models).length === 0 ? (
           <p className="text-sm text-muted-foreground py-2">

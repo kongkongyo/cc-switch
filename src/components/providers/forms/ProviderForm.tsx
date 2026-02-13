@@ -876,6 +876,13 @@ export function ProviderForm({
     if (appId !== "opencode") return {};
     return toOpencodeExtraOptions(initialOpencodeOptions);
   });
+  const [isFetchingModels, setIsFetchingModels] = useState(false);
+  const [fetchedModelOptions, setFetchedModelOptions] = useState<string[]>([]);
+
+  useEffect(() => {
+    setFetchedModelOptions([]);
+    setIsFetchingModels(false);
+  }, [appId, providerId, selectedPresetId]);
 
   const [omoAgents, setOmoAgents] = useState<
     Record<string, Record<string, unknown>>
@@ -1068,6 +1075,169 @@ export function ProviderForm({
     },
     [updateOpencodeSettings],
   );
+
+  const handleFetchModels = useCallback(async () => {
+    const parsedSettings = (() => {
+      try {
+        return JSON.parse(form.getValues("settingsConfig") || "{}") as Record<
+          string,
+          unknown
+        >;
+      } catch {
+        return {} as Record<string, unknown>;
+      }
+    })();
+
+    const resolveCredentials = () => {
+      if (appId === "claude") {
+        // 约定：Claude 无论当前 apiFormat（anthropic/openai_chat），
+        // 自动拉模型都统一走 OpenAI 兼容 /models。
+        // 与 Codex 保持一致：优先使用当前表单输入值，避免读取旧配置字段。
+        return {
+          baseUrl: baseUrl.trim(),
+          apiKey: apiKey.trim(),
+        };
+      }
+      if (appId === "codex") {
+        return {
+          baseUrl: codexBaseUrl.trim(),
+          apiKey: codexApiKey.trim(),
+        };
+      }
+      if (appId === "gemini") {
+        return {
+          baseUrl: geminiBaseUrl.trim(),
+          apiKey: geminiApiKey.trim(),
+        };
+      }
+      const options =
+        parsedSettings.options && typeof parsedSettings.options === "object"
+          ? (parsedSettings.options as Record<string, unknown>)
+          : {};
+      const fallbackBaseUrl =
+        typeof options.baseURL === "string" ? options.baseURL.trim() : "";
+      const fallbackApiKey =
+        typeof options.apiKey === "string" ? options.apiKey.trim() : "";
+      return {
+        baseUrl: opencodeBaseUrl.trim() || fallbackBaseUrl,
+        apiKey: opencodeApiKey.trim() || fallbackApiKey,
+      };
+    };
+
+    const { baseUrl: rawBaseUrl, apiKey: rawApiKey } = resolveCredentials();
+    if (!rawBaseUrl) {
+      toast.error(
+        t("providerForm.endpointRequired", {
+          defaultValue: "请先填写 API 端点",
+        }),
+      );
+      return;
+    }
+    if (!rawApiKey) {
+      toast.error(
+        t("providerForm.apiKeyRequired", {
+          defaultValue: "请先填写 API Key",
+        }),
+      );
+      return;
+    }
+
+    setIsFetchingModels(true);
+    try {
+      const response = await providersApi.fetchOpenAiModels({
+        appId,
+        providerId: providerId ?? null,
+        baseUrl: rawBaseUrl,
+        apiKey: rawApiKey,
+        timeoutSecs: 15,
+      });
+      const modelIds = Array.from(
+        new Set(
+          (response.models || [])
+            .map((item) => item.id?.trim())
+            .filter((id): id is string => Boolean(id)),
+        ),
+      ).sort((a, b) => a.localeCompare(b, "en-US"));
+
+      setFetchedModelOptions(modelIds);
+      toast.success(
+        t("providerForm.modelsFetched", {
+          count: modelIds.length,
+          defaultValue: "已获取 {{count}} 个模型",
+        }),
+      );
+
+      if ((response.warnings || []).length > 0) {
+        console.warn("[MODEL_FETCH_WARNINGS]", response.warnings);
+      }
+    } catch (error) {
+      toast.error(String(error));
+    } finally {
+      setIsFetchingModels(false);
+    }
+  }, [
+    appId,
+    providerId,
+    baseUrl,
+    apiKey,
+    codexBaseUrl,
+    codexApiKey,
+    geminiBaseUrl,
+    geminiApiKey,
+    opencodeBaseUrl,
+    opencodeApiKey,
+    form,
+    t,
+  ]);
+
+  const handleImportFetchedModels = useCallback(() => {
+    if (appId !== "opencode") return;
+    if (fetchedModelOptions.length === 0) {
+      toast.error(
+        t("opencode.noFetchedModels", {
+          defaultValue: "暂无可导入模型，请先自动获取。",
+        }),
+      );
+      return;
+    }
+
+    const merged: Record<string, OpenCodeModel> = { ...opencodeModels };
+    let imported = 0;
+    let updated = 0;
+
+    for (const modelId of fetchedModelOptions) {
+      const key = modelId.trim();
+      if (!key) continue;
+
+      const existing = merged[key];
+      if (!existing) {
+        merged[key] = { name: key };
+        imported += 1;
+        continue;
+      }
+
+      if (!existing.name?.trim()) {
+        merged[key] = { ...existing, name: key };
+        updated += 1;
+      }
+    }
+
+    handleOpencodeModelsChange(merged);
+    toast.success(
+      t("opencode.importFetchedModelsResult", {
+        imported,
+        updated,
+        defaultValue:
+          "模型导入完成：新增 {{imported}} 个，补全名称 {{updated}} 个。",
+      }),
+    );
+  }, [
+    appId,
+    fetchedModelOptions,
+    opencodeModels,
+    handleOpencodeModelsChange,
+    t,
+  ]);
 
   const [isCommonConfigModalOpen, setIsCommonConfigModalOpen] = useState(false);
 
@@ -1659,6 +1829,9 @@ export function ProviderForm({
             speedTestEndpoints={speedTestEndpoints}
             apiFormat={localApiFormat}
             onApiFormatChange={handleApiFormatChange}
+            onFetchModels={handleFetchModels}
+            isFetchingModels={isFetchingModels}
+            modelSuggestions={fetchedModelOptions}
           />
         )}
 
@@ -1686,6 +1859,9 @@ export function ProviderForm({
             modelName={codexModelName}
             onModelNameChange={handleCodexModelNameChange}
             speedTestEndpoints={speedTestEndpoints}
+            onFetchModels={handleFetchModels}
+            isFetchingModels={isFetchingModels}
+            modelSuggestions={fetchedModelOptions}
           />
         )}
 
@@ -1715,6 +1891,9 @@ export function ProviderForm({
             model={geminiModel}
             onModelChange={handleGeminiModelChange}
             speedTestEndpoints={speedTestEndpoints}
+            onFetchModels={handleFetchModels}
+            isFetchingModels={isFetchingModels}
+            modelSuggestions={fetchedModelOptions}
           />
         )}
 
@@ -1735,6 +1914,10 @@ export function ProviderForm({
             onModelsChange={handleOpencodeModelsChange}
             extraOptions={opencodeExtraOptions}
             onExtraOptionsChange={handleOpencodeExtraOptionsChange}
+            onFetchModels={handleFetchModels}
+            isFetchingModels={isFetchingModels}
+            fetchedModelOptions={fetchedModelOptions}
+            onImportFetchedModels={handleImportFetchedModels}
           />
         )}
 

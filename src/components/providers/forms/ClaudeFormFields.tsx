@@ -8,10 +8,12 @@ import {
   SelectTrigger,
   SelectValue,
 } from "@/components/ui/select";
+import { Button } from "@/components/ui/button";
 import EndpointSpeedTest from "./EndpointSpeedTest";
 import { ApiKeySection, EndpointField } from "./shared";
 import type { ProviderCategory, ClaudeApiFormat } from "@/types";
 import type { TemplateValueConfig } from "@/config/claudeProviderPresets";
+import { Loader2 } from "lucide-react";
 
 interface EndpointCandidate {
   url: string;
@@ -68,6 +70,9 @@ interface ClaudeFormFieldsProps {
   // API Format (for third-party providers that use OpenAI Chat Completions format)
   apiFormat: ClaudeApiFormat;
   onApiFormatChange: (format: ClaudeApiFormat) => void;
+  onFetchModels?: () => void;
+  isFetchingModels?: boolean;
+  modelSuggestions?: string[];
 }
 
 export function ClaudeFormFields({
@@ -102,6 +107,9 @@ export function ClaudeFormFields({
   speedTestEndpoints,
   apiFormat,
   onApiFormatChange,
+  onFetchModels,
+  isFetchingModels = false,
+  modelSuggestions = [],
 }: ClaudeFormFieldsProps) {
   const { t } = useTranslation();
 
@@ -222,6 +230,26 @@ export function ClaudeFormFields({
       {/* 模型选择器 */}
       {shouldShowModelSelector && (
         <div className="space-y-3">
+          <div className="flex items-center justify-between">
+            <FormLabel className="mb-0">
+              {t("providerForm.modelConfig", { defaultValue: "模型配置" })}
+            </FormLabel>
+            {onFetchModels && (
+              <Button
+                type="button"
+                variant="outline"
+                size="sm"
+                onClick={onFetchModels}
+                disabled={isFetchingModels}
+              >
+                {isFetchingModels && <Loader2 className="h-3.5 w-3.5 animate-spin" />}
+                {t("providerForm.autoFetchModels", {
+                  defaultValue: "自动获取模型",
+                })}
+              </Button>
+            )}
+          </div>
+
           <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
             {/* 主模型 */}
             <div className="space-y-2">
@@ -235,6 +263,7 @@ export function ClaudeFormFields({
                 onChange={(e) =>
                   onModelChange("ANTHROPIC_MODEL", e.target.value)
                 }
+                list="claude-model-suggestions"
                 placeholder={t("providerForm.modelPlaceholder", {
                   defaultValue: "",
                 })}
@@ -254,6 +283,7 @@ export function ClaudeFormFields({
                 onChange={(e) =>
                   onModelChange("ANTHROPIC_REASONING_MODEL", e.target.value)
                 }
+                list="claude-model-suggestions"
                 autoComplete="off"
               />
             </div>
@@ -272,6 +302,7 @@ export function ClaudeFormFields({
                 onChange={(e) =>
                   onModelChange("ANTHROPIC_DEFAULT_HAIKU_MODEL", e.target.value)
                 }
+                list="claude-model-suggestions"
                 placeholder={t("providerForm.haikuModelPlaceholder", {
                   defaultValue: "",
                 })}
@@ -296,6 +327,7 @@ export function ClaudeFormFields({
                     e.target.value,
                   )
                 }
+                list="claude-model-suggestions"
                 placeholder={t("providerForm.modelPlaceholder", {
                   defaultValue: "",
                 })}
@@ -317,6 +349,7 @@ export function ClaudeFormFields({
                 onChange={(e) =>
                   onModelChange("ANTHROPIC_DEFAULT_OPUS_MODEL", e.target.value)
                 }
+                list="claude-model-suggestions"
                 placeholder={t("providerForm.modelPlaceholder", {
                   defaultValue: "",
                 })}
@@ -324,6 +357,13 @@ export function ClaudeFormFields({
               />
             </div>
           </div>
+          {modelSuggestions.length > 0 && (
+            <datalist id="claude-model-suggestions">
+              {modelSuggestions.map((modelId) => (
+                <option key={modelId} value={modelId} />
+              ))}
+            </datalist>
+          )}
           <p className="text-xs text-muted-foreground">
             {t("providerForm.modelHelper", {
               defaultValue:

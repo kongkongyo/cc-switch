@@ -494,12 +494,24 @@ export const setCodexModelName = (
   modelName: string,
 ): string => {
   const trimmed = modelName.trim();
-  if (!trimmed) {
-    return configText;
-  }
-
-  // 归一化原文本中的引号（既能匹配，也能输出稳定格式）
   const normalizedText = normalizeQuotes(configText);
+  if (!trimmed) {
+    const lines = normalizedText.split("\n");
+    let reachedSection = false;
+    let removed = false;
+    const nextLines = lines.filter((line) => {
+      const lineTrimmed = line.trim();
+      if (lineTrimmed.startsWith("[") && lineTrimmed.endsWith("]")) {
+        reachedSection = true;
+      }
+      if (!removed && !reachedSection && /^model\s*=/.test(lineTrimmed)) {
+        removed = true;
+        return false;
+      }
+      return true;
+    });
+    return nextLines.join("\n");
+  }
 
   const replacementLine = `model = "${trimmed}"`;
   const pattern = /^model\s*=\s*["']([^"']+)["']/m;

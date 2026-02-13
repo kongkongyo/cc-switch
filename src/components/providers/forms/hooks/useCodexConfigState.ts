@@ -184,10 +184,6 @@ export function useCodexConfigState({ initialData }: UseCodexConfigStateProps) {
       const trimmed = modelName.trim();
       setCodexModelName(trimmed);
 
-      if (!trimmed) {
-        return;
-      }
-
       isUpdatingCodexModelNameRef.current = true;
       setCodexConfig((prev) => setCodexModelNameInConfig(prev, trimmed));
       setTimeout(() => {
