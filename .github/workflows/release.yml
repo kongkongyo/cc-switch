@@ -16,6 +16,7 @@ jobs:
   release:
     runs-on: ${{ matrix.os }}
     strategy:
+      fail-fast: false
       matrix:
         include:
           - os: windows-2022
@@ -97,14 +98,16 @@ jobs:
       - name: Prepare Tauri signing key
         shell: bash
         run: |
-          # 调试：检查 Secret 是否存在
           if [ -z "${{ secrets.TAURI_SIGNING_PRIVATE_KEY }}" ]; then
-            echo "❌ TAURI_SIGNING_PRIVATE_KEY Secret 为空或不存在" >&2
-            echo "请检查 GitHub 仓库 Settings > Secrets and variables > Actions" >&2
-            exit 1
+            echo "⚠️ TAURI_SIGNING_PRIVATE_KEY 未配置，将跳过签名并关闭 updater 产物"
+            echo "SKIP_UPDATER_ARTIFACTS=1" >> "$GITHUB_ENV"
+            exit 0
           fi
-          
+
           RAW="${{ secrets.TAURI_SIGNING_PRIVATE_KEY }}"
+          if echo "$RAW" | grep -q '\\n'; then
+            RAW=$(printf '%b' "$RAW")
+          fi
           # 目标：提供正确的私钥“文件路径”给 Tauri CLI，避免内容解码歧义
           KEY_PATH="$RUNNER_TEMP/tauri_signing.key"
           # 情况 1：原始两行文本（第一行以 "untrusted comment:" 开头）
@@ -124,9 +127,9 @@ jobs:
                 printf '%s\n%s\n' "untrusted comment: tauri signing key" "$ONE" > "$KEY_PATH"
                 echo "✅ 使用一行 Base64 私钥，已构造两行文件"
               else
-                echo "❌ TAURI_SIGNING_PRIVATE_KEY 格式无法识别：既不是两行原文，也不是其 base64，亦非一行 base64" >&2
-                echo "密钥前10个字符: $(echo "$RAW" | head -c 10)..." >&2
-                exit 1
+                echo "⚠️ TAURI_SIGNING_PRIVATE_KEY 格式无法识别，将跳过签名并关闭 updater 产物" >&2
+                echo "SKIP_UPDATER_ARTIFACTS=1" >> "$GITHUB_ENV"
+                exit 0
               fi
             fi
           fi
@@ -152,15 +155,33 @@ jobs:
 
       - name: Build Tauri App (macOS)
         if: runner.os == 'macOS'
-        run: pnpm tauri build --target universal-apple-darwin
+        shell: bash
+        run: |
+          if [ "${SKIP_UPDATER_ARTIFACTS:-0}" = "1" ]; then
+            pnpm tauri build --target universal-apple-darwin --config '{"bundle":{"createUpdaterArtifacts":false}}'
+          else
+            pnpm tauri build --target universal-apple-darwin
+          fi
 
       - name: Build Tauri App (Windows)
         if: runner.os == 'Windows'
-        run: pnpm tauri build
+        shell: bash
+        run: |
+          if [ "${SKIP_UPDATER_ARTIFACTS:-0}" = "1" ]; then
+            pnpm tauri build --config '{"bundle":{"createUpdaterArtifacts":false}}'
+          else
+            pnpm tauri build
+          fi
 
       - name: Build Tauri App (Linux)
         if: runner.os == 'Linux'
-        run: pnpm tauri build --bundles appimage,deb,rpm
+        shell: bash
+        run: |
+          if [ "${SKIP_UPDATER_ARTIFACTS:-0}" = "1" ]; then
+            pnpm tauri build --bundles appimage,deb,rpm --config '{"bundle":{"createUpdaterArtifacts":false}}'
+          else
+            pnpm tauri build --bundles appimage,deb,rpm
+          fi
 
       - name: Prepare macOS Assets
         if: runner.os == 'macOS'
@@ -182,14 +203,14 @@ jobs:
             fi
           done
           if [ -z "$TAR_GZ" ]; then
-            echo "No macOS .tar.gz updater artifact found" >&2
-            exit 1
+            echo "No macOS .tar.gz updater artifact found (optional)"
+          else
+            # 重命名 tar.gz 为统一格式
+            NEW_TAR_GZ="CC-Switch-${VERSION}-macOS.tar.gz"
+            cp "$TAR_GZ" "release-assets/$NEW_TAR_GZ"
+            [ -f "$TAR_GZ.sig" ] && cp "$TAR_GZ.sig" "release-assets/$NEW_TAR_GZ.sig" || echo ".sig for macOS not found yet"
+            echo "macOS updater artifact copied: $NEW_TAR_GZ"
           fi
-          # 重命名 tar.gz 为统一格式
-          NEW_TAR_GZ="CC-Switch-${VERSION}-macOS.tar.gz"
-          cp "$TAR_GZ" "release-assets/$NEW_TAR_GZ"
-          [ -f "$TAR_GZ.sig" ] && cp "$TAR_GZ.sig" "release-assets/$NEW_TAR_GZ.sig" || echo ".sig for macOS not found yet"
-          echo "macOS updater artifact copied: $NEW_TAR_GZ"
           if [ -n "$APP_PATH" ]; then
             APP_DIR=$(dirname "$APP_PATH"); APP_NAME=$(basename "$APP_PATH")
             NEW_ZIP="CC-Switch-${VERSION}-macOS.zip"
