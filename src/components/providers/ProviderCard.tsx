@@ -279,6 +279,15 @@ export function ProviderCard({
                 {provider.name}
               </h3>
 
+              {modelName && (
+                <span
+                  className="inline-flex items-center text-xs text-muted-foreground bg-muted/50 px-1.5 py-0.5 rounded"
+                  title={modelName}
+                >
+                  <span className="truncate max-w-[200px]">{modelName}</span>
+                </span>
+              )}
+
               {isOmo && (
                 <span className="inline-flex items-center rounded-md bg-violet-100 px-1.5 py-0.5 text-[10px] font-semibold text-violet-700 dark:bg-violet-900/40 dark:text-violet-300">
                   OMO
@@ -309,15 +318,6 @@ export function ProviderCard({
                   </span>
                 )}
             </div>
-
-            {modelName && (
-              <span
-                className="inline-flex items-center text-xs text-muted-foreground bg-muted/50 px-1.5 py-0.5 rounded"
-                title={modelName}
-              >
-                <span className="truncate max-w-[200px]">{modelName}</span>
-              </span>
-            )}
 
             {displayUrl && (
               <button

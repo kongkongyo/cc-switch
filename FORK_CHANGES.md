@@ -16,7 +16,7 @@
 
 ### 供应商卡片模型名称显示
 
-主界面每个供应商卡片上，在供应商名称旁边直接显示当前配置的模型名称（如 `claude-sonnet-4-5-20250514`），无需点进编辑页面即可查看。
+主界面每个供应商卡片上，在供应商名称后面直接显示当前配置的模型名称（如 `claude-sonnet-4-5-20250514`），与供应商名称同行显示，无需点进编辑页面即可查看。
 
 支持的应用类型：
 - Claude — 读取 `ANTHROPIC_MODEL` 环境变量
@@ -45,7 +45,7 @@
 | `src-tauri/src/lib.rs` | 修改 | 注册 `fetch_provider_models_openai` command |
 | `src-tauri/Cargo.toml` | 修改 | 新增依赖 |
 | `src/lib/api/providers.ts` | 修改 | 新增 `fetchModelsOpenAi()` API 调用封装 |
-| `src/components/providers/ProviderCard.tsx` | 修改 | 新增 `extractModelName()` 函数及卡片内模型名称渲染 |
+| `src/components/providers/ProviderCard.tsx` | 修改 | 新增 `extractModelName()` 函数，模型名称紧跟供应商名称后同行显示 |
 | `src/components/providers/ProviderList.tsx` | 修改 | 恢复 `useStreamCheck` 导入、`handleTest` 回调和 `onTest`/`isTesting` 属性传递 |
 | `src/components/providers/forms/ProviderForm.tsx` | 修改 | 新增模型获取状态管理、回调逻辑和 UI 集成 |
 | `src/components/providers/forms/ClaudeFormFields.tsx` | 修改 | 新增获取按钮和模型建议列表 |
@@ -78,19 +78,24 @@ src/components/providers/forms/ProviderForm.tsx  ← 状态管理 + 回调
 ClaudeFormFields / CodexFormFields /        ← UI：获取按钮 + datalist 建议
 GeminiFormFields / OpenCodeFormFields
 
-src/components/providers/ProviderCard.tsx   ← extractModelName() + 卡片渲染
+src/components/providers/ProviderCard.tsx   ← extractModelName() + 供应商名称后同行渲染
+src/components/providers/ProviderList.tsx   ← 恢复 useStreamCheck + handleTest
 ```
 
 ---
 
 ## 同步上游指南
 
-本分支基于上游 `main` 通过 cherry-pick 方式构建，仅包含两个功能提交：
+本分支基于上游 `main` 通过 cherry-pick 方式构建，包含以下功能提交：
 
 ```
 1a0c9b71 feat: 添加提取模型名称的功能
 6f4b18da feat: 添加模型自动获取功能并更新相关组件
+8f7294d4 feat: 添加流式健康检查功能
+e6f3f80b feat: 添加分叉变更说明文档
 ```
+
+另有未提交的调整：模型名称显示位置移至供应商名称后同行。
 
 同步上游时推荐操作：
 
