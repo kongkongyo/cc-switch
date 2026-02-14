@@ -20,6 +20,7 @@ import type { Provider } from "@/types";
 import type { AppId } from "@/lib/api";
 import { providersApi } from "@/lib/api/providers";
 import { useDragSort } from "@/hooks/useDragSort";
+import { useStreamCheck } from "@/hooks/useStreamCheck";
 import { ProviderCard } from "@/components/providers/ProviderCard";
 import { ProviderEmptyState } from "@/components/providers/ProviderEmptyState";
 import {
@@ -92,6 +93,9 @@ export function ProviderList({
     [appId, opencodeLiveIds],
   );
 
+  // 流式健康检查
+  const { checkProvider, isChecking } = useStreamCheck(appId);
+
   const { data: isAutoFailoverEnabled } = useAutoFailoverEnabled(appId);
   const { data: failoverQueue } = useFailoverQueue(appId);
   const addToQueue = useAddToFailoverQueue();
@@ -133,6 +137,10 @@ export function ProviderList({
     },
     [appId, addToQueue, removeFromQueue],
   );
+
+  const handleTest = (provider: Provider) => {
+    checkProvider(provider.id, provider.name);
+  };
 
   const [searchTerm, setSearchTerm] = useState("");
   const [isSearchOpen, setIsSearchOpen] = useState(false);
@@ -230,7 +238,8 @@ export function ProviderList({
                 onConfigureUsage={onConfigureUsage}
                 onOpenWebsite={onOpenWebsite}
                 onOpenTerminal={onOpenTerminal}
-                isTesting={false} // isChecking(provider.id) - 测试功能已隐藏
+                onTest={appId !== "opencode" ? handleTest : undefined}
+                isTesting={isChecking(provider.id)}
                 isProxyRunning={isProxyRunning}
                 isProxyTakeover={isProxyTakeover}
                 isAutoFailoverEnabled={isFailoverModeActive}
