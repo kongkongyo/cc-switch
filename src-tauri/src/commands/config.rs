@@ -7,7 +7,6 @@ use tauri_plugin_opener::OpenerExt;
 use crate::app_config::AppType;
 use crate::codex_config;
 use crate::config::{self, get_claude_settings_path, ConfigStatus};
-use crate::settings;
 
 #[tauri::command]
 pub async fn get_claude_config_status() -> Result<ConfigStatus, String> {
@@ -15,18 +14,6 @@ pub async fn get_claude_config_status() -> Result<ConfigStatus, String> {
 }
 
 use std::str::FromStr;
-
-fn invalid_json_format_error(error: serde_json::Error) -> String {
-    let lang = settings::get_settings()
-        .language
-        .unwrap_or_else(|| "zh".to_string());
-
-    match lang.as_str() {
-        "en" => format!("Invalid JSON format: {error}"),
-        "ja" => format!("JSON形式が無効です: {error}"),
-        _ => format!("无效的 JSON 格式: {error}"),
-    }
-}
 
 #[tauri::command]
 pub async fn get_config_status(app: String) -> Result<ConfigStatus, String> {
@@ -59,6 +46,15 @@ pub async fn get_config_status(app: String) -> Result<ConfigStatus, String> {
 
             Ok(ConfigStatus { exists, path })
         }
+        AppType::OpenClaw => {
+            let config_path = crate::openclaw_config::get_openclaw_config_path();
+            let exists = config_path.exists();
+            let path = crate::openclaw_config::get_openclaw_dir()
+                .to_string_lossy()
+                .to_string();
+
+            Ok(ConfigStatus { exists, path })
+        }
     }
 }
 
@@ -74,6 +70,7 @@ pub async fn get_config_dir(app: String) -> Result<String, String> {
         AppType::Codex => codex_config::get_codex_config_dir(),
         AppType::Gemini => crate::gemini_config::get_gemini_dir(),
         AppType::OpenCode => crate::opencode_config::get_opencode_dir(),
+        AppType::OpenClaw => crate::openclaw_config::get_openclaw_dir(),
     };
 
     Ok(dir.to_string_lossy().to_string())
@@ -86,6 +83,7 @@ pub async fn open_config_folder(handle: AppHandle, app: String) -> Result<bool, 
         AppType::Codex => codex_config::get_codex_config_dir(),
         AppType::Gemini => crate::gemini_config::get_gemini_dir(),
         AppType::OpenCode => crate::opencode_config::get_opencode_dir(),
+        AppType::OpenClaw => crate::openclaw_config::get_openclaw_dir(),
     };
 
     if !config_dir.exists() {
@@ -151,111 +149,4 @@ pub async fn open_app_config_folder(handle: AppHandle) -> Result<bool, String> {
         .map_err(|e| format!("打开文件夹失败: {e}"))?;
 
     Ok(true)
-}
-
-#[tauri::command]
-pub async fn get_claude_common_config_snippet(
-    state: tauri::State<'_, crate::store::AppState>,
-) -> Result<Option<String>, String> {
-    state
-        .db
-        .get_config_snippet("claude")
-        .map_err(|e| e.to_string())
-}
-
-#[tauri::command]
-pub async fn set_claude_common_config_snippet(
-    snippet: String,
-    state: tauri::State<'_, crate::store::AppState>,
-) -> Result<(), String> {
-    if !snippet.trim().is_empty() {
-        serde_json::from_str::<serde_json::Value>(&snippet).map_err(invalid_json_format_error)?;
-    }
-
-    let value = if snippet.trim().is_empty() {
-        None
-    } else {
-        Some(snippet)
-    };
-
-    state
-        .db
-        .set_config_snippet("claude", value)
-        .map_err(|e| e.to_string())?;
-    Ok(())
-}
-
-#[tauri::command]
-pub async fn get_common_config_snippet(
-    app_type: String,
-    state: tauri::State<'_, crate::store::AppState>,
-) -> Result<Option<String>, String> {
-    state
-        .db
-        .get_config_snippet(&app_type)
-        .map_err(|e| e.to_string())
-}
-
-#[tauri::command]
-pub async fn set_common_config_snippet(
-    app_type: String,
-    snippet: String,
-    state: tauri::State<'_, crate::store::AppState>,
-) -> Result<(), String> {
-    if !snippet.trim().is_empty() {
-        match app_type.as_str() {
-            "claude" | "gemini" | "omo" => {
-                serde_json::from_str::<serde_json::Value>(&snippet)
-                    .map_err(invalid_json_format_error)?;
-            }
-            "codex" => {}
-            _ => {}
-        }
-    }
-
-    let value = if snippet.trim().is_empty() {
-        None
-    } else {
-        Some(snippet)
-    };
-
-    state
-        .db
-        .set_config_snippet(&app_type, value)
-        .map_err(|e| e.to_string())?;
-
-    if app_type == "omo"
-        && state
-            .db
-            .get_current_omo_provider("opencode")
-            .map_err(|e| e.to_string())?
-            .is_some()
-    {
-        crate::services::OmoService::write_config_to_file(state.inner())
-            .map_err(|e| e.to_string())?;
-    }
-    Ok(())
-}
-
-#[tauri::command]
-pub async fn extract_common_config_snippet(
-    appType: String,
-    settingsConfig: Option<String>,
-    state: tauri::State<'_, crate::store::AppState>,
-) -> Result<String, String> {
-    let app = AppType::from_str(&appType).map_err(|e| e.to_string())?;
-
-    if let Some(settings_config) = settingsConfig.filter(|s| !s.trim().is_empty()) {
-        let settings: serde_json::Value =
-            serde_json::from_str(&settings_config).map_err(invalid_json_format_error)?;
-
-        return crate::services::provider::ProviderService::extract_common_config_snippet_from_settings(
-            app,
-            &settings,
-        )
-        .map_err(|e| e.to_string());
-    }
-
-    crate::services::provider::ProviderService::extract_common_config_snippet(&state, app)
-        .map_err(|e| e.to_string())
 }

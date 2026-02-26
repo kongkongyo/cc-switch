@@ -61,8 +61,13 @@ Claude Code / Codex / Gemini 公式チャンネルが最安で元価格の 38% /
 </tr>
 
 <tr>
-<td width="180"><a href="https://crazyrouter.com/register?ref=cc-switch"><img src="assets/partners/logos/crazyrouter.jpg" alt="AICoding" width="150"></a></td>
-<td>Crazyrouter のご支援に感謝します！Crazyrouter は高性能 AI API アグリゲーションプラットフォームです。1 つの API キーで Claude Code、Codex、Gemini CLI、GPT など 300 以上のモデルにアクセス可能。OpenAI 互換エンドポイントでコード変更不要。自動フェイルオーバー、スマートルーティング、無制限同時接続、グローバル低遅延アクセスに対応。<a href="https://crazyrouter.com/register?ref=cc-switch">こちらから登録</a>してすぐにご利用いただけます。</td>
+<td width="180"><a href="https://crazyrouter.com/register?aff=OZcm&ref=cc-switch"><img src="assets/partners/logos/crazyrouter.jpg" alt="AICoding" width="150"></a></td>
+<td>Crazyrouter のご支援に感謝します！Crazyrouter は高性能 AI API アグリゲーションプラットフォームです。1 つの API キーで Claude Code、Codex、Gemini CLI など 300 以上のモデルにアクセス可能。全モデルが公式価格の 55% で利用でき、自動フェイルオーバー、スマートルーティング、無制限同時接続に対応。CC Switch ユーザー向けの限定特典：<a href="https://crazyrouter.com/register?aff=OZcm&ref=cc-switch">こちらのリンク</a>から登録すると <strong>$2 の無料クレジット</strong> を即時進呈。さらに初回チャージ時にプロモコード `CCSWITCH` を入力すると <strong>30% のボーナスクレジット</strong> が追加されます！</td>
+</tr>
+
+<tr>
+<td width="180"><a href="https://www.sssaicode.com/register?ref=DCP0SM"><img src="assets/partners/logos/sssaicode.png" alt="SSSAiCode" width="150"></a></td>
+<td>SSSAiCode のご支援に感謝します！SSSAiCode は安定性と信頼性に優れた API 中継サービスで、安定的で信頼性が高く、手頃な価格の Claude・Codex モデルサービスを提供しています。<strong>高コストパフォーマンスの公式 Claude サービスを 0.5￥/$ 換算で提供</strong>、月額制・Paygo など多様な課金方式に対応し、当日の迅速な請求書発行をサポート。CC Switch ユーザー向けの特別特典：<a href="https://www.sssaicode.com/register?ref=DCP0SM">こちらのリンク</a>から登録すると、毎回のチャージで $10 の追加ボーナスを受けられます！</td>
 </tr>
 
 </table>
@@ -151,6 +156,7 @@ Claude Code / Codex / Gemini 公式チャンネルが最安で元価格の 38% /
 **コア機能**
 
 - **プロバイダ管理**：Claude Code、Codex、Gemini の API 設定をワンクリックで切り替え
+- **AWS Bedrock 対応**：AWS Bedrock プロバイダプリセットを内蔵、AKSK および API Key 認証に対応、クロスリージョン推論（global/us/eu/apac）をサポート、Claude Code と OpenCode に対応
 - **速度テスト**：エンドポイント遅延を計測し、品質を可視化
 - **インポート/エクスポート**：設定をバックアップ・復元（最新 10 件を自動ローテーション）
 - **多言語対応**：UI/エラー/トレイを含む中国語・英語・日本語ローカライズ

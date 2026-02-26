@@ -297,6 +297,15 @@ fn schema_migration_v4_adds_pricing_model_columns() {
         r#"
         CREATE TABLE proxy_config (app_type TEXT PRIMARY KEY);
         CREATE TABLE proxy_request_logs (request_id TEXT PRIMARY KEY, model TEXT NOT NULL);
+        CREATE TABLE mcp_servers (
+            id TEXT PRIMARY KEY,
+            name TEXT NOT NULL,
+            server_config TEXT NOT NULL,
+            enabled_claude INTEGER NOT NULL DEFAULT 0,
+            enabled_codex INTEGER NOT NULL DEFAULT 0,
+            enabled_gemini INTEGER NOT NULL DEFAULT 0,
+            enabled_opencode INTEGER NOT NULL DEFAULT 0
+        );
         "#,
     )
     .expect("seed v4 schema");
@@ -504,8 +513,6 @@ fn schema_dry_run_does_not_write_to_disk() {
         mcp: Default::default(),
         prompts: Default::default(),
         skills: Default::default(),
-        common_config_snippets: Default::default(),
-        claude_common_config_snippet: None,
     };
 
     // Dry-run should succeed without any file I/O errors
@@ -554,8 +561,6 @@ fn dry_run_validates_schema_compatibility() {
         mcp: Default::default(),
         prompts: Default::default(),
         skills: Default::default(),
-        common_config_snippets: Default::default(),
-        claude_common_config_snippet: None,
     };
 
     // Dry-run should validate the full migration path

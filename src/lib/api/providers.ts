@@ -38,6 +38,10 @@ export interface FetchOpenAiModelsResponse {
   warnings?: string[];
 }
 
+export interface SwitchResult {
+  warnings: string[];
+}
+
 export const providersApi = {
   async getAll(appId: AppId): Promise<Record<string, Provider>> {
     return await invoke("get_providers", { app: appId });
@@ -67,7 +71,7 @@ export const providersApi = {
     return await invoke("remove_provider_from_live_config", { id, app: appId });
   },
 
-  async switch(id: string, appId: AppId): Promise<boolean> {
+  async switch(id: string, appId: AppId): Promise<SwitchResult> {
     return await invoke("switch_provider", { id, app: appId });
   },
 
@@ -118,6 +122,14 @@ export const providersApi = {
    */
   async getOpenCodeLiveProviderIds(): Promise<string[]> {
     return await invoke("get_opencode_live_provider_ids");
+  },
+
+  /**
+   * 获取 OpenClaw live 配置中的供应商 ID 列表
+   * 用于前端判断供应商是否已添加到 openclaw.json
+   */
+  async getOpenClawLiveProviderIds(): Promise<string[]> {
+    return await invoke("get_openclaw_live_provider_ids");
   },
 
   async fetchOpenAiModels(
