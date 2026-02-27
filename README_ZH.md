@@ -1,17 +1,45 @@
 <div align="center">
 
-# Claude Code / Codex / Gemini CLI 全方位辅助工具
+# CC Switch (Fork)
 
-[![Version](https://img.shields.io/badge/version-3.10.2-blue.svg)](https://github.com/farion1231/cc-switch/releases)
-[![Platform](https://img.shields.io/badge/platform-Windows%20%7C%20macOS%20%7C%20Linux-lightgrey.svg)](https://github.com/farion1231/cc-switch/releases)
-[![Built with Tauri](https://img.shields.io/badge/built%20with-Tauri%202-orange.svg)](https://tauri.app/)
-[![Downloads](https://img.shields.io/endpoint?url=https://api.pinstudios.net/api/badges/downloads/farion1231/cc-switch/total)](https://github.com/farion1231/cc-switch/releases/latest)
+基于 [farion1231/cc-switch](https://github.com/farion1231/cc-switch)，已同步至上游 v3.11.0。
 
-<a href="https://trendshift.io/repositories/15372" target="_blank"><img src="https://trendshift.io/api/badge/repositories/15372" alt="farion1231%2Fcc-switch | Trendshift" style="width: 250px; height: 55px;" width="250" height="55"/></a>
-
-[English](README.md) | 中文 | [日本語](README_JA.md) | [更新日志](CHANGELOG.md) | [v3.9.0 发布说明](docs/release-note-v3.9.0-zh.md)
+[English](README.md) | 中文 | [日本語](README_JA.md) | [更新日志](CHANGELOG.md)
 
 </div>
+
+## 与上游的区别
+
+本 Fork 在上游全部功能基础上，新增以下改进：
+
+### 1. 供应商卡片显示模型名称
+
+主界面每个供应商卡片上，在供应商名称后直接显示当前配置的模型名称（如 `claude-sonnet-4-5-20250514`），无需点进编辑页面即可查看。
+
+支持：Claude（`ANTHROPIC_MODEL`）、Codex（config.toml 中的 `model`）、Gemini（`GEMINI_MODEL`）。
+
+### 2. 自动获取模型列表
+
+编辑供应商时新增"自动获取模型"按钮，点击后通过供应商 API 拉取可用模型列表。所有模型以下拉列表展示——始终显示全部模型，输入时按匹配度自动排序——无需手动查找模型 ID。
+
+### 3. 恢复"测试模型"按钮
+
+上游在 `68a0c304` 中隐藏了流式健康检查按钮。本 Fork 恢复此功能：每个供应商卡片（OpenCode 除外）显示"测试"按钮，点击即可验证供应商是否可用。
+
+### 4. 托盘图标点击行为
+
+- **左键单击**：打开主窗口（上游为打开菜单）
+- **右键单击**：打开快捷切换菜单（不变）
+
+### 5. 更智能的模型建议下拉
+
+上游使用原生 `<datalist>`，输入时会隐藏不匹配的模型。本 Fork 替换为自定义下拉组件：
+- 始终显示**所有**已获取模型
+- 按匹配度排序（完全匹配 > 前缀匹配 > 包含匹配 > 不匹配）
+- 匹配文字高亮
+- 不匹配的模型以弱化样式显示在底部
+
+---
 
 ## ❤️赞助商
 

@@ -1,17 +1,45 @@
 <div align="center">
 
-# Claude Code / Codex / Gemini CLI オールインワン・アシスタント
+# CC Switch (Fork)
 
-[![Version](https://img.shields.io/badge/version-3.10.2-blue.svg)](https://github.com/farion1231/cc-switch/releases)
-[![Platform](https://img.shields.io/badge/platform-Windows%20%7C%20macOS%20%7C%20Linux-lightgrey.svg)](https://github.com/farion1231/cc-switch/releases)
-[![Built with Tauri](https://img.shields.io/badge/built%20with-Tauri%202-orange.svg)](https://tauri.app/)
-[![Downloads](https://img.shields.io/endpoint?url=https://api.pinstudios.net/api/badges/downloads/farion1231/cc-switch/total)](https://github.com/farion1231/cc-switch/releases/latest)
+[farion1231/cc-switch](https://github.com/farion1231/cc-switch) をベースに、上流 v3.11.0 まで同期済み。
 
-<a href="https://trendshift.io/repositories/15372" target="_blank"><img src="https://trendshift.io/api/badge/repositories/15372" alt="farion1231%2Fcc-switch | Trendshift" style="width: 250px; height: 55px;" width="250" height="55"/></a>
-
-[English](README.md) | [中文](README_ZH.md) | 日本語 | [Changelog](CHANGELOG.md) | [v3.9.0 リリースノート](docs/release-note-v3.9.0-ja.md)
+[English](README.md) | [中文](README_ZH.md) | 日本語 | [Changelog](CHANGELOG.md)
 
 </div>
+
+## 上流との違い
+
+本 Fork は上流の全機能に加え、以下の改善を追加しています：
+
+### 1. プロバイダーカードにモデル名を表示
+
+メイン画面の各プロバイダーカードに、現在設定されているモデル名（例：`claude-sonnet-4-5-20250514`）がプロバイダー名の横に直接表示されます。編集画面を開かなくても確認できます。
+
+対応アプリ：Claude（`ANTHROPIC_MODEL`）、Codex（config.toml の `model`）、Gemini（`GEMINI_MODEL`）。
+
+### 2. モデルリスト自動取得
+
+プロバイダー編集画面に「モデル自動取得」ボタンを追加。クリックするとプロバイダーの API エンドポイントから利用可能なモデル一覧を取得します。すべてのモデルがドロップダウンに表示され、入力時はマッチ度順に自動ソートされるため、モデル ID を手動で調べる必要がありません。
+
+### 3.「モデルテスト」ボタンの復元
+
+上流では `68a0c304` でストリーミングヘルスチェックボタンが非表示にされました。本 Fork ではこの機能を復元し、各プロバイダーカード（OpenCode を除く）に「テスト」ボタンを表示して、プロバイダーの利用可否を確認できます。
+
+### 4. トレイアイコンのクリック動作
+
+- **左クリック**：メインウィンドウを開く（上流ではメニューを開く）
+- **右クリック**：クイック切替メニューを開く（変更なし）
+
+### 5. よりスマートなモデル候補ドロップダウン
+
+上流ではネイティブの `<datalist>` を使用しており、入力時にマッチしないモデルが非表示になります。本 Fork ではカスタムドロップダウンに置き換え：
+- 取得した**すべて**のモデルを常に表示
+- マッチ度順にソート（完全一致 > 前方一致 > 部分一致 > 不一致）
+- マッチ部分をハイライト表示
+- マッチしないモデルは薄い文字で下部に表示
+
+---
 
 ## ❤️スポンサー
 

@@ -1,17 +1,45 @@
 <div align="center">
 
-# All-in-One Assistant for Claude Code, Codex & Gemini CLI
+# CC Switch (Fork)
 
-[![Version](https://img.shields.io/badge/version-3.10.2-blue.svg)](https://github.com/farion1231/cc-switch/releases)
-[![Platform](https://img.shields.io/badge/platform-Windows%20%7C%20macOS%20%7C%20Linux-lightgrey.svg)](https://github.com/farion1231/cc-switch/releases)
-[![Built with Tauri](https://img.shields.io/badge/built%20with-Tauri%202-orange.svg)](https://tauri.app/)
-[![Downloads](https://img.shields.io/endpoint?url=https://api.pinstudios.net/api/badges/downloads/farion1231/cc-switch/total)](https://github.com/farion1231/cc-switch/releases/latest)
-
-<a href="https://trendshift.io/repositories/15372" target="_blank"><img src="https://trendshift.io/api/badge/repositories/15372" alt="farion1231%2Fcc-switch | Trendshift" style="width: 250px; height: 55px;" width="250" height="55"/></a>
+Based on [farion1231/cc-switch](https://github.com/farion1231/cc-switch), synced to upstream v3.11.0.
 
 English | [中文](README_ZH.md) | [日本語](README_JA.md) | [Changelog](CHANGELOG.md)
 
 </div>
+
+## Fork Changes vs Upstream
+
+This fork adds the following user-facing improvements on top of all upstream features:
+
+### 1. Model Name on Provider Card
+
+Each provider card on the main screen shows the current model name (e.g. `claude-sonnet-4-5-20250514`) right next to the provider name — no need to open the edit page just to check which model is configured.
+
+Supported apps: Claude (`ANTHROPIC_MODEL`), Codex (`model` in config.toml), Gemini (`GEMINI_MODEL`).
+
+### 2. Auto-Fetch Model List
+
+A new "Auto Fetch Models" button in the provider edit form. Click it to query available models from the provider's API endpoint. All fetched models are shown in a dropdown — always visible, sorted by match relevance when you type — so you can pick the right model without looking up IDs manually.
+
+### 3. Restored "Test Model" Button
+
+Upstream removed the stream health-check button in `68a0c304`, citing format complexity. This fork brings it back: each provider card (except OpenCode) shows a "Test" button that verifies provider availability via a streaming health check.
+
+### 4. Tray Icon Behavior
+
+- **Left-click**: Opens the main window (upstream: opens the menu)
+- **Right-click**: Opens the quick-switch menu (unchanged)
+
+### 5. Smarter Model Suggestions Dropdown
+
+Upstream used native `<datalist>`, which hides non-matching models. This fork replaces it with a custom dropdown that:
+- Always shows **all** fetched models
+- Sorts by match relevance (exact > prefix > contains > no match)
+- Highlights matched text
+- Non-matching models are shown in a muted style at the bottom
+
+---
 
 ## ❤️Sponsor
 

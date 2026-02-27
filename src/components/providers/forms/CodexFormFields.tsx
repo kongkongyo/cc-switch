@@ -1,6 +1,7 @@
 import { useTranslation } from "react-i18next";
 import { Loader2 } from "lucide-react";
 import { Button } from "@/components/ui/button";
+import { ModelSuggest } from "@/components/ui/model-suggest";
 import EndpointSpeedTest from "./EndpointSpeedTest";
 import { ApiKeySection, EndpointField } from "./shared";
 import type { ProviderCategory } from "@/types";
@@ -131,24 +132,15 @@ export function CodexFormFields({
               </Button>
             )}
           </div>
-          <input
+          <ModelSuggest
             id="codexModelName"
-            type="text"
             value={modelName}
-            onChange={(e) => onModelNameChange(e.target.value)}
-            list="codex-model-suggestions"
+            onChange={(v) => onModelNameChange(v)}
+            suggestions={modelSuggestions}
             placeholder={t("codexConfig.modelNamePlaceholder", {
               defaultValue: "例如: gpt-5-codex",
             })}
-            className="w-full px-3 py-2 border border-border-default bg-background text-foreground rounded-lg text-sm focus:outline-none focus:ring-2 focus:ring-blue-500/20 dark:focus:ring-blue-400/20 transition-colors"
           />
-          {modelSuggestions.length > 0 && (
-            <datalist id="codex-model-suggestions">
-              {modelSuggestions.map((modelId) => (
-                <option key={modelId} value={modelId} />
-              ))}
-            </datalist>
-          )}
           <p className="text-xs text-muted-foreground">
             {t("codexConfig.modelNameHint", {
               defaultValue: "指定使用的模型，将自动更新到 config.toml 中",

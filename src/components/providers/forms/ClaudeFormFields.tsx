@@ -1,6 +1,7 @@
 import { useTranslation } from "react-i18next";
 import { FormLabel } from "@/components/ui/form";
 import { Input } from "@/components/ui/input";
+import { ModelSuggest } from "@/components/ui/model-suggest";
 import {
   Select,
   SelectContent,
@@ -301,18 +302,14 @@ export function ClaudeFormFields({
               <FormLabel htmlFor="claudeModel">
                 {t("providerForm.anthropicModel", { defaultValue: "主模型" })}
               </FormLabel>
-              <Input
+              <ModelSuggest
                 id="claudeModel"
-                type="text"
                 value={claudeModel}
-                onChange={(e) =>
-                  onModelChange("ANTHROPIC_MODEL", e.target.value)
-                }
-                list="claude-model-suggestions"
+                onChange={(v) => onModelChange("ANTHROPIC_MODEL", v)}
+                suggestions={modelSuggestions}
                 placeholder={t("providerForm.modelPlaceholder", {
                   defaultValue: "",
                 })}
-                autoComplete="off"
               />
             </div>
 
@@ -321,15 +318,11 @@ export function ClaudeFormFields({
               <FormLabel htmlFor="reasoningModel">
                 {t("providerForm.anthropicReasoningModel")}
               </FormLabel>
-              <Input
+              <ModelSuggest
                 id="reasoningModel"
-                type="text"
                 value={reasoningModel}
-                onChange={(e) =>
-                  onModelChange("ANTHROPIC_REASONING_MODEL", e.target.value)
-                }
-                list="claude-model-suggestions"
-                autoComplete="off"
+                onChange={(v) => onModelChange("ANTHROPIC_REASONING_MODEL", v)}
+                suggestions={modelSuggestions}
               />
             </div>
 
@@ -340,18 +333,14 @@ export function ClaudeFormFields({
                   defaultValue: "Haiku 默认模型",
                 })}
               </FormLabel>
-              <Input
+              <ModelSuggest
                 id="claudeDefaultHaikuModel"
-                type="text"
                 value={defaultHaikuModel}
-                onChange={(e) =>
-                  onModelChange("ANTHROPIC_DEFAULT_HAIKU_MODEL", e.target.value)
-                }
-                list="claude-model-suggestions"
+                onChange={(v) => onModelChange("ANTHROPIC_DEFAULT_HAIKU_MODEL", v)}
+                suggestions={modelSuggestions}
                 placeholder={t("providerForm.haikuModelPlaceholder", {
                   defaultValue: "",
                 })}
-                autoComplete="off"
               />
             </div>
 
@@ -362,21 +351,16 @@ export function ClaudeFormFields({
                   defaultValue: "Sonnet 默认模型",
                 })}
               </FormLabel>
-              <Input
+              <ModelSuggest
                 id="claudeDefaultSonnetModel"
-                type="text"
                 value={defaultSonnetModel}
-                onChange={(e) =>
-                  onModelChange(
-                    "ANTHROPIC_DEFAULT_SONNET_MODEL",
-                    e.target.value,
-                  )
+                onChange={(v) =>
+                  onModelChange("ANTHROPIC_DEFAULT_SONNET_MODEL", v)
                 }
-                list="claude-model-suggestions"
+                suggestions={modelSuggestions}
                 placeholder={t("providerForm.modelPlaceholder", {
                   defaultValue: "",
                 })}
-                autoComplete="off"
               />
             </div>
 
@@ -387,28 +371,17 @@ export function ClaudeFormFields({
                   defaultValue: "Opus 默认模型",
                 })}
               </FormLabel>
-              <Input
+              <ModelSuggest
                 id="claudeDefaultOpusModel"
-                type="text"
                 value={defaultOpusModel}
-                onChange={(e) =>
-                  onModelChange("ANTHROPIC_DEFAULT_OPUS_MODEL", e.target.value)
-                }
-                list="claude-model-suggestions"
+                onChange={(v) => onModelChange("ANTHROPIC_DEFAULT_OPUS_MODEL", v)}
+                suggestions={modelSuggestions}
                 placeholder={t("providerForm.modelPlaceholder", {
                   defaultValue: "",
                 })}
-                autoComplete="off"
               />
             </div>
           </div>
-          {modelSuggestions.length > 0 && (
-            <datalist id="claude-model-suggestions">
-              {modelSuggestions.map((modelId) => (
-                <option key={modelId} value={modelId} />
-              ))}
-            </datalist>
-          )}
           <p className="text-xs text-muted-foreground">
             {t("providerForm.modelHelper", {
               defaultValue:

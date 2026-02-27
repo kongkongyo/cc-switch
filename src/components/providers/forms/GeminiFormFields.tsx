@@ -1,6 +1,7 @@
 import { useTranslation } from "react-i18next";
 import { FormLabel } from "@/components/ui/form";
 import { Input } from "@/components/ui/input";
+import { ModelSuggest } from "@/components/ui/model-suggest";
 import { Button } from "@/components/ui/button";
 import { Info } from "lucide-react";
 import { Loader2 } from "lucide-react";
@@ -152,20 +153,13 @@ export function GeminiFormFields({
               </Button>
             )}
           </div>
-          <Input
+          <ModelSuggest
             id="gemini-model"
             value={model}
-            onChange={(e) => onModelChange(e.target.value)}
-            list="gemini-model-suggestions"
+            onChange={(v) => onModelChange(v)}
+            suggestions={modelSuggestions}
             placeholder="gemini-3-pro-preview"
           />
-          {modelSuggestions.length > 0 && (
-            <datalist id="gemini-model-suggestions">
-              {modelSuggestions.map((modelId) => (
-                <option key={modelId} value={modelId} />
-              ))}
-            </datalist>
-          )}
         </div>
       )}
 
