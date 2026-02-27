@@ -54,6 +54,36 @@ interface ProviderCardProps {
   onSetAsDefault?: () => void;
 }
 
+const extractModelName = (
+  provider: Provider,
+  appId: AppId,
+): string | null => {
+  const config = provider.settingsConfig;
+  if (!config || typeof config !== "object") return null;
+
+  const env = (config as Record<string, any>)?.env;
+
+  if (appId === "claude") {
+    const model = env?.ANTHROPIC_MODEL;
+    if (typeof model === "string" && model.trim()) return model.trim();
+  }
+
+  if (appId === "gemini") {
+    const model = env?.GEMINI_MODEL;
+    if (typeof model === "string" && model.trim()) return model.trim();
+  }
+
+  if (appId === "codex") {
+    const toml = (config as Record<string, any>)?.config;
+    if (typeof toml === "string") {
+      const match = toml.match(/^model\s*=\s*"([^"]+)"/m);
+      if (match?.[1]) return match[1];
+    }
+  }
+
+  return null;
+};
+
 const extractApiUrl = (provider: Provider, fallbackText: string) => {
   if (provider.notes?.trim()) {
     return provider.notes.trim();
@@ -128,6 +158,10 @@ export function ProviderCard({
   const fallbackUrlText = t("provider.notConfigured", {
     defaultValue: "未配置接口地址",
   });
+
+  const modelName = useMemo(() => {
+    return extractModelName(provider, appId);
+  }, [provider, appId]);
 
   const displayUrl = useMemo(() => {
     return extractApiUrl(provider, fallbackUrlText);
@@ -264,6 +298,15 @@ export function ProviderCard({
               <h3 className="text-base font-semibold leading-none">
                 {provider.name}
               </h3>
+
+              {modelName && (
+                <span
+                  className="inline-flex items-center text-xs text-muted-foreground bg-muted/50 px-1.5 py-0.5 rounded"
+                  title={modelName}
+                >
+                  <span className="truncate max-w-[200px]">{modelName}</span>
+                </span>
+              )}
 
               {isOmo && (
                 <span className="inline-flex items-center rounded-md bg-violet-100 px-1.5 py-0.5 text-[10px] font-semibold text-violet-700 dark:bg-violet-900/40 dark:text-violet-300">
