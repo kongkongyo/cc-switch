@@ -656,6 +656,7 @@
     "fillTemplateValue": "Please fill in {{label}}",
     "endpointRequired": "API endpoint is required for non-official providers",
     "apiKeyRequired": "API Key is required for non-official providers",
+    "fetchModelsFailedHint": "This feature is for reference only. Some providers may not support the model list API. You can enter model names manually.",
     "configJsonError": "Config JSON format error, please check syntax",
     "authJsonRequired": "auth.json must be a JSON object",
     "authJsonError": "auth.json format error, please check JSON syntax",
@@ -1710,7 +1711,8 @@
     "timeout": "Timeout (seconds)",
     "maxRetries": "Max Retries",
     "degradedThreshold": "Degraded Threshold (ms)",
-    "testPrompt": "Test Prompt"
+    "testPrompt": "Test Prompt",
+    "failedHint": "Results are for reference only. Some providers may not support this check method. Please verify manually."
   },
   "proxyConfig": {
     "proxyEnabled": "Proxy Enabled",

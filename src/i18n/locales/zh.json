@@ -656,6 +656,7 @@
     "fillTemplateValue": "请填写 {{label}}",
     "endpointRequired": "非官方供应商请填写 API 端点",
     "apiKeyRequired": "非官方供应商请填写 API Key",
+    "fetchModelsFailedHint": "此功能仅供参考，部分供应商可能不支持模型列表接口，您可以手动输入模型名称。",
     "configJsonError": "配置JSON格式错误，请检查语法",
     "authJsonRequired": "auth.json 必须是 JSON 对象",
     "authJsonError": "auth.json 格式错误，请检查JSON语法",
@@ -1710,7 +1711,8 @@
     "timeout": "超时时间（秒）",
     "maxRetries": "最大重试次数",
     "degradedThreshold": "降级阈值（毫秒）",
-    "testPrompt": "检查提示词"
+    "testPrompt": "检查提示词",
+    "failedHint": "检测结果仅供参考，部分供应商可能不支持此检测方式，建议手动测试确认。"
   },
   "proxyConfig": {
     "proxyEnabled": "代理总开关",

@@ -621,7 +621,12 @@ export function ProviderForm({
         console.warn("[MODEL_FETCH_WARNINGS]", response.warnings);
       }
     } catch (error) {
-      toast.error(String(error));
+      toast.error(String(error), {
+        description: t("providerForm.fetchModelsFailedHint", {
+          defaultValue:
+            "此功能仅供参考，部分供应商可能不支持模型列表接口，您可以手动输入模型名称。",
+        }),
+      });
     } finally {
       setIsFetchingModels(false);
     }

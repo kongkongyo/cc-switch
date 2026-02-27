@@ -656,6 +656,7 @@
     "fillTemplateValue": "{{label}} を入力してください",
     "endpointRequired": "公式以外は API エンドポイントが必須です",
     "apiKeyRequired": "公式以外は API Key が必須です",
+    "fetchModelsFailedHint": "この機能は参考情報です。一部のプロバイダーはモデル一覧 API に対応していない場合があります。手動でモデル名を入力できます。",
     "configJsonError": "Config JSON の形式が正しくありません。構文を確認してください",
     "authJsonRequired": "auth.json は JSON オブジェクトで入力してください",
     "authJsonError": "auth.json の形式が正しくありません。JSON を確認してください",
@@ -1710,7 +1711,8 @@
     "timeout": "タイムアウト（秒）",
     "maxRetries": "最大リトライ回数",
     "degradedThreshold": "劣化しきい値（ミリ秒）",
-    "testPrompt": "テストプロンプト"
+    "testPrompt": "テストプロンプト",
+    "failedHint": "検出結果は参考情報です。一部のプロバイダーはこの検出方式に対応していない場合があります。手動でご確認ください。"
   },
   "proxyConfig": {
     "proxyEnabled": "プロキシ有効",

@@ -53,6 +53,12 @@ export function useStreamCheck(appId: AppId) {
               error: result.message,
               defaultValue: `${providerName} 检查失败: ${result.message}`,
             }),
+            {
+              description: t("streamCheck.failedHint", {
+                defaultValue:
+                  "检测结果仅供参考，部分供应商可能不支持此检测方式，建议手动测试确认。",
+              }),
+            },
           );
         }
 
@@ -64,6 +70,12 @@ export function useStreamCheck(appId: AppId) {
             error: String(e),
             defaultValue: `${providerName} 检查出错: ${String(e)}`,
           }),
+          {
+            description: t("streamCheck.failedHint", {
+              defaultValue:
+                "检测结果仅供参考，部分供应商可能不支持此检测方式，建议手动测试确认。",
+            }),
+          },
         );
         return null;
       } finally {
