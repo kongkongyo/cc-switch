@@ -1,0 +1,93 @@
+name: Portable Release
+
+on:
+  workflow_dispatch:
+
+permissions:
+  contents: write
+
+jobs:
+  build:
+    runs-on: windows-2022
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: '20'
+
+      - name: Setup Rust
+        uses: dtolnay/rust-toolchain@stable
+
+      - name: Setup pnpm
+        uses: pnpm/action-setup@v2
+        with:
+          version: 10.12.3
+          run_install: false
+
+      - name: Get pnpm store directory
+        id: pnpm-store
+        shell: bash
+        run: echo "path=$(pnpm store path --silent)" >> $GITHUB_OUTPUT
+
+      - name: Setup pnpm cache
+        uses: actions/cache@v4
+        with:
+          path: ${{ steps.pnpm-store.outputs.path }}
+          key: windows-x64-pnpm-store-${{ hashFiles('**/pnpm-lock.yaml') }}
+          restore-keys: windows-x64-pnpm-store-
+
+      - name: Install frontend deps
+        run: pnpm install --frozen-lockfile
+
+      - name: Build Tauri App (no bundle)
+        run: pnpm tauri build --no-bundle
+
+      - name: Prepare Portable Zip
+        shell: pwsh
+        run: |
+          $ErrorActionPreference = 'Stop'
+          New-Item -ItemType Directory -Force -Path release-assets | Out-Null
+
+          $version = (Get-Content src-tauri/tauri.conf.json | ConvertFrom-Json).version
+          $exePath = 'src-tauri/target/release/cc-switch.exe'
+
+          if (-not (Test-Path $exePath)) {
+            Write-Error "exe not found: $exePath"
+            exit 1
+          }
+
+          $portableDir = 'release-assets/CC-Switch-Portable'
+          New-Item -ItemType Directory -Force -Path $portableDir | Out-Null
+          Copy-Item $exePath $portableDir
+
+          @('# CC Switch portable build marker', 'portable=true') |
+            Set-Content -Path (Join-Path $portableDir 'portable.ini') -Encoding UTF8
+
+          $zipName = "CC-Switch-v$version-Windows-Portable.zip"
+          Compress-Archive -Path "$portableDir/*" -DestinationPath "release-assets/$zipName" -Force
+          Remove-Item -Recurse -Force $portableDir
+
+          Write-Host "Created: $zipName"
+          echo "VERSION=v$version" >> $env:GITHUB_ENV
+          echo "ZIP_NAME=$zipName" >> $env:GITHUB_ENV
+
+      - name: Create Release
+        uses: softprops/action-gh-release@v2
+        with:
+          tag_name: ${{ env.VERSION }}
+          name: CC Switch ${{ env.VERSION }}
+          prerelease: false
+          body: |
+            ## CC Switch ${{ env.VERSION }} (Windows Portable)
+
+            仅包含 Windows 便携版，解压即用。
+
+            ### 下载
+
+            - **Windows**: `${{ env.ZIP_NAME }}`（绿色便携版，无需安装）
+          files: release-assets/*
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
