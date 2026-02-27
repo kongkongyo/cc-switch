@@ -126,16 +126,13 @@ jobs:
       - name: Patch tauri.conf.json to disable updater
         shell: bash
         run: |
-          # Remove updater config to skip signing requirement
           node -e "
             const fs = require('fs');
             const conf = JSON.parse(fs.readFileSync('src-tauri/tauri.conf.json', 'utf8'));
-            if (conf.plugins && conf.plugins.updater) {
-              delete conf.plugins.updater;
-            }
+            if (conf.plugins) delete conf.plugins.updater;
+            if (conf.bundle) conf.bundle.createUpdaterArtifacts = false;
             fs.writeFileSync('src-tauri/tauri.conf.json', JSON.stringify(conf, null, 2));
           "
-          echo "✅ Removed updater config from tauri.conf.json"
 
       - name: Build Tauri App (macOS Universal)
         run: pnpm tauri build --target universal-apple-darwin
