@@ -658,7 +658,7 @@ pub fn run() {
                         button_state: tauri::tray::MouseButtonState::Up,
                         ..
                     } => {
-                        tray::handle_tray_menu_event(tray.app_handle(), "show_main");
+                        tray::handle_tray_menu_event(tray.app_handle(), "toggle_main");
                     }
                     _ => {}
                 })
