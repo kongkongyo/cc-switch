@@ -4,7 +4,7 @@
 
 [farion1231/cc-switch](https://github.com/farion1231/cc-switch) をベースに、上流 v3.11.0 まで同期済み。
 
-[English](README.md) | [中文](README_ZH.md) | 日本語 | [Changelog](CHANGELOG.md)
+[English](README_EN.md) | [中文](README.md) | 日本語 | [Changelog](CHANGELOG.md)
 
 </div>
 

@@ -2,540 +2,522 @@
 
 # CC Switch (Fork)
 
-Based on [farion1231/cc-switch](https://github.com/farion1231/cc-switch), synced to upstream v3.11.0.
+基于 [farion1231/cc-switch](https://github.com/farion1231/cc-switch)，已同步至上游 v3.11.0。
 
-English | [中文](README_ZH.md) | [日本語](README_JA.md) | [Changelog](CHANGELOG.md)
+**个人自用修改版，主打能用就行。** 新增或修改的功能未经充分测试，**可能存在 bug 或与上游不兼容**，介意请使用[官方版](https://github.com/farion1231/cc-switch)。
+
+[English](README_EN.md) | 中文 | [日本語](README_JA.md) | [更新日志](CHANGELOG.md)
 
 </div>
 
-## Fork Changes vs Upstream
+## 与上游的区别
 
-This fork adds the following user-facing improvements on top of all upstream features:
-
-### 1. Model Name on Provider Card
-
-Each provider card on the main screen shows the current model name (e.g. `claude-sonnet-4-5-20250514`) right next to the provider name — no need to open the edit page just to check which model is configured.
-
-Supported apps: Claude (`ANTHROPIC_MODEL`), Codex (`model` in config.toml), Gemini (`GEMINI_MODEL`).
-
-### 2. Auto-Fetch Model List
-
-A new "Auto Fetch Models" button in the provider edit form. Click it to query available models from the provider's API endpoint. All fetched models are shown in a dropdown — always visible, sorted by match relevance when you type — so you can pick the right model without looking up IDs manually.
-
-### 3. Restored "Test Model" Button
-
-Upstream removed the stream health-check button in `68a0c304`, citing format complexity. This fork brings it back: each provider card (except OpenCode) shows a "Test" button that verifies provider availability via a streaming health check.
-
-### 4. Tray Icon Behavior
-
-- **Left-click**: Opens the main window (upstream: opens the menu)
-- **Right-click**: Opens the quick-switch menu (unchanged)
-
-### 5. Smarter Model Suggestions Dropdown
-
-Upstream used native `<datalist>`, which hides non-matching models. This fork replaces it with a custom dropdown that:
-- Always shows **all** fetched models
-- Sorts by match relevance (exact > prefix > contains > no match)
-- Highlights matched text
-- Non-matching models are shown in a muted style at the bottom
+| 功能 | 官方版 | 自用增强版 |
+|------|--------|------------|
+| 供应商卡片 | 只显示名称，需进入编辑页查看模型 | 名称后直接显示当前模型名（如 `claude-sonnet-4-5-20250514`） |
+| 自动获取模型 | 无，需手动查找并输入模型 ID | 一键拉取站点可用模型，自定义下拉全量显示 + 匹配排序高亮 |
+| 测试模型按钮 | 已隐藏 | 已恢复，每个供应商卡片可一键验证连通性 |
+| 测试参数配置 | 已隐藏 | 设置 → 高级 → 模型测试配置，可调超时、重试、降级阈值和提示词（多条随机选用） |
+| 托盘左键单击 | 弹出菜单 | 打开 / 最小化主窗口 |
 
 ---
 
-## ❤️Sponsor
+## ❤️赞助商
 
-[![MiniMax](assets/partners/banners/minimax-en.jpeg)](https://platform.minimax.io/subscribe/coding-plan?code=ClLhgxr2je&source=link)
+[![MiniMax](assets/partners/banners/minimax-zh.jpeg)](https://platform.minimaxi.com/subscribe/coding-plan?code=7kYF2VoaCn&source=link)
 
-MiniMax-M2.5 is a SOTA large language model designed for real-world productivity. Trained in a diverse range of complex real-world digital working environments, M2.5 builds upon the coding expertise of M2.1 to extend into general office work, reaching fluency in generating and operating Word, Excel, and Powerpoint files, context switching between diverse software environments, and working across different agent and human teams. Scoring 80.2% on SWE-Bench Verified, 51.3% on Multi-SWE-Bench, and 76.3% on BrowseComp, M2.5 is also more token efficient than previous generations, having been trained to optimize its actions and output through planning.
+MiniMax M2.5 在编程、工具调用与搜索、办公等核心生产力场景均达到或刷新行业 SOTA，拥有架构师级代码能力与高效任务拆解能力，推理速度较上一代提升 37%、token 消耗更优；100 token/s 连续工作一小时仅需 1 美金，让复杂 Agent 规模化部署经济可行，已在企业多职能场景深度落地，加速全民 Agent 时代到来。
 
-[Click](https://platform.minimax.io/subscribe/coding-plan?code=ClLhgxr2je&source=link) to get an exclusive 12% off the MiniMax Coding Plan!
+[点击](https://platform.minimaxi.com/subscribe/coding-plan?code=7kYF2VoaCn&source=link)即可领取 MiniMax Coding Plan 专属 88 折优惠！
 
 ---
 
 <table>
 <tr>
 <td width="180"><a href="https://www.packyapi.com/register?aff=cc-switch"><img src="assets/partners/logos/packycode.png" alt="PackyCode" width="150"></a></td>
-<td>Thanks to PackyCode for sponsoring this project! PackyCode is a reliable and efficient API relay service provider, offering relay services for Claude Code, Codex, Gemini, and more. PackyCode provides special discounts for our software users: register using <a href="https://www.packyapi.com/register?aff=cc-switch">this link</a> and enter the "cc-switch" promo code during first recharge to get 10% off.</td>
+<td>感谢 PackyCode 赞助了本项目！PackyCode 是一家稳定、高效的API中转服务商，提供 Claude Code、Codex、Gemini 等多种中转服务。PackyCode 为本软件的用户提供了特别优惠，使用<a href="https://www.packyapi.com/register?aff=cc-switch">此链接</a>注册并在充值时填写"cc-switch"优惠码，首次充值可以享受9折优惠！</td>
 </tr>
 
 <tr>
 <td width="180"><a href="https://aigocode.com/invite/CC-SWITCH"><img src="assets/partners/logos/aigocode.png" alt="AIGoCode" width="150"></a></td>
-<td>Thanks to AIGoCode for sponsoring this project! AIGoCode is an all-in-one platform that integrates Claude Code, Codex, and the latest Gemini models, providing you with stable, efficient, and highly cost-effective AI coding services. The platform offers flexible subscription plans, zero risk of account suspension, direct access with no VPN required, and lightning-fast responses. AIGoCode has prepared a special benefit for CC Switch users: if you register via <a href="https://aigocode.com/invite/CC-SWITCH">this link</a>, you'll receive an extra 10% bonus credit on your first top-up!</td>
+<td>感谢 AIGoCode 赞助了本项目！AIGoCode 是一个集成了 Claude Code、Codex 以及 Gemini 最新模型的一站式平台，为你提供稳定、高效且高性价比的AI编程服务。本站提供灵活的订阅计划，零封号风险，国内直连，无需魔法，极速响应。AIGoCode 为 CC Switch 的用户提供了特别福利，通过<a href="https://aigocode.com/invite/CC-SWITCH">此链接</a>注册的用户首次充值可以获得额外10%奖励额度！</td>
 </tr>
 
 <tr>
 <td width="180"><a href="https://www.aicodemirror.com/register?invitecode=9915W3"><img src="assets/partners/logos/aicodemirror.jpg" alt="AICodeMirror" width="150"></a></td>
-<td>Thanks to AICodeMirror for sponsoring this project! AICodeMirror provides official high-stability relay services for Claude Code / Codex / Gemini CLI, with enterprise-grade concurrency, fast invoicing, and 24/7 dedicated technical support.
-Claude Code / Codex / Gemini official channels at 38% / 2% / 9% of original price, with extra discounts on top-ups! AICodeMirror offers special benefits for CC Switch users: register via <a href="https://www.aicodemirror.com/register?invitecode=9915W3">this link</a> to enjoy 20% off your first top-up, and enterprise customers can get up to 25% off!</td>
+<td>感谢 AICodeMirror 赞助了本项目！AICodeMirror 提供 Claude Code / Codex / Gemini CLI 官方高稳定中转服务，支持企业级高并发、极速开票、7×24 专属技术支持。
+Claude Code / Codex / Gemini 官方渠道低至 3.8 / 0.2 / 0.9 折，充值更有折上折！AICodeMirror 为 CCSwitch 的用户提供了特别福利，通过<a href="https://www.aicodemirror.com/register?invitecode=9915W3">此链接</a>注册的用户，可享受首充8折，企业客户最高可享 7.5 折！</td>
 </tr>
 
 <tr>
 <td width="180"><a href="https://cubence.com/signup?code=CCSWITCH&source=ccs"><img src="assets/partners/logos/cubence.png" alt="Cubence" width="150"></a></td>
-<td>Thanks to Cubence for sponsoring this project! Cubence is a reliable and efficient API relay service provider, offering relay services for Claude Code, Codex, Gemini, and more with flexible billing options including pay-as-you-go and monthly plans. Cubence provides special discounts for CC Switch users: register using <a href="https://cubence.com/signup?code=CCSWITCH&source=ccs">this link</a> and enter the "CCSWITCH" promo code during recharge to get 10% off every top-up!</td>
+<td>感谢 Cubence 赞助本项目！Cubence 是一家可靠高效的 API 中继服务提供商，提供对 Claude Code、Codex、Gemini 等模型的中继服务，并提供按量、包月等灵活的计费方式。Cubence 为 CC Switch 的用户提供了特别优惠：使用 <a href="https://cubence.com/signup?code=CCSWITCH&source=ccs">此链接</a> 注册，并在充值时输入 "CCSWITCH" 优惠码，每次充值均可享受九折优惠！</td>
 </tr>
 
 <tr>
-<td width="180"><a href="https://www.dmxapi.cn/register?aff=bUHu"><img src="assets/partners/logos/dmx-en.jpg" alt="DMXAPI" width="150"></a></td>
-<td>Thanks to DMXAPI for sponsoring this project! DMXAPI provides global large model API services to 200+ enterprise users. One API key for all global models. Features include: instant invoicing, unlimited concurrency, starting from $0.15, 24/7 technical support. GPT/Claude/Gemini all at 32% off, domestic models 20-50% off, Claude Code exclusive models at 66% off! <a href="https://www.dmxapi.cn/register?aff=bUHu">Register here</a></td>
+<td width="180"><a href="https://www.dmxapi.cn/register?aff=bUHu"><img src="assets/partners/logos/dmx-zh.jpeg" alt="DMXAPI" width="150"></a></td>
+<td>感谢 DMXAPI（大模型API）赞助了本项目！ DMXAPI，一个Key用全球大模型。
+为200多家企业用户提供全球大模型API服务。· 充值即开票 ·当天开票 ·并发不限制  ·1元起充 ·  7x24 在线技术辅导，GPT/Claude/Gemini全部6.8折，国内模型5~8折，Claude Code 专属模型3.4折进行中！<a href="https://www.dmxapi.cn/register?aff=bUHu">点击这里注册</a></td>
 </tr>
 
 <tr>
 <td width="180"><a href="https://www.right.codes/register?aff=CCSWITCH"><img src="assets/partners/logos/rightcode.jpg" alt="RightCode" width="150"></a></td>
-<td>Thank you to Right Code for sponsoring this project! Right Code reliably provides routing services for models such as Claude Code, Codex, and Gemini. It features a highly cost-effective Codex monthly subscription plan and <strong>supports quota rollovers—unused quota from one day can be carried over and used the next day.</strong> Invoices are available upon top-up. Enterprise and team users can receive dedicated one-on-one support. Right Code also offers an exclusive discount for CC Switch users: register via <a href="https://www.right.codes/register?aff=CCSWITCH">this link</a>, and with every top-up you will receive pay-as-you-go credit equivalent to 25% of the amount paid.</td>
+<td>感谢 Right Code 赞助了本项目！Right Code 稳定提供 Claude Code、Codex、Gemini 等模型的中转服务。主打<strong>极高性价比</strong>的Codex包月套餐，<strong>提供额度转结，套餐当天用不完的额度，第二天还能接着用！</strong>充值即可开票，企业、团队用户一对一对接。同时为 CC Switch 的用户提供了特别优惠：通过<a href="https://www.right.codes/register?aff=CCSWITCH">此链接</a>注册，每次充值均可获得实付金额25%的按量额度！</td>
 </tr>
 
 <tr>
 <td width="180"><a href="https://aicoding.sh/i/CCSWITCH"><img src="assets/partners/logos/aicoding.jpg" alt="AICoding" width="150"></a></td>
-<td>Thanks to AICoding.sh for sponsoring this project! AICoding.sh — Global AI Model API Relay Service at Unbeatable Prices! Claude Code at 19% of original price, GPT at just 1%! Trusted by hundreds of enterprises for cost-effective AI services. Supports Claude Code, GPT, Gemini and major domestic models, with enterprise-grade high concurrency, fast invoicing, and 24/7 dedicated technical support. CC Switch users who register via <a href="https://aicoding.sh/i/CCSWITCH">this link</a> get 10% off their first top-up!</td>
+<td>感谢 AICoding.sh 赞助了本项目！AICoding.sh —— 全球大模型 API 超值中转服务！Claude Code 1.9 折，GPT 0.1 折，已为数百家企业提供高性价比 AI 服务。支持 Claude Code、GPT、Gemini 及国内主流模型，企业级高并发、极速开票、7×24 专属技术支持，通过<a href="https://aicoding.sh/i/CCSWITCH">此链接</a> 注册的 CC Switch 用户，首充可享受九折优惠！</td>
 </tr>
 
 <tr>
 <td width="180"><a href="https://crazyrouter.com/register?aff=OZcm&ref=cc-switch"><img src="assets/partners/logos/crazyrouter.jpg" alt="AICoding" width="150"></a></td>
-<td>Thanks to Crazyrouter for sponsoring this project! Crazyrouter is a high-performance AI API aggregation platform — one API key for 300+ models including Claude Code, Codex, Gemini CLI, and more. All models at 55% of official pricing with auto-failover, smart routing, and unlimited concurrency. Crazyrouter offers an exclusive deal for CC Switch users: register via <a href="https://crazyrouter.com/register?aff=OZcm&ref=cc-switch">this link</a>  to get <strong>$2 free credit</strong> instantly, plus enter promo code `CCSWITCH` on your first top-up for an extra <strong>30% bonus credit</strong>! </td>
+<td>感谢 Crazyrouter 赞助了本项目！Crazyrouter 是一个高性能 AI API 聚合平台——一个 API Key 即可访问 300+ 模型，包括 Claude Code、Codex、Gemini CLI 等。全部模型低至官方定价的 55%，支持自动故障转移、智能路由和无限并发。Crazyrouter 为 CC Switch 用户提供了专属优惠：通过<a href="https://crazyrouter.com/register?aff=OZcm&ref=cc-switch">此链接</a>注册即可获得 <strong>$2 免费额度</strong>，首次充值时输入优惠码 `CCSWITCH` 还可获得额外 <strong>30% 奖励额度</strong>！</td>
 </tr>
 
 <tr>
 <td width="180"><a href="https://www.sssaicode.com/register?ref=DCP0SM"><img src="assets/partners/logos/sssaicode.png" alt="SSSAiCode" width="150"></a></td>
-<td>Thanks to SSSAiCode for sponsoring this project! SSSAiCode is a stable and reliable API relay service, dedicated to providing stable, reliable, and affordable Claude and Codex model services, <strong>offering high cost-effective official Claude service at just ¥0.5/$ equivalent</strong>, supporting monthly and pay-as-you-go billing plans with same-day fast invoicing. SSSAiCode offers a special deal for CC Switch users: register via <a href="https://www.sssaicode.com/register?ref=DCP0SM">this link</a> to enjoy $10 extra credit on every top-up!</td>
+<td>感谢 SSSAiCode 赞助了本项目！SSSAiCode 是一家稳定可靠的API中转站，致力于提供稳定、可靠、平价的Claude、CodeX模型服务，<strong>提供高性价比折合0.5￥/$的官方Claude服务</strong>，支持包月、Paygo多种计费方式、支持当日快速开票，SSSAiCode为本软件的用户提供特别优惠，使用<a href="https://www.sssaicode.com/register?ref=DCP0SM">此链接</a>注册每次充值均可享受10$的额外奖励！</td>
 </tr>
 
 </table>
 
-## Screenshots
+## 界面预览
 
-|                  Main Interface                   |                  Add Provider                  |
-| :-----------------------------------------------: | :--------------------------------------------: |
-| ![Main Interface](assets/screenshots/main-en.png) | ![Add Provider](assets/screenshots/add-en.png) |
+|                  主界面                   |                  添加供应商                  |
+| :---------------------------------------: | :------------------------------------------: |
+| ![主界面](assets/screenshots/main-zh.png) | ![添加供应商](assets/screenshots/add-zh.png) |
 
-## Features
+## 功能特性
 
-### Current Version: v3.10.2 | [Full Changelog](CHANGELOG.md) | [Release Notes](docs/release-note-v3.9.0-en.md)
+### 当前版本：v3.10.2 | [完整更新日志](CHANGELOG.md) | [发布说明](docs/release-note-v3.9.0-zh.md)
 
-**v3.8.0 Major Update (2025-11-28)**
+**v3.8.0 重大更新（2025-11-28）**
 
-**Persistence Architecture Upgrade & Brand New UI**
+**持久化架构升级 & 全新用户界面**
 
-- **SQLite + JSON Dual-layer Architecture**
-  - Migrated from JSON file storage to SQLite + JSON dual-layer structure
-  - Syncable data (providers, MCP, Prompts, Skills) stored in SQLite
-  - Device-level data (window state, local paths) stored in JSON
-  - Lays the foundation for future cloud sync functionality
-  - Schema version management for database migrations
+- **SQLite + JSON 双层架构**
+  - 从 JSON 文件存储迁移到 SQLite + JSON 双层结构
+  - 可同步数据（供应商、MCP、Prompts、Skills）存入 SQLite
+  - 设备级数据（窗口状态、本地路径）保留在 JSON
+  - 为未来云同步功能奠定基础
+  - Schema 版本管理支持数据库迁移
 
-- **Brand New User Interface**
-  - Completely redesigned interface layout
-  - Unified component styles and smoother animations
-  - Optimized visual hierarchy
-  - Tailwind CSS downgraded from v4 to v3.4 for better browser compatibility
+- **全新用户界面**
+  - 完全重新设计的界面布局
+  - 统一的组件样式和更流畅的动画
+  - 优化的视觉层次
+  - Tailwind CSS 从 v4 降级到 v3.4 以提升浏览器兼容性
 
-- **Japanese Language Support**
-  - Added Japanese interface support (now supports Chinese/English/Japanese)
+- **日语支持**
+  - 新增日语界面支持（现支持中文/英文/日语）
 
-- **Auto Launch on Startup**
-  - One-click enable/disable in settings
-  - Platform-native APIs (Registry/LaunchAgent/XDG autostart)
+- **开机自启**
+  - 在设置中一键开启/关闭
+  - 使用平台原生 API（注册表/LaunchAgent/XDG autostart）
 
-- **Skills Recursive Scanning**
-  - Support for multi-level directory structures
-  - Allow same-named skills from different repositories
+- **Skills 递归扫描**
+  - 支持多层目录结构
+  - 允许不同仓库的同名技能
 
-- **Critical Bug Fixes**
-  - Fixed custom endpoints lost when updating providers
-  - Fixed Gemini configuration write issues
-  - Fixed Linux WebKitGTK rendering issues
+- **关键 Bug 修复**
+  - 修复更新供应商时自定义端点丢失问题
+  - 修复 Gemini 配置写入问题
+  - 修复 Linux WebKitGTK 渲染问题
 
-**v3.7.0 Highlights**
+**v3.7.0 亮点**
 
-**Six Core Features, 18,000+ Lines of New Code**
+**六大核心功能，18,000+ 行新增代码**
 
-- **Gemini CLI Integration**
-  - Third supported AI CLI (Claude Code / Codex / Gemini)
-  - Dual-file configuration support (`.env` + `settings.json`)
-  - Complete MCP server management
-  - Presets: Google Official (OAuth) / PackyCode / Custom
+- **Gemini CLI 集成**
+  - 第三个支持的 AI CLI（Claude Code / Codex / Gemini）
+  - 双文件配置支持（`.env` + `settings.json`）
+  - 完整 MCP 服务器管理
+  - 预设：Google Official (OAuth) / PackyCode / 自定义
 
-- **Claude Skills Management System**
-  - Auto-scan skills from GitHub repositories (3 pre-configured curated repos)
-  - One-click install/uninstall to `~/.claude/skills/`
-  - Custom repository support + subdirectory scanning
-  - Complete lifecycle management (discover/install/update)
+- **Claude Skills 管理系统**
+  - 从 GitHub 仓库自动扫描技能（预配置 3 个精选仓库）
+  - 一键安装/卸载到 `~/.claude/skills/`
+  - 自定义仓库支持 + 子目录扫描
+  - 完整生命周期管理（发现/安装/更新）
 
-- **Prompts Management System**
-  - Multi-preset system prompt management (unlimited presets, quick switching)
-  - Cross-app support (Claude: `CLAUDE.md` / Codex: `AGENTS.md` / Gemini: `GEMINI.md`)
-  - Markdown editor (CodeMirror 6 + real-time preview)
-  - Smart backfill protection, preserves manual modifications
+- **Prompts 管理系统**
+  - 多预设系统提示词管理（无限数量，快速切换）
+  - 跨应用支持（Claude: `CLAUDE.md` / Codex: `AGENTS.md` / Gemini: `GEMINI.md`）
+  - Markdown 编辑器（CodeMirror 6 + 实时预览）
+  - 智能回填保护，保留手动修改
 
-- **MCP v3.7.0 Unified Architecture**
-  - Single panel manages MCP servers across three applications
-  - New SSE (Server-Sent Events) transport type
-  - Smart JSON parser + Codex TOML format auto-correction
-  - Unified import/export + bidirectional sync
+- **MCP v3.7.0 统一架构**
+  - 单一面板管理三个应用的 MCP 服务器
+  - 新增 SSE (Server-Sent Events) 传输类型
+  - 智能 JSON 解析器 + Codex TOML 格式自动修正
+  - 统一导入/导出 + 双向同步
 
-- **Deep Link Protocol**
-  - `ccswitch://` protocol registration (all platforms)
-  - One-click import provider configs via shared links
-  - Security validation + lifecycle integration
+- **深度链接协议**
+  - `ccswitch://` 协议注册（全平台）
+  - 通过共享链接一键导入供应商配置
+  - 安全验证 + 生命周期集成
 
-- **Environment Variable Conflict Detection**
-  - Auto-detect cross-app configuration conflicts (Claude/Codex/Gemini/MCP)
-  - Visual conflict indicators + resolution suggestions
-  - Override warnings + backup before changes
+- **环境变量冲突检测**
+  - 自动检测跨应用配置冲突（Claude/Codex/Gemini/MCP）
+  - 可视化冲突指示器 + 解决建议
+  - 覆盖警告 + 更改前备份
 
-**Core Capabilities**
+**核心功能**
 
-- **Provider Management**: One-click switching between Claude Code, Codex, and Gemini API configurations
-- **AWS Bedrock Support**: Built-in AWS Bedrock provider presets with AKSK and API Key authentication, cross-region inference support (global/us/eu/apac), covering Claude Code and OpenCode
-- **Speed Testing**: Measure API endpoint latency with visual quality indicators
-- **Import/Export**: Backup and restore configs with auto-rotation (keep 10 most recent)
-- **i18n Support**: Complete Chinese/English localization (UI, errors, tray)
-- **Claude Plugin Sync**: One-click apply/restore Claude plugin configurations
+- **供应商管理**：一键切换 Claude Code、Codex 与 Gemini 的 API 配置
+- **AWS Bedrock 支持**：内置 AWS Bedrock 供应商预设，支持 AKSK 和 API Key 两种认证方式，支持跨区域推理（global/us/eu/apac），覆盖 Claude Code 和 OpenCode
+- **速度测试**：测量 API 端点延迟，可视化连接质量指示器
+- **导入导出**：备份和恢复配置，自动轮换（保留最近 10 个）
+- **国际化支持**：完整的中英文本地化（UI、错误、托盘）
+- **Claude 插件同步**：一键应用或恢复 Claude 插件配置
 
-**v3.6 Highlights**
+**v3.6 亮点**
 
-- Provider duplication & drag-and-drop sorting
-- Multi-endpoint management & custom config directory (cloud sync ready)
-- Granular model configuration (4-tier: Haiku/Sonnet/Opus/Custom)
-- WSL environment support with auto-sync on directory change
-- 100% hooks test coverage & complete architecture refactoring
+- 供应商复制 & 拖拽排序
+- 多端点管理 & 自定义配置目录（支持云同步）
+- 细粒度模型配置（四层：Haiku/Sonnet/Opus/自定义）
+- WSL 环境支持，配置目录切换自动同步
+- 100% hooks 测试覆盖 & 完整架构重构
 
-**System Features**
+**系统功能**
 
-- System tray with quick switching
-- Single instance daemon
-- Built-in auto-updater
-- Atomic writes with rollback protection
+- 系统托盘快速切换
+- 单实例守护
+- 内置自动更新器
+- 原子写入与回滚保护
 
-## Download & Installation
+## 下载安装
 
-### System Requirements
+### 系统要求
 
-- **Windows**: Windows 10 and above
-- **macOS**: macOS 10.15 (Catalina) and above
-- **Linux**: Ubuntu 22.04+ / Debian 11+ / Fedora 34+ and other mainstream distributions
+- **Windows**: Windows 10 及以上
+- **macOS**: macOS 10.15 (Catalina) 及以上
+- **Linux**: Ubuntu 22.04+ / Debian 11+ / Fedora 34+ 等主流发行版
 
-### Windows Users
+### Windows 用户
 
-Download the latest `CC-Switch-v{version}-Windows.msi` installer or `CC-Switch-v{version}-Windows-Portable.zip` portable version from the [Releases](../../releases) page.
+从 [Releases](../../releases) 页面下载最新版本的 `CC-Switch-v{版本号}-Windows.msi` 安装包或者 `CC-Switch-v{版本号}-Windows-Portable.zip` 绿色版。
 
-### macOS Users
+### macOS 用户
 
-**Method 1: Install via Homebrew (Recommended)**
+**方式一：通过 Homebrew 安装（推荐）**
 
 ```bash
 brew tap farion1231/ccswitch
 brew install --cask cc-switch
 ```
 
-Update:
+更新：
 
 ```bash
 brew upgrade --cask cc-switch
 ```
 
-**Method 2: Manual Download**
+**方式二：手动下载**
 
-Download `CC-Switch-v{version}-macOS.zip` from the [Releases](../../releases) page and extract to use.
+从 [Releases](../../releases) 页面下载 `CC-Switch-v{版本号}-macOS.zip` 解压使用。
 
-> **Note**: Since the author doesn't have an Apple Developer account, you may see an "unidentified developer" warning on first launch. Please close it first, then go to "System Settings" → "Privacy & Security" → click "Open Anyway", and you'll be able to open it normally afterwards.
+> **注意**：由于作者没有苹果开发者账号，首次打开可能出现"未知开发者"警告，请先关闭，然后前往"系统设置" → "隐私与安全性" → 点击"仍要打开"，之后便可以正常打开
 
-### Arch Linux Users
+### ArchLinux 用户
 
-**Install via paru (Recommended)**
+**通过 paru 安装（推荐）**
 
 ```bash
 paru -S cc-switch-bin
 ```
 
-### Linux Users
+### Linux 用户
 
-Download the latest Linux build from the [Releases](../../releases) page:
+从 [Releases](../../releases) 页面下载最新版本的 Linux 安装包：
 
-- `CC-Switch-v{version}-Linux.deb` (Debian/Ubuntu)
-- `CC-Switch-v{version}-Linux.rpm` (Fedora/RHEL/openSUSE)
-- `CC-Switch-v{version}-Linux.AppImage` (Universal)
-- `CC-Switch-v{version}-Linux.flatpak` (Flatpak)
+- `CC-Switch-v{版本号}-Linux.deb`（Debian/Ubuntu）
+- `CC-Switch-v{版本号}-Linux.rpm`（Fedora/RHEL/openSUSE）
+- `CC-Switch-v{版本号}-Linux.AppImage`（通用）
+- `CC-Switch-v{版本号}-Linux.flatpak`（Flatpak）
 
-Flatpak install & run:
+Flatpak 安装与运行：
 
 ```bash
-flatpak install --user ./CC-Switch-v{version}-Linux.flatpak
+flatpak install --user ./CC-Switch-v{版本号}-Linux.flatpak
 flatpak run com.ccswitch.desktop
 ```
 
-## Quick Start
+## 快速开始
 
-### Basic Usage
+### 基本使用
 
-1. **Add Provider**: Click "Add Provider" → Choose preset or create custom configuration
-2. **Switch Provider**:
-   - Main UI: Select provider → Click "Enable"
-   - System Tray: Click provider name directly (instant effect)
-3. **Takes Effect**: Restart your terminal or Claude Code / Codex / Gemini clients to apply changes
-4. **Back to Official**: Select the "Official Login" preset (Claude/Codex) or "Google Official" preset (Gemini), restart the corresponding client, then follow its login/OAuth flow
+1. **添加供应商**：点击"添加供应商" → 选择预设或创建自定义配置
+2. **切换供应商**：
+   - 主界面：选择供应商 → 点击"启用"
+   - 系统托盘：直接点击供应商名称（立即生效）
+3. **生效方式**：重启终端或 Claude Code / Codex / Gemini 客户端以应用更改
+4. **恢复官方登录**：选择"官方登录"预设（Claude/Codex）或"Google 官方"预设（Gemini），重启对应客户端后按照其登录/OAuth 流程操作
 
-### MCP Management
+### MCP 管理
 
-- **Location**: Click "MCP" button in top-right corner
-- **Add Server**:
-  - Use built-in templates (mcp-fetch, mcp-filesystem, etc.)
-  - Support stdio / http / sse transport types
-  - Configure independent MCP servers for different apps
-- **Enable/Disable**: Toggle switches to control which servers sync to live config
-- **Sync**: Enabled servers auto-sync to each app's live files
-- **Import/Export**: Import existing MCP servers from Claude/Codex/Gemini config files
+- **位置**：点击右上角"MCP"按钮
+- **添加服务器**：
+  - 使用内置模板（mcp-fetch、mcp-filesystem 等）
+  - 支持 stdio / http / sse 三种传输类型
+  - 为不同应用配置独立的 MCP 服务器
+- **启用/禁用**：切换开关以控制哪些服务器同步到 live 配置
+- **同步**：启用的服务器自动同步到各应用的 live 文件
+- **导入/导出**：支持从 Claude/Codex/Gemini 配置文件导入现有 MCP 服务器
 
-### Skills Management (v3.7.0 New)
+### Skills 管理（v3.7.0 新增）
 
-- **Location**: Click "Skills" button in top-right corner
-- **Discover Skills**:
-  - Auto-scan pre-configured GitHub repositories (Anthropic official, ComposioHQ, community, etc.)
-  - Add custom repositories (supports subdirectory scanning)
-- **Install Skills**: Click "Install" to one-click install to `~/.claude/skills/`
-- **Uninstall Skills**: Click "Uninstall" to safely remove and clean up state
-- **Manage Repositories**: Add/remove custom GitHub repositories
+- **位置**：点击右上角"Skills"按钮
+- **发现技能**：
+  - 自动扫描预配置的 GitHub 仓库（Anthropic 官方、ComposioHQ、社区等）
+  - 添加自定义仓库（支持子目录扫描）
+- **安装技能**：点击"安装"一键安装到 `~/.claude/skills/`
+- **卸载技能**：点击"卸载"安全移除并清理状态
+- **管理仓库**：添加/删除自定义 GitHub 仓库
 
-### Prompts Management (v3.7.0 New)
+### Prompts 管理（v3.7.0 新增）
 
-- **Location**: Click "Prompts" button in top-right corner
-- **Create Presets**:
-  - Create unlimited system prompt presets
-  - Use Markdown editor to write prompts (syntax highlighting + real-time preview)
-- **Switch Presets**: Select preset → Click "Activate" to apply immediately
-- **Sync Mechanism**:
+- **位置**：点击右上角"Prompts"按钮
+- **创建预设**：
+  - 创建无限数量的系统提示词预设
+  - 使用 Markdown 编辑器编写提示词（语法高亮 + 实时预览）
+- **切换预设**：选择预设 → 点击"激活"立即应用
+- **同步机制**：
   - Claude: `~/.claude/CLAUDE.md`
   - Codex: `~/.codex/AGENTS.md`
   - Gemini: `~/.gemini/GEMINI.md`
-- **Protection Mechanism**: Auto-save current prompt content before switching, preserves manual modifications
+- **保护机制**：切换前自动保存当前提示词内容，保留手动修改
 
-### Configuration Files
+### 配置文件
 
 **Claude Code**
 
-- Live config: `~/.claude/settings.json` (or `claude.json`)
-- API key field: `env.ANTHROPIC_AUTH_TOKEN` or `env.ANTHROPIC_API_KEY`
-- MCP servers: `~/.claude.json` → `mcpServers`
+- Live 配置：`~/.claude/settings.json`（或 `claude.json`）
+- API key 字段：`env.ANTHROPIC_AUTH_TOKEN` 或 `env.ANTHROPIC_API_KEY`
+- MCP 服务器：`~/.claude.json` → `mcpServers`
 
 **Codex**
 
-- Live config: `~/.codex/auth.json` (required) + `config.toml` (optional)
-- API key field: `OPENAI_API_KEY` in `auth.json`
-- MCP servers: `~/.codex/config.toml` → `[mcp_servers]` tables
+- Live 配置：`~/.codex/auth.json`（必需）+ `config.toml`（可选）
+- API key 字段：`auth.json` 中的 `OPENAI_API_KEY`
+- MCP 服务器：`~/.codex/config.toml` → `[mcp_servers]` 表
 
 **Gemini**
 
-- Live config: `~/.gemini/.env` (API key) + `~/.gemini/settings.json` (auth mode)
-- API key field: `GEMINI_API_KEY` or `GOOGLE_GEMINI_API_KEY` in `.env`
-- Environment variables: Support `GOOGLE_GEMINI_BASE_URL`, `GEMINI_MODEL`, etc.
-- MCP servers: `~/.gemini/settings.json` → `mcpServers`
-- Tray quick switch: Each provider switch rewrites `~/.gemini/.env`, no need to restart Gemini CLI
+- Live 配置：`~/.gemini/.env`（API Key）+ `~/.gemini/settings.json`（保存认证模式）
+- API key 字段：`.env` 文件中的 `GEMINI_API_KEY` 或 `GOOGLE_GEMINI_API_KEY`
+- 环境变量：支持 `GOOGLE_GEMINI_BASE_URL`、`GEMINI_MODEL` 等自定义变量
+- MCP 服务器：`~/.gemini/settings.json` → `mcpServers`
+- 托盘快速切换：每次切换供应商都会重写 `~/.gemini/.env`，无需重启 Gemini CLI 即可生效
 
-**CC Switch Storage (v3.8.0 New Architecture)**
+**CC Switch 存储（v3.8.0 新架构）**
 
-- Database (SSOT): `~/.cc-switch/cc-switch.db` (SQLite, stores providers, MCP, Prompts, Skills)
-- Local settings: `~/.cc-switch/settings.json` (device-level settings)
-- Backups: `~/.cc-switch/backups/` (auto-rotate, keep 10)
+- 数据库（SSOT）：`~/.cc-switch/cc-switch.db`（SQLite，存储供应商、MCP、Prompts、Skills）
+- 本地设置：`~/.cc-switch/settings.json`（设备级设置）
+- 备份：`~/.cc-switch/backups/`（自动轮换，保留 10 个）
 
-### Cloud Sync Setup
+### 云同步设置
 
-1. Go to Settings → "Custom Configuration Directory"
-2. Choose your cloud sync folder (Dropbox, OneDrive, iCloud, etc.)
-3. Restart app to apply
-4. Repeat on other devices to enable cross-device sync
+1. 前往设置 → "自定义配置目录"
+2. 选择您的云同步文件夹（Dropbox、OneDrive、iCloud、坚果云等）
+3. 重启应用以应用
+4. 在其他设备上重复操作以启用跨设备同步
 
-> **Note**: First launch auto-imports existing Claude/Codex configs as default provider.
+> **注意**：首次启动会自动导入现有 Claude/Codex 配置作为默认供应商。
 
-## Architecture Overview
+## 架构总览
 
-### Design Principles
+### 设计原则
 
 ```
 ┌─────────────────────────────────────────────────────────────┐
-│                    Frontend (React + TS)                    │
+│                    前端 (React + TS)                         │
 │  ┌─────────────┐  ┌──────────────┐  ┌──────────────────┐    │
 │  │ Components  │  │    Hooks     │  │  TanStack Query  │    │
-│  │   (UI)      │──│ (Bus. Logic) │──│   (Cache/Sync)   │    │
+│  │   （UI）     │──│ （业务逻辑）   │──│   （缓存/同步）    │    │
 │  └─────────────┘  └──────────────┘  └──────────────────┘    │
 └────────────────────────┬────────────────────────────────────┘
                          │ Tauri IPC
 ┌────────────────────────▼────────────────────────────────────┐
-│                  Backend (Tauri + Rust)                     │
+│                  后端 (Tauri + Rust)                         │
 │  ┌─────────────┐  ┌──────────────┐  ┌──────────────────┐    │
 │  │  Commands   │  │   Services   │  │  Models/Config   │    │
-│  │ (API Layer) │──│ (Bus. Layer) │──│     (Data)       │    │
+│  │ （API 层）   │──│  （业务层）    │──│    （数据）       │    │
 │  └─────────────┘  └──────────────┘  └──────────────────┘    │
 └─────────────────────────────────────────────────────────────┘
 ```
 
-**Core Design Patterns**
+**核心设计模式**
 
-- **SSOT** (Single Source of Truth): All data stored in `~/.cc-switch/cc-switch.db` (SQLite)
-- **Dual-layer Storage**: SQLite for syncable data, JSON for device-level settings
-- **Dual-way Sync**: Write to live files on switch, backfill from live when editing active provider
-- **Atomic Writes**: Temp file + rename pattern prevents config corruption
-- **Concurrency Safe**: Mutex-protected database connection avoids race conditions
-- **Layered Architecture**: Clear separation (Commands → Services → DAO → Database)
+- **SSOT**（单一事实源）：所有数据存储在 `~/.cc-switch/cc-switch.db`（SQLite）
+- **双层存储**：SQLite 存储可同步数据，JSON 存储设备级设置
+- **双向同步**：切换时写入 live 文件，编辑当前供应商时从 live 回填
+- **原子写入**：临时文件 + 重命名模式防止配置损坏
+- **并发安全**：Mutex 保护的数据库连接避免竞态条件
+- **分层架构**：清晰分离（Commands → Services → DAO → Database）
 
-**Key Components**
+**核心组件**
 
-- **ProviderService**: Provider CRUD, switching, backfill, sorting
-- **McpService**: MCP server management, import/export, live file sync
-- **ConfigService**: Config import/export, backup rotation
-- **SpeedtestService**: API endpoint latency measurement
+- **ProviderService**：供应商增删改查、切换、回填、排序
+- **McpService**：MCP 服务器管理、导入导出、live 文件同步
+- **ConfigService**：配置导入导出、备份轮换
+- **SpeedtestService**：API 端点延迟测量
 
-**v3.6 Refactoring**
+**v3.6 重构**
 
-- Backend: 5-phase refactoring (error handling → command split → tests → services → concurrency)
-- Frontend: 4-stage refactoring (test infra → hooks → components → cleanup)
-- Testing: 100% hooks coverage + integration tests (vitest + MSW)
+- 后端：5 阶段重构（错误处理 → 命令拆分 → 测试 → 服务 → 并发）
+- 前端：4 阶段重构（测试基础 → hooks → 组件 → 清理）
+- 测试：100% hooks 覆盖 + 集成测试（vitest + MSW）
 
-## Development
+## 开发
 
-### Environment Requirements
+### 环境要求
 
 - Node.js 18+
 - pnpm 8+
 - Rust 1.85+
 - Tauri CLI 2.8+
 
-### Development Commands
+### 开发命令
 
 ```bash
-# Install dependencies
+# 安装依赖
 pnpm install
 
-# Dev mode (hot reload)
+# 开发模式（热重载）
 pnpm dev
 
-# Type check
+# 类型检查
 pnpm typecheck
 
-# Format code
+# 代码格式化
 pnpm format
 
-# Check code format
+# 检查代码格式
 pnpm format:check
 
-# Run frontend unit tests
+# 运行前端单元测试
 pnpm test:unit
 
-# Run tests in watch mode (recommended for development)
+# 监听模式运行测试（推荐开发时使用）
 pnpm test:unit:watch
 
-# Build application
+# 构建应用
 pnpm build
 
-# Build debug version
+# 构建调试版本
 pnpm tauri build --debug
 ```
 
-### Rust Backend Development
+### Rust 后端开发
 
 ```bash
 cd src-tauri
 
-# Format Rust code
+# 格式化 Rust 代码
 cargo fmt
 
-# Run clippy checks
+# 运行 clippy 检查
 cargo clippy
 
-# Run backend tests
+# 运行后端测试
 cargo test
 
-# Run specific tests
+# 运行特定测试
 cargo test test_name
 
-# Run tests with test-hooks feature
+# 运行带测试 hooks 的测试
 cargo test --features test-hooks
 ```
 
-### Testing Guide (v3.6 New)
+### 测试说明（v3.6 新增）
 
-**Frontend Testing**:
+**前端测试**：
 
-- Uses **vitest** as test framework
-- Uses **MSW (Mock Service Worker)** to mock Tauri API calls
-- Uses **@testing-library/react** for component testing
+- 使用 **vitest** 作为测试框架
+- 使用 **MSW (Mock Service Worker)** 模拟 Tauri API 调用
+- 使用 **@testing-library/react** 进行组件测试
 
-**Test Coverage**:
+**测试覆盖**：
 
-- Hooks unit tests (100% coverage)
-  - `useProviderActions` - Provider operations
-  - `useMcpActions` - MCP management
-  - `useSettings` series - Settings management
-  - `useImportExport` - Import/export
-- Integration tests
-  - App main application flow
-  - SettingsDialog complete interaction
-  - MCP panel functionality
+- Hooks 单元测试（100% 覆盖）
+  - `useProviderActions` - 供应商操作
+  - `useMcpActions` - MCP 管理
+  - `useSettings` 系列 - 设置管理
+  - `useImportExport` - 导入导出
+- 集成测试
+  - App 主应用流程
+  - SettingsDialog 完整交互
+  - MCP 面板功能
 
-**Running Tests**:
+**运行测试**：
 
 ```bash
-# Run all tests
+# 运行所有测试
 pnpm test:unit
 
-# Watch mode (auto re-run)
+# 监听模式（自动重跑）
 pnpm test:unit:watch
 
-# With coverage report
+# 带覆盖率报告
 pnpm test:unit --coverage
 ```
 
-## Tech Stack
+## 技术栈
 
-**Frontend**: React 18 · TypeScript · Vite · TailwindCSS 4 · TanStack Query v5 · react-i18next · react-hook-form · zod · shadcn/ui · @dnd-kit
+**前端**：React 18 · TypeScript · Vite · TailwindCSS 4 · TanStack Query v5 · react-i18next · react-hook-form · zod · shadcn/ui · @dnd-kit
 
-**Backend**: Tauri 2.8 · Rust · serde · tokio · thiserror · tauri-plugin-updater/process/dialog/store/log
+**后端**：Tauri 2.8 · Rust · serde · tokio · thiserror · tauri-plugin-updater/process/dialog/store/log
 
-**Testing**: vitest · MSW · @testing-library/react
+**测试**：vitest · MSW · @testing-library/react
 
-## Project Structure
+## 项目结构
 
 ```
-├── src/                      # Frontend (React + TypeScript)
-│   ├── components/           # UI components (providers/settings/mcp/ui)
-│   ├── hooks/                # Custom hooks (business logic)
+├── src/                      # 前端 (React + TypeScript)
+│   ├── components/           # UI 组件 (providers/settings/mcp/ui)
+│   ├── hooks/                # 自定义 hooks (业务逻辑)
 │   ├── lib/
-│   │   ├── api/              # Tauri API wrapper (type-safe)
-│   │   └── query/            # TanStack Query config
-│   ├── i18n/locales/         # Translations (zh/en)
-│   ├── config/               # Presets (providers/mcp)
-│   └── types/                # TypeScript definitions
-├── src-tauri/                # Backend (Rust)
+│   │   ├── api/              # Tauri API 封装（类型安全）
+│   │   └── query/            # TanStack Query 配置
+│   ├── i18n/locales/         # 翻译 (zh/en)
+│   ├── config/               # 预设 (providers/mcp)
+│   └── types/                # TypeScript 类型定义
+├── src-tauri/                # 后端 (Rust)
 │   └── src/
-│       ├── commands/         # Tauri command layer (by domain)
-│       ├── services/         # Business logic layer
-│       ├── app_config.rs     # Config data models
-│       ├── provider.rs       # Provider domain models
-│       ├── mcp.rs            # MCP sync & validation
-│       └── lib.rs            # App entry & tray menu
-├── tests/                    # Frontend tests
-│   ├── hooks/                # Unit tests
-│   └── components/           # Integration tests
-└── assets/                   # Screenshots & partner resources
+│       ├── commands/         # Tauri 命令层（按领域）
+│       ├── services/         # 业务逻辑层
+│       ├── app_config.rs     # 配置数据模型
+│       ├── provider.rs       # 供应商领域模型
+│       ├── mcp.rs            # MCP 同步与校验
+│       └── lib.rs            # 应用入口 & 托盘菜单
+├── tests/                    # 前端测试
+│   ├── hooks/                # 单元测试
+│   └── components/           # 集成测试
+└── assets/                   # 截图 & 合作商资源
 ```
 
-## Changelog
+## 更新日志
 
-See [CHANGELOG.md](CHANGELOG.md) for version update details.
+查看 [CHANGELOG.md](CHANGELOG.md) 了解版本更新详情。
 
-## Legacy Electron Version
+## Electron 旧版
 
-[Releases](../../releases) retains v2.0.3 legacy Electron version
+[Releases](../../releases) 里保留 v2.0.3 Electron 旧版
 
-If you need legacy Electron code, you can pull the electron-legacy branch
+如果需要旧版 Electron 代码，可以拉取 electron-legacy 分支
 
-## Contributing
+## 贡献
 
-Issues and suggestions are welcome!
+欢迎提交 Issue 反馈问题和建议！
 
-Before submitting PRs, please ensure:
+提交 PR 前请确保：
 
-- Pass type check: `pnpm typecheck`
-- Pass format check: `pnpm format:check`
-- Pass unit tests: `pnpm test:unit`
-- 💡 For new features, please open an issue for discussion before submitting a PR
+- 通过类型检查：`pnpm typecheck`
+- 通过格式检查：`pnpm format:check`
+- 通过单元测试：`pnpm test:unit`
+- 💡 新功能开发前，欢迎先开 issue 讨论实现方案
 
 ## Star History
 
