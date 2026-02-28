@@ -144,6 +144,14 @@ export const providersApi = {
       timeoutSecs,
     });
   },
+
+  /**
+   * 从 OpenClaw live 配置导入供应商到数据库
+   * OpenClaw 特有功能：由于累加模式，用户可能已在 openclaw.json 中配置供应商
+   */
+  async importOpenClawFromLive(): Promise<number> {
+    return await invoke("import_openclaw_providers_from_live");
+  },
 };
 
 // ============================================================================

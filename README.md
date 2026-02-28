@@ -2,7 +2,7 @@
 
 # CC Switch (Fork)
 
-基于 [farion1231/cc-switch](https://github.com/farion1231/cc-switch)，已同步至上游 v3.11.0。
+基于 [farion1231/cc-switch](https://github.com/farion1231/cc-switch)，已同步至上游 v3.11.1。
 
 **个人自用修改版，主打能用就行。** 新增或修改的功能未经充分测试，**可能存在 bug 或与上游不兼容**，介意请使用[官方版](https://github.com/farion1231/cc-switch)。
 
@@ -90,7 +90,7 @@ Claude Code / Codex / Gemini 官方渠道低至 3.8 / 0.2 / 0.9 折，充值更�
 
 ## 功能特性
 
-### 当前版本：v3.10.2 | [完整更新日志](CHANGELOG.md) | [发布说明](docs/release-note-v3.9.0-zh.md)
+### 当前版本：v3.11.1 | [完整更新日志](CHANGELOG.md) | [发布说明](docs/release-note-v3.11.1-en.md)
 
 **v3.8.0 重大更新（2025-11-28）**
 
