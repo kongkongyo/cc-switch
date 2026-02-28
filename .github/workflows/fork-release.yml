@@ -123,17 +123,6 @@ jobs:
       - name: Install frontend deps
         run: pnpm install --frozen-lockfile
 
-      - name: Patch tauri.conf.json to disable updater
-        shell: bash
-        run: |
-          node -e "
-            const fs = require('fs');
-            const conf = JSON.parse(fs.readFileSync('src-tauri/tauri.conf.json', 'utf8'));
-            if (conf.plugins) delete conf.plugins.updater;
-            if (conf.bundle) conf.bundle.createUpdaterArtifacts = false;
-            fs.writeFileSync('src-tauri/tauri.conf.json', JSON.stringify(conf, null, 2));
-          "
-
       - name: Build Tauri App (macOS Universal)
         run: pnpm tauri build --target universal-apple-darwin
 
@@ -227,3 +216,63 @@ jobs:
           files: release-assets/*
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+
+  upload-latest-json:
+    needs: create-release
+    runs-on: ubuntu-22.04
+    steps:
+      - name: Download release assets
+        env:
+          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        run: |
+          TAG=$(gh release list --repo kongkongyo/cc-switch --limit 1 --json tagName --jq '.[0].tagName')
+          echo "TAG=$TAG" >> $GITHUB_ENV
+          mkdir -p dl
+          gh release download "$TAG" --dir dl --repo kongkongyo/cc-switch
+
+      - name: Generate latest.json
+        run: |
+          VERSION="${TAG#v}"
+          PUB_DATE=$(date -u +%Y-%m-%dT%H:%M:%SZ)
+          BASE_URL="https://github.com/kongkongyo/cc-switch/releases/download/$TAG"
+
+          # Find zip files
+          MAC_ZIP=$(ls dl/*-macOS.zip 2>/dev/null | head -1 | xargs -r basename || true)
+          WIN_ZIP=$(ls dl/*-Windows-Portable.zip 2>/dev/null | head -1 | xargs -r basename || true)
+
+          # Build JSON
+          cat > latest.json << EOF
+          {
+            "version": "$VERSION",
+            "notes": "Release $TAG",
+            "pub_date": "$PUB_DATE",
+            "platforms": {
+          EOF
+
+          first=1
+          if [ -n "$MAC_ZIP" ]; then
+            for key in darwin-aarch64 darwin-x86_64; do
+              [ $first -eq 0 ] && echo ',' >> latest.json
+              echo "    \"$key\": {\"url\": \"$BASE_URL/$MAC_ZIP\"}" >> latest.json
+              first=0
+            done
+          fi
+
+          if [ -n "$WIN_ZIP" ]; then
+            [ $first -eq 0 ] && echo ',' >> latest.json
+            echo "    \"windows-x86_64\": {\"url\": \"$BASE_URL/$WIN_ZIP\"}" >> latest.json
+          fi
+
+          cat >> latest.json << EOF
+            }
+          }
+          EOF
+
+          echo "Generated latest.json:"
+          cat latest.json
+
+      - name: Upload latest.json to release
+        env:
+          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        run: |
+          gh release upload "$TAG" latest.json --clobber --repo kongkongyo/cc-switch
