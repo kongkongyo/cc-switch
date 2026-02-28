@@ -98,8 +98,8 @@ export function ModelTestConfigPanel() {
         </Alert>
       )}
 
-      {/* 测试模型配置 */}
-      <div className="space-y-4">
+      {/* 测试模型配置 - 已隐藏，默认使用当前站点设置的主模型 */}
+      {/* <div className="space-y-4">
         <h4 className="text-sm font-medium text-muted-foreground">
           {t("streamCheck.testModels")}
         </h4>
@@ -140,7 +140,7 @@ export function ModelTestConfigPanel() {
             />
           </div>
         </div>
-      </div>
+      </div> */}
 
       {/* 检查参数配置 */}
       <div className="space-y-4">
@@ -196,16 +196,25 @@ export function ModelTestConfigPanel() {
 
         {/* 检查提示词配置 */}
         <div className="space-y-2">
-          <Label htmlFor="testPrompt">{t("streamCheck.testPrompt")}</Label>
+          <div className="flex items-baseline gap-2">
+            <Label htmlFor="testPrompt">{t("streamCheck.testPrompt")}</Label>
+            <span className="text-xs text-muted-foreground">
+              {t("streamCheck.testPromptHint", {
+                defaultValue: "每行一条提示词，测试时随机选择",
+              })}
+            </span>
+          </div>
           <Textarea
             id="testPrompt"
             value={config.testPrompt}
             onChange={(e) =>
               setConfig({ ...config, testPrompt: e.target.value })
             }
-            placeholder="Who are you?"
-            rows={2}
-            className="min-h-[60px]"
+            placeholder={
+              "Does the Sun rise in the east?\nHow many legs do insects have?\n..."
+            }
+            rows={8}
+            className="min-h-[180px]"
           />
         </div>
       </div>

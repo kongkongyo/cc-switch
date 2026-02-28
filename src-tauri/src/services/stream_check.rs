@@ -3,6 +3,7 @@
 //! 使用流式 API 进行快速健康检查，只需接收首个 chunk 即判定成功。
 
 use futures::StreamExt;
+use rand::prelude::IndexedRandom;
 use regex::Regex;
 use reqwest::Client;
 use serde::{Deserialize, Serialize};
@@ -42,7 +43,25 @@ pub struct StreamCheckConfig {
 }
 
 fn default_test_prompt() -> String {
-    "Who are you?".to_string()
+    r#"Does the Sun rise in the east?
+How many legs do insects have?
+How many centimeters are in a meter?
+In binary, how is decimal 5 written?
+What color do you get when you mix yellow and blue?
+Does the Moon orbit the Earth?
+What color do you get when you mix red and blue?
+How many minutes are in an hour?
+How many degrees are in a circle?
+In binary, how is decimal 3 written?
+Does water boil at 100°C at sea level?
+What number does the Roman numeral L represent?
+How many legs does a spider have?
+What color do you get when you mix black and white?
+Is Earth a planet in the Solar System?
+Do fish breathe with gills?
+Is Mars the fourth planet?
+What number does the Roman numeral V represent?"#
+        .to_string()
 }
 
 impl Default for StreamCheckConfig {
@@ -196,7 +215,7 @@ impl StreamCheckService {
         let request_timeout = std::time::Duration::from_secs(config.timeout_secs);
 
         let model_to_test = Self::resolve_test_model(app_type, provider, config);
-        let test_prompt = &config.test_prompt;
+        let test_prompt = Self::pick_random_prompt(&config.test_prompt);
 
         let result = match app_type {
             AppType::Claude => {
@@ -205,7 +224,7 @@ impl StreamCheckService {
                     &base_url,
                     &auth,
                     &model_to_test,
-                    test_prompt,
+                    &test_prompt,
                     request_timeout,
                 )
                 .await
@@ -216,7 +235,7 @@ impl StreamCheckService {
                     &base_url,
                     &auth,
                     &model_to_test,
-                    test_prompt,
+                    &test_prompt,
                     request_timeout,
                 )
                 .await
@@ -227,7 +246,7 @@ impl StreamCheckService {
                     &base_url,
                     &auth,
                     &model_to_test,
-                    test_prompt,
+                    &test_prompt,
                     request_timeout,
                 )
                 .await
@@ -581,6 +600,26 @@ impl StreamCheckService {
                 Self::extract_openclaw_model(provider).unwrap_or_else(|| "gpt-4o".to_string())
             }
         }
+    }
+
+    /// 从多行提示词中随机选择一条
+    /// 每行算一条提示词，空行会被忽略
+    fn pick_random_prompt(prompts: &str) -> String {
+        let lines: Vec<&str> = prompts
+            .lines()
+            .map(|l| l.trim())
+            .filter(|l| !l.is_empty())
+            .collect();
+
+        if lines.is_empty() {
+            return "Who are you?".to_string();
+        }
+
+        lines
+            .choose(&mut rand::rng())
+            .copied()
+            .map(String::from)
+            .unwrap_or_else(|| "Who are you?".to_string())
     }
 
     fn extract_opencode_model(provider: &Provider) -> Option<String> {
