@@ -4,7 +4,7 @@ on:
   workflow_dispatch:
     inputs:
       version:
-        description: '版本号 (如 3.11.0-fork.5)'
+        description: '版本号 (如 v3.11.0-fork.5 或 3.11.0-fork.5，v 前缀会自动去除)'
         required: true
         type: string
 
@@ -15,12 +15,11 @@ concurrency:
   group: fork-release
   cancel-in-progress: true
 
-env:
-  VERSION: ${{ github.event.inputs.version }}
-
 jobs:
   build-windows:
     runs-on: windows-2022
+    env:
+      VERSION: ${{ inputs.version }}
     steps:
       - name: Checkout
         uses: actions/checkout@v4
@@ -28,6 +27,10 @@ jobs:
       - name: Update version in config files
         shell: bash
         run: |
+          # 去掉 v 前缀
+          VERSION="${VERSION#v}"
+          echo "VERSION=$VERSION" >> $GITHUB_ENV
+
           # 更新 package.json
           sed -i "s/\"version\": \"[^\"]*\"/\"version\": \"$VERSION\"/" package.json
           # 更新 Cargo.toml
@@ -104,6 +107,8 @@ jobs:
 
   build-macos:
     runs-on: macos-14
+    env:
+      VERSION: ${{ inputs.version }}
     steps:
       - name: Checkout
         uses: actions/checkout@v4
@@ -111,6 +116,10 @@ jobs:
       - name: Update version in config files
         shell: bash
         run: |
+          # 去掉 v 前缀
+          VERSION="${VERSION#v}"
+          echo "VERSION=$VERSION" >> $GITHUB_ENV
+
           # 更新 package.json
           sed -i '' "s/\"version\": \"[^\"]*\"/\"version\": \"$VERSION\"/" package.json
           # 更新 Cargo.toml
@@ -198,7 +207,14 @@ jobs:
   create-release:
     needs: [build-windows, build-macos]
     runs-on: ubuntu-22.04
+    env:
+      VERSION: ${{ inputs.version }}
     steps:
+      - name: Strip v prefix
+        run: |
+          VERSION="${VERSION#v}"
+          echo "VERSION=$VERSION" >> $GITHUB_ENV
+
       - name: Download Windows Artifact
         uses: actions/download-artifact@v4
         with:
@@ -246,7 +262,14 @@ jobs:
   upload-latest-json:
     needs: create-release
     runs-on: ubuntu-22.04
+    env:
+      VERSION: ${{ inputs.version }}
     steps:
+      - name: Strip v prefix
+        run: |
+          VERSION="${VERSION#v}"
+          echo "VERSION=$VERSION" >> $GITHUB_ENV
+
       - name: Download release assets
         env:
           GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
