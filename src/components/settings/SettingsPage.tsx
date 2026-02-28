@@ -424,7 +424,7 @@ export function SettingsPage({
                                   "settings.advanced.modelTestConfig.description",
                                   {
                                     defaultValue:
-                                      "配置模型健康检查的超时、重试次数、测试模型和提示词",
+                                      "测试时使用各站点配置的主模型，可自定义超时、重试次数和提示词",
                                   },
                                 )}
                               </p>
