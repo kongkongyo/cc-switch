@@ -4,7 +4,7 @@
 
 ### Claude Code、Claude Desktop、Codex、Gemini CLI、Grok Build、OpenCode、OpenClaw 和 Hermes Agent 的全方位管理工具
 
-[![Version](https://img.shields.io/badge/version-3.19.1--fork.1-blue.svg)](https://github.com/kongkongyo/cc-switch/releases)
+[![Version](https://img.shields.io/badge/version-3.20.0--fork.1-blue.svg)](https://github.com/kongkongyo/cc-switch/releases)
 [![Platform](https://img.shields.io/badge/platform-Windows%20%7C%20macOS%20%7C%20Linux-lightgrey.svg)](https://github.com/kongkongyo/cc-switch/releases)
 [![Built with Tauri](https://img.shields.io/badge/built%20with-Tauri%202-orange.svg)](https://tauri.app/)
 [![Downloads](https://img.shields.io/github/downloads/kongkongyo/cc-switch/total)](https://github.com/kongkongyo/cc-switch/releases/latest)
@@ -18,27 +18,26 @@
 
 </div>
 
-基于 [farion1231/cc-switch](https://github.com/farion1231/cc-switch) `v3.19.1`，并保留本 Fork 的自用改动。
+基于 [farion1231/cc-switch](https://github.com/farion1231/cc-switch) `v3.20.0`，并保留本 Fork 的自用改动。
 
 **个人自用修改版，主打能用就行。** 新增或修改的功能未经充分测试，**可能存在 bug 或与上游不兼容**，介意请使用[官方版](https://github.com/farion1231/cc-switch)。
 
 ## 与上游的区别
 
-| 使用场景 | 官方版 | 本 Fork |
-|----------|--------|---------|
-| 看当前配置 | 供应商卡片主要显示名称 | 供应商名称旁直接显示当前模型名，Claude 多角色模型会尽量收成短标签 |
-| 选择模型 | 长模型列表主要靠滚动查找 | 获取模型后可搜索、按供应商分组，并高亮当前选中的模型 |
-| Codex 普通模型 | 非本地路由配置里模型入口较弱 | 非本地路由时可直接填写或获取模型名，并写入 Codex 配置 |
+| 使用场景           | 官方版                             | 本 Fork                                                                                         |
+| ------------------ | ---------------------------------- | ----------------------------------------------------------------------------------------------- |
+| 看当前配置         | 供应商卡片主要显示名称             | 供应商名称旁直接显示当前模型名，Claude 多角色模型会尽量收成短标签                               |
+| 选择模型           | 长模型列表主要靠滚动查找           | 获取模型后可搜索、按供应商分组，并高亮当前选中的模型                                            |
+| Codex 普通模型     | 非本地路由配置里模型入口较弱       | 非本地路由时可直接填写或获取模型名，并写入 Codex 配置                                           |
 | 供应商专属上游代理 | 只有全局上游代理，按原逻辑统一生效 | 可给指定供应商/渠道单独配置上游代理；启用后只影响该供应商，访问上游都走它，并优先于全局上游代理 |
-| 新增供应商 | 新配置默认排到列表最后 | 有已有配置时，新配置默认插到第二位，方便马上启用或调整 |
-| 调整供应商顺序 | 主要靠拖拽 | 保留拖拽，并增加右键“一键置顶 / 一键置底” |
-| 托盘操作 | 左键更偏向打开托盘菜单 | 左键托盘图标直接显示 / 隐藏主窗口 |
-| 连通检测 | 仅检查供应商地址是否可达 | 跟随上游轻量连通检测，不发送真实模型请求，减少误报和额外消耗 |
-| 更新方式 | 使用上游自动更新链路 | 检查本 Fork Releases，有新版本时打开发布页，由用户手动下载 |
-| 发布来源 | 官方仓库发布 | 本 Fork 独立发布，安装包以本仓库 Releases 为准 |
+| 新增供应商         | 新配置默认排到列表最后             | 有已有配置时，新配置默认插到第二位，方便马上启用或调整                                          |
+| 调整供应商顺序     | 主要靠拖拽                         | 保留拖拽，并增加右键“一键置顶 / 一键置底”                                                       |
+| 托盘操作           | 左键更偏向打开托盘菜单             | 左键托盘图标直接显示 / 隐藏主窗口                                                               |
+| 连通检测           | 仅检查供应商地址是否可达           | 跟随上游轻量连通检测，不发送真实模型请求，减少误报和额外消耗                                    |
+| 更新方式           | 使用上游自动更新链路               | 检查本 Fork Releases，有新版本时打开发布页，由用户手动下载                                      |
+| 发布来源           | 官方仓库发布                       | 本 Fork 独立发布，安装包以本仓库 Releases 为准                                                  |
 
 > 说明：供应商专属上游代理只在请求先进入 CC Switch 本地代理转发时生效；如果专属代理配置错误或不可用，请求会失败，不会悄悄回退到全局上游代理。
-
 
 ## ❤️赞助商
 
@@ -89,6 +88,11 @@ Claude Code / Codex / Gemini 官方渠道低至 3.8 / 0.2 / 0.9 折，充值更�
 <td>感谢 TeamoRouter 赞助本项目！TeamoRouter 是一款面向开发者、AI 团队和企业的企业级 Agentic LLM 网关。无需任何订阅，你就可以通过一个统一 API 访问 Claude Code、Codex、Gemini CLI、OpenAI Codex 以及其他热门 AI Agent，同时享受最高可达 90% 折扣的 API 价格。
 不同于常见的 API 中转服务，TeamoRouter 聚合了数百家官方模型提供商和可信基础设施合作伙伴，包括 OpenAI、Anthropic、Vertex、Azure 和 AWS Bedrock。每个提供商都经过验证，确保 100% 兼容 Agent 协议，并具备可靠的缓存性能和请求可追踪性，从而提供稳定质量，而不是反向工程或缩水后的接口。平台提供接近官方水平的 TTFT、99.6% SLA、最高 5,000 QPM 的企业级吞吐量，以及行业领先的缓存命中率，可大幅降低长时间运行的 Agent 工作流中的 token 成本。
 TeamoRouter 还提供企业级功能，包括集中账单、团队管理、BYOK、智能路由、用量分析、动态提供商优化和专属支持。为了获得更简单的使用体验，Teamo Desktop 支持你一键使用 Claude Code、Codex、Gemini CLI 和其他热门 AI Agent，无需管理 API Key，也无需手动配置网关。新用户通过<a href="https://teamorouter.com/zh?utm_source=cc_switch&utm_medium=referral&utm_campaign=ai_directory">此链接</a>注册，首次充值可享受 10% 折扣。</td>
+</tr>
+
+<tr>
+<td width="180"><a href="https://ppio.com/activity/ccswitch"><img src="assets/partners/logos/ppio-banner.png" alt="PPIO" width="150"></a></td>
+<td>感谢 PPIO 赞助了本项目！PPIO 是国内领先的独立 Agentic Cloud 服务商，由 PPTV 创始人姚欣和前 PPTV 首席架构师王闻宇于 2018 年联合创立。PPIO 支持一个 API key 调用 DeepSeek-V4-Flash、Kimi-K3、GLM-5.2、MiniMax-M3 等所有旗舰开源模型；企业 Token Plan 最低 6 折接入，支持 200 席位；Fusion 融合模型以 1/10 的价格比肩 Fable5。通过<a href="https://ppio.com/activity/ccswitch">此链接</a>注册并完成实名认证，即可获得 ¥10 元代金券，邀请好友充值还可获得最高 15% 充值返利。</td>
 </tr>
 
 <tr>

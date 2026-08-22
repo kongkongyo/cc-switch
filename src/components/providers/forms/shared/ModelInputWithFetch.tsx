@@ -27,7 +27,7 @@ export function ModelInputWithFetch({
 }: ModelInputWithFetchProps) {
   const { t } = useTranslation();
 
-  // 有模型数据: Input + DropdownMenu
+  // Models available: Input + searchable dropdown
   if (fetchedModels.length > 0) {
     return (
       <div className="flex gap-1">

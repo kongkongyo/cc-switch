@@ -87,14 +87,9 @@ export function GeminiFormFields({
       return;
     }
     setIsFetchingModels(true);
-    fetchModelsForConfig(
-      baseUrl,
-      apiKey,
-      undefined,
-      undefined,
-      undefined,
+    fetchModelsForConfig(baseUrl, apiKey, undefined, undefined, undefined, {
       upstreamProxyUrl,
-    )
+    })
       .then((models) => {
         setFetchedModels(models);
         if (models.length === 0) {

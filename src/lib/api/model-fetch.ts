@@ -7,6 +7,12 @@ export interface FetchedModel {
   ownedBy: string | null;
 }
 
+export interface ModelFetchOptions {
+  upstreamProxyUrl?: string;
+  apiFormat?: string;
+  requestHeaders?: Record<string, string>;
+}
+
 /**
  * 从供应商获取可用模型列表
  *
@@ -19,7 +25,7 @@ export async function fetchModelsForConfig(
   isFullUrl?: boolean,
   modelsUrl?: string,
   customUserAgent?: string,
-  upstreamProxyUrl?: string,
+  options?: ModelFetchOptions,
 ): Promise<FetchedModel[]> {
   return invoke("fetch_models_for_config", {
     baseUrl,
@@ -27,7 +33,9 @@ export async function fetchModelsForConfig(
     isFullUrl,
     modelsUrl,
     customUserAgent,
-    upstreamProxyUrl,
+    upstreamProxyUrl: options?.upstreamProxyUrl,
+    apiFormat: options?.apiFormat,
+    requestHeaders: options?.requestHeaders,
   });
 }
 
