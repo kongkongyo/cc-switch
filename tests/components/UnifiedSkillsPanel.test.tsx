@@ -539,11 +539,12 @@ describe("UnifiedSkillsPanel", () => {
 
       const row = screen.getByText("Alpha Skill").closest(".group");
       const appToggleButtons = Array.from(
-        row!.querySelectorAll<HTMLButtonElement>("button"),
-      ).slice(0, 7);
+        row!.querySelectorAll<HTMLButtonElement>("button[aria-pressed]"),
+      );
 
-      expect(appToggleButtons).toHaveLength(7);
+      expect(appToggleButtons).toHaveLength(6);
       appToggleButtons.forEach((button) => expect(button).toBeDisabled());
+      expect(screen.getByLabelText("打开文件夹")).toBeDisabled();
       expect(screen.getByTitle("skills.uninstall")).toBeDisabled();
       await userEvent.setup().click(appToggleButtons[0]);
       expect(toggleSkillAppMock).not.toHaveBeenCalled();

@@ -78,6 +78,7 @@ pub async fn fetch_models(
     .await
 }
 
+#[allow(clippy::too_many_arguments)]
 pub async fn fetch_models_with_proxy(
     base_url: &str,
     api_key: &str,

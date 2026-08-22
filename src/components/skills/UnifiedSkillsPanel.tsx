@@ -874,6 +874,7 @@ const InstalledSkillListItem: React.FC<InstalledSkillListItemProps> = ({
           size="icon"
           className="h-7 w-7 hover:text-emerald-600 hover:bg-emerald-100 dark:hover:text-emerald-400 dark:hover:bg-emerald-500/10"
           onClick={onOpenFolder}
+          disabled={actionsDisabled}
           title={openFolderLabel}
           aria-label={openFolderLabel}
         >
