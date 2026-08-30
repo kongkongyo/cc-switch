@@ -160,6 +160,7 @@ pub async fn auth_start_login(
 }
 
 #[tauri::command(rename_all = "camelCase")]
+#[allow(clippy::too_many_arguments)]
 pub async fn auth_poll_for_account(
     auth_provider: String,
     device_code: String,
