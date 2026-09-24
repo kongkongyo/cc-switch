@@ -542,7 +542,7 @@ describe("UnifiedSkillsPanel", () => {
         row!.querySelectorAll<HTMLButtonElement>("button[aria-pressed]"),
       );
 
-      expect(appToggleButtons).toHaveLength(6);
+      expect(appToggleButtons).toHaveLength(7);
       appToggleButtons.forEach((button) => expect(button).toBeDisabled());
       expect(screen.getByLabelText("打开文件夹")).toBeDisabled();
       expect(screen.getByTitle("skills.uninstall")).toBeDisabled();
