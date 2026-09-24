@@ -32,3 +32,6 @@ CODEBUDDY.md
 .github
 release-assets/
 mainWindow.js
+
+# Rust build output
+src-tauri/target/

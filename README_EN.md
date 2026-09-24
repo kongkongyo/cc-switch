@@ -2,11 +2,11 @@
 
 # CC Switch (Fork)
 
-This fork is based on [farion1231/cc-switch](https://github.com/farion1231/cc-switch) `v3.19.0`, with this fork's personal changes kept.
+This fork is based on [farion1231/cc-switch](https://github.com/farion1231/cc-switch) `v3.20.4`, with this fork's personal changes kept.
 
 **This is a personal-use fork focused on practicality.** Some added or modified features have not been fully tested, so **bugs or incompatibilities with upstream may exist**. If you want the safest option, use the [official version](https://github.com/farion1231/cc-switch).
 
-[![Version](https://img.shields.io/badge/version-3.19.0--fork.2-blue.svg)](https://github.com/kongkongyo/cc-switch/releases)
+[![Version](https://img.shields.io/badge/version-3.20.4--fork.1-blue.svg)](https://github.com/kongkongyo/cc-switch/releases)
 [![Platform](https://img.shields.io/badge/platform-Windows%20%7C%20macOS%20%7C%20Linux-lightgrey.svg)](https://github.com/kongkongyo/cc-switch/releases)
 [![Built with Tauri](https://img.shields.io/badge/built%20with-Tauri%202-orange.svg)](https://tauri.app/)
 [![Downloads](https://img.shields.io/github/downloads/kongkongyo/cc-switch/total)](https://github.com/kongkongyo/cc-switch/releases/latest)
@@ -36,7 +36,7 @@ This fork is based on [farion1231/cc-switch](https://github.com/farion1231/cc-sw
 
 ## Main Features
 
-### Current Version: v3.19.0-fork.2
+### Current Version: v3.20.4-fork.1
 
 - Supports **Claude Code, Codex, Gemini CLI, OpenCode, and OpenClaw**
 - Unified provider import, switching, sorting, duplication, import/export
