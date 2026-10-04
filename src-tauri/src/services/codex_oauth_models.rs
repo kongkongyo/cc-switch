@@ -10,26 +10,15 @@ use crate::services::model_fetch::FetchedModel;
 use serde_json::Value;
 use std::time::Duration;
 
-const CODEX_OAUTH_MODELS_URL: &str = "https://chatgpt.com/backend-api/codex/models";
+pub(crate) const CODEX_OAUTH_MODELS_URL: &str = "https://chatgpt.com/backend-api/codex/models";
 const CODEX_OAUTH_FETCH_TIMEOUT_SECS: u64 = 15;
 const ERROR_BODY_MAX_CHARS: usize = 512;
 
-#[allow(dead_code)]
 pub async fn fetch_models_with_token(
     token: &str,
     account_id: &str,
 ) -> Result<Vec<FetchedModel>, String> {
-    fetch_models_with_token_and_proxy(token, account_id, None).await
-}
-
-pub async fn fetch_models_with_token_and_proxy(
-    token: &str,
-    account_id: &str,
-    provider_upstream_proxy_url: Option<&str>,
-) -> Result<Vec<FetchedModel>, String> {
-    let client =
-        crate::proxy::http_client::client_for_provider_upstream_proxy(provider_upstream_proxy_url)?
-            .unwrap_or_else(crate::proxy::http_client::get);
+    let client = crate::proxy::http_client::get();
     let response = build_models_request(&client, token, account_id)
         .send()
         .await
@@ -172,13 +161,16 @@ mod tests {
             .split('.')
             .map(|part| part.parse().unwrap())
             .collect();
-        // Official rust-v0.153.4 catalog: gpt-6-astra requires 0.153.0.
-        assert!(parts.as_slice() >= [0, 153, 0].as_slice());
+        // GPT-6.1 Sol is absent from the 0.155.0 catalog for this account; the
+        // catalog gate sits above the model's advertised minimal_client_version.
+        assert!(parts.as_slice() >= [0, 159, 0].as_slice());
         assert_eq!(request.headers()["version"], version);
-        let models = parse_models(json!({"models": [{
-            "slug": "gpt-6-astra", "minimal_client_version": "0.153.0"
-        }]}));
-        assert_eq!(models[0].id, "gpt-6-astra");
+        let models = parse_models(json!({"models": [
+            {"slug": "gpt-6.1-sol", "minimal_client_version": "0.153.0"},
+            {"slug": "gpt-6-sol", "minimal_client_version": "0.155.0"}
+        ]}));
+        assert_eq!(models[0].id, "gpt-6-sol");
+        assert_eq!(models[1].id, "gpt-6.1-sol");
     }
 
     #[test]

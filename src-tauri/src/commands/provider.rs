@@ -6,6 +6,7 @@ use crate::commands::copilot::CopilotAuthState;
 use crate::commands::xai_oauth::XaiOAuthState;
 use crate::error::AppError;
 use crate::provider::{ClaudeDesktopMode, Provider};
+use crate::services::provider::{EditorSave, EditorView};
 use crate::services::{
     EndpointLatency, ProviderService, ProviderSortUpdate, SpeedtestService, SwitchResult,
 };
@@ -41,6 +42,7 @@ pub async fn add_provider(
     app: String,
     provider: Provider,
     #[allow(non_snake_case)] addToLive: Option<bool>,
+    #[allow(non_snake_case)] editorSave: Option<EditorSave>,
 ) -> Result<bool, String> {
     let app_type = AppType::from_str(&app).map_err(|e| e.to_string())?;
     let add_to_live = addToLive.unwrap_or(true);
@@ -48,7 +50,7 @@ pub async fn add_provider(
         let state = app_handle
             .try_state::<AppState>()
             .ok_or_else(|| "应用状态不可用".to_string())?;
-        ProviderService::add(state.inner(), app_type, provider, add_to_live)
+        ProviderService::add_from_editor(state.inner(), app_type, provider, add_to_live, editorSave)
             .map_err(|e| e.to_string())
     })
     .await
@@ -61,17 +63,58 @@ pub async fn update_provider(
     app: String,
     provider: Provider,
     #[allow(non_snake_case)] originalId: Option<String>,
+    #[allow(non_snake_case)] editorSave: Option<EditorSave>,
 ) -> Result<bool, String> {
     let app_type = AppType::from_str(&app).map_err(|e| e.to_string())?;
     tauri::async_runtime::spawn_blocking(move || {
         let state = app_handle
             .try_state::<AppState>()
             .ok_or_else(|| "应用状态不可用".to_string())?;
-        ProviderService::update(state.inner(), app_type, originalId.as_deref(), provider)
-            .map_err(|e| e.to_string())
+        ProviderService::update_from_editor(
+            state.inner(),
+            app_type,
+            originalId.as_deref(),
+            provider,
+            editorSave,
+        )
+        .map_err(|e| e.to_string())
     })
     .await
     .map_err(|e| format!("供应商更新任务执行失败: {e}"))?
+}
+
+/// 供应商编辑器底部 JSON 的显示内容：切到这个供应商之后配置文件会是什么样。
+/// `settingsConfig` 是供应商的行（新增时传空对象）。
+#[tauri::command]
+pub async fn get_provider_editor_view(
+    app_handle: tauri::AppHandle,
+    app: String,
+    #[allow(non_snake_case)] settingsConfig: serde_json::Value,
+    category: Option<String>,
+    #[allow(non_snake_case)] providerId: Option<String>,
+) -> Result<EditorView, String> {
+    let app_type = AppType::from_str(&app).map_err(|e| e.to_string())?;
+    tauri::async_runtime::spawn_blocking(move || {
+        let state = app_handle
+            .try_state::<AppState>()
+            .ok_or_else(|| "应用状态不可用".to_string())?;
+        let category = ProviderService::editor_category(
+            state.inner(),
+            &app_type,
+            providerId.as_deref(),
+            category,
+        )
+        .map_err(|e| e.to_string())?;
+        ProviderService::editor_view(
+            state.inner(),
+            app_type,
+            &settingsConfig,
+            category.as_deref(),
+        )
+        .map_err(|e| e.to_string())
+    })
+    .await
+    .map_err(|e| format!("读取编辑器内容失败: {e}"))?
 }
 
 #[tauri::command]
@@ -122,14 +165,30 @@ pub async fn switch_provider(
     id: String,
 ) -> Result<SwitchResult, String> {
     let app_type = AppType::from_str(&app).map_err(|e| e.to_string())?;
-    tauri::async_runtime::spawn_blocking(move || {
-        let state = app_handle
+    let is_desktop = matches!(app_type, AppType::ClaudeDesktop);
+    let desktop_was_mapping = is_desktop
+        && app_handle.try_state::<AppState>().is_some_and(|state| {
+            crate::claude_desktop_config::current_provider_uses_proxy(&state.db)
+        });
+    let handle = app_handle.clone();
+    let result = tauri::async_runtime::spawn_blocking(move || {
+        let state = handle
             .try_state::<AppState>()
             .ok_or_else(|| "应用状态不可用".to_string())?;
         switch_provider_internal(state.inner(), app_type, &id).map_err(|e| e.to_string())
     })
     .await
-    .map_err(|e| format!("供应商切换任务执行失败: {e}"))?
+    .map_err(|e| format!("供应商切换任务执行失败: {e}"))??;
+    if is_desktop {
+        if let Some(state) = app_handle.try_state::<AppState>() {
+            crate::mode::controller::sync_desktop_mapping_service(
+                state.inner(),
+                desktop_was_mapping,
+            )
+            .await;
+        }
+    }
+    Ok(result)
 }
 
 fn import_default_config_internal(state: &AppState, app_type: AppType) -> Result<bool, AppError> {
@@ -560,11 +619,6 @@ async fn query_provider_usage_inner(
     let template_type = usage_script
         .and_then(|s| s.template_type.as_deref())
         .unwrap_or("");
-    let provider_upstream_proxy_url = match provider {
-        Some(provider) => crate::proxy::http_client::provider_upstream_proxy_url(provider)
-            .map_err(|e| format!("Invalid provider upstream proxy: {e}"))?,
-        None => None,
-    };
 
     // ── GitHub Copilot 专用路径 ──
     if template_type == TEMPLATE_TYPE_GITHUB_COPILOT {
@@ -575,14 +629,11 @@ async fn query_provider_usage_inner(
         let auth_manager = copilot_state.0.read().await;
         let usage = match copilot_account_id.as_deref() {
             Some(account_id) => auth_manager
-                .fetch_usage_for_account_with_proxy(
-                    account_id,
-                    provider_upstream_proxy_url.as_deref(),
-                )
+                .fetch_usage_for_account(account_id)
                 .await
                 .map_err(|e| format!("Failed to fetch Copilot usage: {e}"))?,
             None => auth_manager
-                .fetch_usage_with_proxy(provider_upstream_proxy_url.as_deref())
+                .fetch_usage()
                 .await
                 .map_err(|e| format!("Failed to fetch Copilot usage: {e}"))?,
         };
@@ -620,7 +671,7 @@ async fn query_provider_usage_inner(
         let team_organization_id = usage_script.and_then(|s| s.team_organization_id.clone());
         let team_project_id = usage_script.and_then(|s| s.team_project_id.clone());
 
-        let quota = crate::services::coding_plan::get_coding_plan_quota_with_proxy(
+        let quota = crate::services::coding_plan::get_coding_plan_quota(
             &base_url,
             &api_key,
             access_key_id.as_deref(),
@@ -628,7 +679,6 @@ async fn query_provider_usage_inner(
             coding_plan_provider.as_deref(),
             team_organization_id.as_deref(),
             team_project_id.as_deref(),
-            provider_upstream_proxy_url.as_deref(),
         )
         .await
         .map_err(|e| format!("Failed to query coding plan: {e}"))?;
@@ -707,13 +757,9 @@ async fn query_provider_usage_inner(
         // 按 app 区分的凭据存储格式提取 Base URL 与 API Key
         let (base_url, api_key) = resolve_native_credentials(&app_type, provider);
 
-        return crate::services::balance::get_balance_with_proxy(
-            &base_url,
-            &api_key,
-            provider_upstream_proxy_url.as_deref(),
-        )
-        .await
-        .map_err(|e| format!("Failed to query balance: {e}"));
+        return crate::services::balance::get_balance(&base_url, &api_key)
+            .await
+            .map_err(|e| format!("Failed to query balance: {e}"));
     }
 
     // ── 官方订阅额度查询路径 ──
@@ -733,19 +779,11 @@ async fn query_provider_usage_inner(
             let account_id = provider
                 .and_then(|p| p.meta.as_ref())
                 .and_then(|m| m.managed_account_id_for("xai_oauth"));
-            crate::commands::xai_oauth::query_xai_oauth_quota_for_with_proxy(
-                xai_state,
-                account_id,
-                provider_upstream_proxy_url.as_deref(),
-            )
-            .await?
+            crate::commands::xai_oauth::query_xai_oauth_quota_for(xai_state, account_id).await?
         } else {
-            crate::services::subscription::get_subscription_quota_with_proxy(
-                app_type.as_str(),
-                provider_upstream_proxy_url.as_deref(),
-            )
-            .await
-            .map_err(|e| format!("Failed to query subscription quota: {e}"))?
+            crate::services::subscription::get_subscription_quota(app_type.as_str())
+                .await
+                .map_err(|e| format!("Failed to query subscription quota: {e}"))?
         };
 
         if !quota.success {
@@ -826,9 +864,8 @@ pub fn read_live_provider_settings(app: String) -> Result<serde_json::Value, Str
 pub async fn test_api_endpoints(
     urls: Vec<String>,
     #[allow(non_snake_case)] timeoutSecs: Option<u64>,
-    #[allow(non_snake_case)] upstreamProxyUrl: Option<String>,
 ) -> Result<Vec<EndpointLatency>, String> {
-    SpeedtestService::test_endpoints_with_proxy(urls, timeoutSecs, upstreamProxyUrl.as_deref())
+    SpeedtestService::test_endpoints(urls, timeoutSecs)
         .await
         .map_err(|e| e.to_string())
 }
@@ -880,14 +917,19 @@ pub fn update_endpoint_last_used(
         .map_err(|e| e.to_string())
 }
 
+/// 排序就是故障转移队列的优先级，托盘按它列队列：改完重建托盘。
 #[tauri::command]
 pub fn update_providers_sort_order(
+    app_handle: tauri::AppHandle,
     state: State<'_, AppState>,
     app: String,
     updates: Vec<ProviderSortUpdate>,
 ) -> Result<bool, String> {
     let app_type = AppType::from_str(&app).map_err(|e| e.to_string())?;
-    ProviderService::update_sort_order(state.inner(), app_type, updates).map_err(|e| e.to_string())
+    let changed = ProviderService::update_sort_order(state.inner(), app_type, updates)
+        .map_err(|e| e.to_string())?;
+    crate::tray::refresh_tray_menu(&app_handle);
+    Ok(changed)
 }
 
 use crate::provider::UniversalProvider;

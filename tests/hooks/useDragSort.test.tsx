@@ -86,6 +86,57 @@ describe("useDragSort", () => {
     ]);
   });
 
+  it("moves a provider to either edge and refreshes the upstream failover order", async () => {
+    updateSortOrderMock.mockResolvedValue(true);
+    const { wrapper, queryClient } = createWrapper();
+    const invalidateSpy = vi.spyOn(queryClient, "invalidateQueries");
+    const { result } = renderHook(() => useDragSort(mockProviders, "claude"), {
+      wrapper,
+    });
+    await act(async () => result.current.moveToEdge("c", "top"));
+    expect(updateSortOrderMock).toHaveBeenLastCalledWith(
+      [
+        { id: "c", sortIndex: 0 },
+        { id: "b", sortIndex: 1 },
+        { id: "a", sortIndex: 2 },
+      ],
+      "claude",
+    );
+    await act(async () => result.current.moveToEdge("b", "bottom"));
+    expect(updateSortOrderMock).toHaveBeenLastCalledWith(
+      [
+        { id: "a", sortIndex: 0 },
+        { id: "c", sortIndex: 1 },
+        { id: "b", sortIndex: 2 },
+      ],
+      "claude",
+    );
+    expect(invalidateSpy).toHaveBeenCalledWith({
+      queryKey: ["failoverQueue", "claude"],
+    });
+  });
+
+  it("does not submit a second sort while the previous save is pending", async () => {
+    let finish!: (value: boolean) => void;
+    updateSortOrderMock.mockImplementation(
+      () =>
+        new Promise<boolean>((resolve) => {
+          finish = resolve;
+        }),
+    );
+    const { wrapper } = createWrapper();
+    const { result } = renderHook(() => useDragSort(mockProviders, "claude"), {
+      wrapper,
+    });
+    await act(async () => {
+      const pending = result.current.moveToEdge("c", "top");
+      await result.current.moveToEdge("b", "bottom");
+      expect(updateSortOrderMock).toHaveBeenCalledTimes(1);
+      finish(true);
+      await pending;
+    });
+  });
+
   it("should call API and invalidate query cache after successful drag", async () => {
     updateSortOrderMock.mockResolvedValue(true);
     const { wrapper, queryClient } = createWrapper();

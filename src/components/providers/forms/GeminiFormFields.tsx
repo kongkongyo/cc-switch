@@ -3,7 +3,7 @@ import { useTranslation } from "react-i18next";
 import { FormLabel } from "@/components/ui/form";
 import { Download, Info, Loader2 } from "lucide-react";
 import { Button } from "@/components/ui/button";
-import { toast } from "sonner";
+import { toast } from "@/lib/toast";
 import EndpointSpeedTest from "./EndpointSpeedTest";
 import { ApiKeySection, EndpointField, ModelInputWithFetch } from "./shared";
 import {
@@ -38,7 +38,6 @@ interface GeminiFormFieldsProps {
   onCustomEndpointsChange: (endpoints: string[]) => void;
   autoSelect: boolean;
   onAutoSelectChange: (checked: boolean) => void;
-  upstreamProxyUrl?: string;
 
   // Model
   shouldShowModelField: boolean;
@@ -67,7 +66,6 @@ export function GeminiFormFields({
   onCustomEndpointsChange,
   autoSelect,
   onAutoSelectChange,
-  upstreamProxyUrl,
   shouldShowModelField,
   model,
   onModelChange,
@@ -87,9 +85,7 @@ export function GeminiFormFields({
       return;
     }
     setIsFetchingModels(true);
-    fetchModelsForConfig(baseUrl, apiKey, undefined, undefined, undefined, {
-      upstreamProxyUrl,
-    })
+    fetchModelsForConfig(baseUrl, apiKey)
       .then((models) => {
         setFetchedModels(models);
         if (models.length === 0) {
@@ -105,7 +101,7 @@ export function GeminiFormFields({
         showFetchModelsError(err, t);
       })
       .finally(() => setIsFetchingModels(false));
-  }, [baseUrl, apiKey, upstreamProxyUrl, t]);
+  }, [baseUrl, apiKey, t]);
 
   // 检测是否为 Google 官方（使用 OAuth）
   const isGoogleOfficial =
@@ -115,16 +111,16 @@ export function GeminiFormFields({
     <>
       {/* Google OAuth 提示 */}
       {isGoogleOfficial && (
-        <div className="rounded-lg border border-blue-200 bg-blue-50 p-4 dark:border-blue-800 dark:bg-blue-950">
+        <div className="rounded-lg border border-border-strong bg-subtle p-4">
           <div className="flex gap-3">
-            <Info className="h-5 w-5 flex-shrink-0 text-blue-600 dark:text-blue-400" />
+            <Info className="h-5 w-5 flex-shrink-0 text-fg-1" />
             <div className="space-y-1">
-              <p className="text-sm font-medium text-blue-900 dark:text-blue-100">
+              <p className="text-sm font-medium text-fg-1">
                 {t("provider.form.gemini.oauthTitle", {
                   defaultValue: "OAuth 认证模式",
                 })}
               </p>
-              <p className="text-sm text-blue-700 dark:text-blue-300">
+              <p className="text-sm text-fg-1">
                 {t("provider.form.gemini.oauthHint", {
                   defaultValue:
                     "Google 官方使用 OAuth 个人认证，无需填写 API Key。首次使用时会自动打开浏览器进行登录。",
@@ -141,6 +137,7 @@ export function GeminiFormFields({
           value={apiKey}
           onChange={onApiKeyChange}
           category={category}
+          required
           shouldShowLink={shouldShowApiKeyLink}
           websiteUrl={websiteUrl}
           isPartner={isPartner}
@@ -201,7 +198,6 @@ export function GeminiFormFields({
         <EndpointSpeedTest
           appId="gemini"
           providerId={providerId}
-          upstreamProxyUrl={upstreamProxyUrl}
           value={baseUrl}
           onChange={onBaseUrlChange}
           initialEndpoints={speedTestEndpoints}

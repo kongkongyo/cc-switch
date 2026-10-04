@@ -92,7 +92,6 @@ async fn query_codex_oauth_quota_for(
 pub async fn get_codex_oauth_models(
     account_id: Option<String>,
     state: State<'_, CodexOAuthState>,
-    upstream_proxy_url: Option<String>,
 ) -> Result<Vec<FetchedModel>, String> {
     let manager = &state.0;
     let resolved = match account_id
@@ -108,7 +107,7 @@ pub async fn get_codex_oauth_models(
     };
 
     let token = manager
-        .get_valid_token_for_account_with_proxy(&id, upstream_proxy_url.as_deref())
+        .get_valid_token_for_account(&id)
         .await
         .map_err(|e| format!("Codex OAuth token unavailable: {e}"))?;
     let chatgpt_account_id = manager
@@ -116,10 +115,5 @@ pub async fn get_codex_oauth_models(
         .await
         .map_err(|e| e.to_string())?;
 
-    crate::services::codex_oauth_models::fetch_models_with_token_and_proxy(
-        &token,
-        &chatgpt_account_id,
-        upstream_proxy_url.as_deref(),
-    )
-    .await
+    crate::services::codex_oauth_models::fetch_models_with_token(&token, &chatgpt_account_id).await
 }

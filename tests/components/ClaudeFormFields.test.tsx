@@ -148,7 +148,6 @@ describe("ClaudeFormFields", () => {
     await waitFor(() => {
       expect(copilotApiMock.copilotGetModelsForAccount).toHaveBeenCalledWith(
         "gh-1",
-        undefined,
       );
     });
     expect(copilotApiMock.copilotGetModels).not.toHaveBeenCalled();
@@ -172,7 +171,6 @@ describe("ClaudeFormFields", () => {
     await waitFor(() => {
       expect(modelFetchApiMock.fetchCodexOauthModels).toHaveBeenCalledWith(
         "chatgpt-1",
-        undefined,
       );
     });
   });

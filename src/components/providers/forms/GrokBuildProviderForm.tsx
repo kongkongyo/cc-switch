@@ -2,7 +2,7 @@ import { useEffect, useMemo, useState } from "react";
 import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useTranslation } from "react-i18next";
-import { toast } from "sonner";
+import { toast } from "@/lib/toast";
 import { Button } from "@/components/ui/button";
 import {
   Form,
@@ -20,12 +20,6 @@ import {
   buildLocalProxyRequestOverrides,
   formatRequestOverrideObject,
 } from "@/lib/requestOverrides";
-import {
-  buildProviderUpstreamProxyConfig,
-  getEnabledProviderUpstreamProxyUrl,
-  validateProviderUpstreamProxy,
-  type ProviderUpstreamProxyFormConfig,
-} from "@/lib/providerUpstreamProxy";
 import type {
   ClaudeApiKeyField,
   CodexApiFormat,
@@ -38,7 +32,7 @@ import type { ProviderFormProps, ProviderFormValues } from "./ProviderForm";
 import { BasicFormFields } from "./BasicFormFields";
 import { CodexFormFields } from "./CodexFormFields";
 import { ProviderPresetSelector } from "./ProviderPresetSelector";
-import { ProviderUpstreamProxyField } from "./ProviderUpstreamProxyField";
+import { InactiveFieldsPanel } from "./InactiveFieldsPanel";
 import {
   grokBuildOfficialPreset,
   grokBuildProviderPresets,
@@ -58,6 +52,7 @@ import {
   validateGrokBuildConfig,
 } from "@/utils/grokBuildConfig";
 import { resolveProviderIcon } from "@/utils/providerIcon";
+import { useDraftEditorProjection } from "./hooks/useDraftEditorProjection";
 import { GROKBUILD_OFFICIAL_PROVIDER_ID } from "@/utils/providerCapabilities";
 
 type GrokBuildProviderFormProps = Omit<ProviderFormProps, "appId">;
@@ -83,6 +78,8 @@ export function GrokBuildProviderForm({
   onSubmittingChange,
   initialData,
   showButtons = true,
+  inactiveFields = [],
+  onEditorBaseChange,
 }: GrokBuildProviderFormProps) {
   const { t } = useTranslation();
   const isDarkMode = useDarkMode();
@@ -117,6 +114,22 @@ export function GrokBuildProviderForm({
   const [rawConfig, setRawConfig] = useState(
     initialConfigText ?? buildGrokBuildConfig(initialConfig),
   );
+
+  // 新增：预设或模板投影到当前 config.toml 上显示。每次重置显示内容都要重新投影（或作废
+  // 投影），否则保存时三方比较的底和显示内容对不上。
+  const { projectDraft, clearDraftProjection } = useDraftEditorProjection(
+    "grokbuild",
+    onEditorBaseChange,
+  );
+  const projectGrokDraft = (config: string, presetCategory?: string) =>
+    projectDraft({ config }, presetCategory, (shown) =>
+      setRawConfig(typeof shown.config === "string" ? shown.config : config),
+    );
+  useEffect(() => {
+    if (!initialData) projectGrokDraft(rawConfig);
+    // 只在打开时投影一次：之后的投影跟着预设切换走。
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, []);
   const [apiFormat, setApiFormat] = useState<CodexApiFormat>(
     (initialData?.meta?.apiFormat as CodexApiFormat | undefined) ??
       "openai_responses",
@@ -145,11 +158,6 @@ export function GrokBuildProviderForm({
   const [customUserAgent, setCustomUserAgent] = useState(
     initialData?.meta?.customUserAgent ?? "",
   );
-  const [upstreamProxyConfig, setUpstreamProxyConfig] =
-    useState<ProviderUpstreamProxyFormConfig>({
-      enabled: initialData?.meta?.upstreamProxy?.enabled === true,
-      url: initialData?.meta?.upstreamProxy?.url ?? "",
-    });
   const [headersOverride, setHeadersOverride] = useState(
     formatRequestOverrideObject(
       initialData?.meta?.localProxyRequestOverrides?.headers,
@@ -256,6 +264,7 @@ export function GrokBuildProviderForm({
       setPartnerPromotionKey(undefined);
       setPresetEndpoints([]);
       setRawConfig("");
+      clearDraftProjection();
       return;
     }
 
@@ -287,17 +296,17 @@ export function GrokBuildProviderForm({
     setUpstreamModel(presetModel);
     setApiFormat(presetApiFormat);
     setPresetEndpoints(preset.endpointCandidates ?? []);
-    setRawConfig(
-      buildGrokBuildConfig({
-        model: profile,
-        upstreamModel: presetModel,
-        baseUrl: presetBaseUrl,
-        name: presetName,
-        apiKey: presetApiKey,
-        apiBackend: GROK_BUILD_DEFAULT_API_BACKEND,
-        contextWindow: Number.parseInt(contextWindow, 10),
-      }),
-    );
+    const presetConfig = buildGrokBuildConfig({
+      model: profile,
+      upstreamModel: presetModel,
+      baseUrl: presetBaseUrl,
+      name: presetName,
+      apiKey: presetApiKey,
+      apiBackend: GROK_BUILD_DEFAULT_API_BACKEND,
+      contextWindow: Number.parseInt(contextWindow, 10),
+    });
+    setRawConfig(presetConfig);
+    projectGrokDraft(presetConfig, preset.category);
   };
 
   const handleRawConfigChange = (value: string) => {
@@ -385,13 +394,6 @@ export function GrokBuildProviderForm({
       return;
     }
 
-    const upstreamProxyError =
-      validateProviderUpstreamProxy(upstreamProxyConfig);
-    if (upstreamProxyError) {
-      toast.error(upstreamProxyError);
-      return;
-    }
-
     const customEndpoints = Object.fromEntries(
       draftCustomEndpoints.map((url) => [
         url,
@@ -413,7 +415,6 @@ export function GrokBuildProviderForm({
       promptCacheRouting,
       codexChatReasoning,
       customUserAgent: customUserAgent.trim() || undefined,
-      upstreamProxy: buildProviderUpstreamProxyConfig(upstreamProxyConfig),
       localProxyRequestOverrides: requestOverrides.overrides,
       maxOutputTokens:
         Number.isInteger(parsedMaxOutputTokens) && parsedMaxOutputTokens > 0
@@ -445,7 +446,7 @@ export function GrokBuildProviderForm({
       <form
         id="provider-form"
         onSubmit={form.handleSubmit(handleSubmit)}
-        className="space-y-6 glass rounded-xl p-6 border border-white/10"
+        className="space-y-6"
       >
         {!initialData && (
           <ProviderPresetSelector
@@ -487,9 +488,6 @@ export function GrokBuildProviderForm({
               onCustomEndpointsChange={setDraftCustomEndpoints}
               autoSelect={endpointAutoSelect}
               onAutoSelectChange={setEndpointAutoSelect}
-              upstreamProxyUrl={getEnabledProviderUpstreamProxyUrl(
-                upstreamProxyConfig,
-              )}
               codexModel={upstreamModel}
               onModelChange={(value) => {
                 setUpstreamModel(value);
@@ -518,14 +516,6 @@ export function GrokBuildProviderForm({
               onLocalProxyBodyOverrideChange={setBodyOverride}
             />
 
-            <div className="rounded-lg border border-border-default p-4">
-              <ProviderUpstreamProxyField
-                id="grokbuild-upstream-proxy"
-                config={upstreamProxyConfig}
-                onChange={setUpstreamProxyConfig}
-              />
-            </div>
-
             <FormItem>
               <FormLabel htmlFor="grokbuild-context-window">
                 {t("grokBuild.contextWindow", { defaultValue: "上下文窗口" })}
@@ -551,6 +541,12 @@ export function GrokBuildProviderForm({
               <FormLabel htmlFor="grokbuild-config-toml">
                 {t("grokBuild.rawConfig", { defaultValue: "config.toml" })}
               </FormLabel>
+              <p className="text-xs text-fg-2">
+                {t("grokBuild.keyFieldsHint", {
+                  defaultValue:
+                    "默认模型（models.default）和它指向的模型表随供应商切换；其余是 Grok Build 全局设置，保存后对所有供应商生效。",
+                })}
+              </p>
               <JsonEditor
                 value={rawConfig}
                 onChange={handleRawConfigChange}
@@ -568,6 +564,20 @@ export function GrokBuildProviderForm({
                   })}
                 </p>
               )}
+              <InactiveFieldsPanel
+                fields={inactiveFields}
+                hint={t("grokBuild.inactiveFieldsHint", {
+                  count: inactiveFields.length,
+                  defaultValue:
+                    "这个供应商还保存着 {{count}} 个不随切换生效的设置。点击复制它的 TOML，按需粘贴到上方；供应商里保存的原值不会删除。",
+                })}
+                action={{
+                  kind: "copy",
+                  copiedText: t("grokBuild.inactiveFieldCopied", {
+                    defaultValue: "已复制",
+                  }),
+                }}
+              />
             </div>
           </>
         )}

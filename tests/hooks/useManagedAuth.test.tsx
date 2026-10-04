@@ -96,7 +96,6 @@ describe("useManagedAuth", () => {
       expect(apiMocks.authStartLogin).toHaveBeenCalledWith(
         "codex_oauth",
         undefined,
-        undefined,
         "acct-1",
       ),
     );
@@ -119,7 +118,6 @@ describe("useManagedAuth", () => {
     expect(apiMocks.authStartLogin).toHaveBeenNthCalledWith(
       2,
       "codex_oauth",
-      undefined,
       undefined,
       "acct-1",
     );

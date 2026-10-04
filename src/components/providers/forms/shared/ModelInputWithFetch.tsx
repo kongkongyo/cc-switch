@@ -1,9 +1,10 @@
 import { useTranslation } from "react-i18next";
 import { Button } from "@/components/ui/button";
+import { HoverTip } from "@/components/ui/hover-tip";
 import { Input } from "@/components/ui/input";
 import { Download, Loader2 } from "lucide-react";
 import type { FetchedModel } from "@/lib/api/model-fetch";
-import { SearchableModelPicker } from "./SearchableModelPicker";
+import { ModelDropdown } from "./ModelDropdown";
 
 interface ModelInputWithFetchProps {
   id: string;
@@ -40,7 +41,7 @@ export function ModelInputWithFetch({
           autoComplete="off"
           className="flex-1"
         />
-        <SearchableModelPicker
+        <ModelDropdown
           models={fetchedModels}
           value={value}
           onSelect={onChange}
@@ -82,16 +83,18 @@ export function ModelInputWithFetch({
           autoComplete="off"
           className="flex-1"
         />
-        <Button
-          variant="outline"
-          size="icon"
-          className="shrink-0"
-          type="button"
-          onClick={onFetch}
-          title={t("providerForm.fetchModels")}
-        >
-          <Download className="h-4 w-4" />
-        </Button>
+        <HoverTip content={t("providerForm.fetchModels")}>
+          <Button
+            aria-label={t("providerForm.fetchModels")}
+            variant="outline"
+            size="icon"
+            className="shrink-0"
+            type="button"
+            onClick={onFetch}
+          >
+            <Download className="h-4 w-4" />
+          </Button>
+        </HoverTip>
       </div>
     );
   }

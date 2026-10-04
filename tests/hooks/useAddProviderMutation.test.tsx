@@ -10,6 +10,7 @@ const apiMocks = vi.hoisted(() => ({
   ensureClaudeDesktopOfficialProvider: vi.fn(),
   getAll: vi.fn(),
   updateTrayMenu: vi.fn(),
+  updateSortOrder: vi.fn(),
 }));
 
 const uuidMocks = vi.hoisted(() => ({
@@ -29,6 +30,7 @@ vi.mock("@/lib/api", () => ({
       apiMocks.ensureClaudeDesktopOfficialProvider(...args),
     getAll: (...args: unknown[]) => apiMocks.getAll(...args),
     updateTrayMenu: (...args: unknown[]) => apiMocks.updateTrayMenu(...args),
+    updateSortOrder: (...args: unknown[]) => apiMocks.updateSortOrder(...args),
   },
   sessionsApi: {},
   settingsApi: {},
@@ -64,6 +66,7 @@ beforeEach(() => {
     .mockResolvedValue(true);
   apiMocks.getAll.mockReset().mockResolvedValue({});
   apiMocks.updateTrayMenu.mockReset().mockResolvedValue(true);
+  apiMocks.updateSortOrder.mockReset().mockResolvedValue(true);
   uuidMocks.generateUUID.mockReset().mockReturnValue("generated-uuid");
   toastMocks.success.mockReset();
   toastMocks.error.mockReset();
@@ -71,6 +74,83 @@ beforeEach(() => {
 });
 
 describe("useAddProviderMutation", () => {
+  it("inserts a new provider second while preserving the previous order", async () => {
+    apiMocks.getAll.mockResolvedValue({
+      last: { id: "last", name: "Last", settingsConfig: {}, sortIndex: 2 },
+      first: { id: "first", name: "First", settingsConfig: {}, sortIndex: 0 },
+      middle: {
+        id: "middle",
+        name: "Middle",
+        settingsConfig: {},
+        sortIndex: 1,
+      },
+    });
+    const { wrapper } = createWrapper();
+    const { result } = renderHook(() => useAddProviderMutation("codex"), {
+      wrapper,
+    });
+
+    await act(async () =>
+      result.current.mutateAsync({ name: "New", settingsConfig: {} }),
+    );
+
+    expect(apiMocks.updateSortOrder).toHaveBeenCalledWith(
+      [
+        { id: "first", sortIndex: 0 },
+        { id: "middle", sortIndex: 2 },
+        { id: "last", sortIndex: 3 },
+      ],
+      "codex",
+    );
+    expect(apiMocks.add).toHaveBeenCalledWith(
+      expect.objectContaining({ sortIndex: 1 }),
+      "codex",
+      undefined,
+      undefined,
+    );
+  });
+
+  it("does not reorder an empty list or replace an explicit sort index", async () => {
+    const { wrapper } = createWrapper();
+    const { result } = renderHook(() => useAddProviderMutation("codex"), {
+      wrapper,
+    });
+    await act(async () =>
+      result.current.mutateAsync({ name: "First", settingsConfig: {} }),
+    );
+    expect(apiMocks.updateSortOrder).not.toHaveBeenCalled();
+    await act(async () =>
+      result.current.mutateAsync({
+        name: "Explicit",
+        settingsConfig: {},
+        sortIndex: 7,
+      }),
+    );
+    expect(apiMocks.add).toHaveBeenLastCalledWith(
+      expect.objectContaining({ sortIndex: 7 }),
+      "codex",
+      undefined,
+      undefined,
+    );
+  });
+
+  it("does not add the provider when reserving second place fails", async () => {
+    apiMocks.getAll.mockResolvedValue({
+      first: { id: "first", name: "First", settingsConfig: {} },
+    });
+    apiMocks.updateSortOrder.mockRejectedValue(new Error("sort failed"));
+    const { wrapper } = createWrapper();
+    const { result } = renderHook(() => useAddProviderMutation("codex"), {
+      wrapper,
+    });
+    await act(async () => {
+      await expect(
+        result.current.mutateAsync({ name: "New", settingsConfig: {} }),
+      ).rejects.toThrow("sort failed");
+    });
+    expect(apiMocks.add).not.toHaveBeenCalled();
+  });
+
   it("duplicates Claude Desktop official providers with a fresh id", async () => {
     const { wrapper } = createWrapper();
     const { result } = renderHook(
@@ -95,6 +175,7 @@ describe("useAddProviderMutation", () => {
         category: "official",
       }),
       "claude-desktop",
+      undefined,
       undefined,
     );
     expect(duplicatedProvider.id).toBe("generated-uuid");
@@ -178,6 +259,7 @@ describe("useAddProviderMutation", () => {
       }),
       "codex",
       undefined,
+      undefined,
     );
     expect(persistedProvider).toEqual(
       expect.objectContaining({
@@ -218,9 +300,7 @@ describe("useAddProviderMutation", () => {
       }),
     );
 
-    expect(apiMocks.getAll).toHaveBeenCalledTimes(2);
-    expect(apiMocks.getAll).toHaveBeenNthCalledWith(1, "codex");
-    expect(apiMocks.getAll).toHaveBeenNthCalledWith(2, "codex");
+    expect(apiMocks.getAll).toHaveBeenCalledWith("codex");
     expect(apiMocks.add).toHaveBeenNthCalledWith(
       1,
       expect.objectContaining({
@@ -228,6 +308,7 @@ describe("useAddProviderMutation", () => {
         meta: { providerType: "codex_oauth" },
       }),
       "codex",
+      undefined,
       undefined,
     );
     expect(apiMocks.add).toHaveBeenNthCalledWith(
@@ -237,6 +318,7 @@ describe("useAddProviderMutation", () => {
         meta: { providerType: "codex_oauth" },
       }),
       "codex",
+      undefined,
       undefined,
     );
     expect(firstProvider.id).toBe("unbound-official-1");
@@ -266,6 +348,7 @@ describe("useAddProviderMutation", () => {
       expect.objectContaining({ id: "pi-provider" }),
       "pi",
       undefined,
+      undefined,
     );
     expect(provider.id).toBe("pi-provider");
   });
@@ -290,6 +373,7 @@ describe("useAddProviderMutation", () => {
     expect(apiMocks.add).toHaveBeenCalledWith(
       expect.objectContaining({ id: "pi-provider" }),
       "pi",
+      undefined,
       undefined,
     );
     expect(toastMocks.error).toHaveBeenCalled();

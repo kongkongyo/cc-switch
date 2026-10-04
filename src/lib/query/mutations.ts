@@ -1,9 +1,10 @@
 import { useMutation, useQueryClient } from "@tanstack/react-query";
 import { useTranslation } from "react-i18next";
-import { toast } from "sonner";
+import { toast } from "@/lib/toast";
 import { providersApi, sessionsApi, settingsApi, type AppId } from "@/lib/api";
 import type { DeleteSessionOptions } from "@/lib/api/sessions";
-import type { SwitchResult } from "@/lib/api/providers";
+import type { ProviderEditorSave, SwitchResult } from "@/lib/api/providers";
+import { parseLiveEditConflict } from "@/lib/errors/liveEditConflict";
 import type { Provider, SessionMeta, Settings } from "@/types";
 import {
   extractErrorMessage,
@@ -12,29 +13,12 @@ import {
 import { generateUUID } from "@/utils/uuid";
 import { openclawKeys } from "@/hooks/useOpenClaw";
 import { invalidateHermesProviderCaches } from "@/hooks/useHermes";
-import type { ProvidersQueryData } from "@/lib/query/queries";
 import { proxyKeys } from "@/lib/query/proxy";
 import { usageKeys } from "@/lib/query/usage";
+import { sessionKeys } from "@/lib/query/sessions";
 import { invalidatePiProviderCaches } from "@/lib/query/pi";
 import { GROKBUILD_OFFICIAL_PROVIDER_ID } from "@/utils/providerCapabilities";
-
-const sortProvidersForInsert = (
-  providers: Record<string, Provider>,
-): Provider[] =>
-  Object.values(providers).sort((a, b) => {
-    const indexA = a.sortIndex ?? Number.MAX_SAFE_INTEGER;
-    const indexB = b.sortIndex ?? Number.MAX_SAFE_INTEGER;
-    if (indexA !== indexB) {
-      return indexA - indexB;
-    }
-
-    const timeA = a.createdAt ?? 0;
-    const timeB = b.createdAt ?? 0;
-    if (timeA === timeB) {
-      return a.name.localeCompare(b.name, "zh-CN");
-    }
-    return timeA - timeB;
-  });
+import type { ProvidersQueryData } from "@/lib/query/queries";
 
 export const useAddProviderMutation = (appId: AppId) => {
   const queryClient = useQueryClient();
@@ -47,6 +31,7 @@ export const useAddProviderMutation = (appId: AppId) => {
         addToLive?: boolean;
         ensureClaudeDesktopOfficialSeed?: boolean;
         ensureGrokBuildOfficialSeed?: boolean;
+        editorSave?: ProviderEditorSave;
       },
     ) => {
       const {
@@ -54,6 +39,7 @@ export const useAddProviderMutation = (appId: AppId) => {
         addToLive,
         ensureClaudeDesktopOfficialSeed,
         ensureGrokBuildOfficialSeed,
+        editorSave,
         ...rest
       } = providerInput;
 
@@ -83,7 +69,8 @@ export const useAddProviderMutation = (appId: AppId) => {
         appId === "opencode" ||
         appId === "openclaw" ||
         appId === "hermes" ||
-        appId === "pi"
+        appId === "pi" ||
+        appId === "mcode"
       ) {
         if (
           providerInput.category === "omo" ||
@@ -109,44 +96,38 @@ export const useAddProviderMutation = (appId: AppId) => {
       delete (newProvider as any).providerKey;
 
       if (newProvider.sortIndex === undefined) {
-        let existingProviders =
-          queryClient.getQueryData<ProvidersQueryData>(["providers", appId])
-            ?.providers ?? {};
-
-        if (Object.keys(existingProviders).length === 0) {
-          try {
-            existingProviders = await providersApi.getAll(appId);
-          } catch (error) {
-            console.error(
-              "Failed to load providers before inserting new provider",
-              error,
+        const cachedProviders = queryClient.getQueryData<ProvidersQueryData>([
+          "providers",
+          appId,
+        ])?.providers;
+        const existingProviders =
+          cachedProviders && Object.keys(cachedProviders).length > 0
+            ? cachedProviders
+            : await providersApi.getAll(appId);
+        const orderedProviders = Object.values(existingProviders).sort(
+          (a, b) => {
+            const indexA = a.sortIndex ?? Number.MAX_SAFE_INTEGER;
+            const indexB = b.sortIndex ?? Number.MAX_SAFE_INTEGER;
+            return (
+              indexA - indexB ||
+              (a.createdAt ?? 0) - (b.createdAt ?? 0) ||
+              a.name.localeCompare(b.name, "zh-CN")
             );
-          }
-        }
-
-        const orderedProviders = sortProvidersForInsert(existingProviders);
+          },
+        );
         if (orderedProviders.length > 0) {
-          const updates = orderedProviders.map((provider, index) => ({
-            id: provider.id,
-            sortIndex: index === 0 ? 0 : index + 1,
-          }));
-
-          try {
-            await providersApi.updateSortOrder(updates, appId);
-            newProvider.sortIndex = 1;
-          } catch (error) {
-            console.error(
-              "Failed to update sort order before adding provider",
-              error,
-            );
-            throw error instanceof Error
-              ? error
-              : new Error("Failed to update sort order before adding provider");
-          }
+          await providersApi.updateSortOrder(
+            orderedProviders.map((provider, index) => ({
+              id: provider.id,
+              sortIndex: index === 0 ? 0 : index + 1,
+            })),
+            appId,
+          );
+          newProvider.sortIndex = 1;
         }
       }
 
-      await providersApi.add(newProvider, appId, addToLive);
+      await providersApi.add(newProvider, appId, addToLive, editorSave);
       return newProvider;
     },
     onSuccess: async () => {
@@ -195,6 +176,8 @@ export const useAddProviderMutation = (appId: AppId) => {
       );
     },
     onError: (error: Error) => {
+      // 编辑冲突由对话框让用户选保留哪一边，不弹失败提示。
+      if (parseLiveEditConflict(error)) return;
       const rawDetail = extractErrorMessage(error);
       const detail =
         (appId === "pi"
@@ -225,11 +208,13 @@ export const useUpdateProviderMutation = (appId: AppId) => {
     mutationFn: async ({
       provider,
       originalId,
+      editorSave,
     }: {
       provider: Provider;
       originalId?: string;
+      editorSave?: ProviderEditorSave;
     }) => {
-      await providersApi.update(provider, appId, originalId);
+      await providersApi.update(provider, appId, originalId, editorSave);
       return provider;
     },
     onSuccess: async (provider, variables) => {
@@ -260,6 +245,7 @@ export const useUpdateProviderMutation = (appId: AppId) => {
       );
     },
     onError: (error: Error) => {
+      if (parseLiveEditConflict(error)) return;
       const rawDetail = extractErrorMessage(error);
       const detail =
         (appId === "pi"
@@ -451,6 +437,15 @@ export const useDeleteSessionMutation = () => {
       return input;
     },
     onSuccess: async (input) => {
+      const deleted = queryClient
+        .getQueryData<SessionMeta[]>(["sessions"])
+        ?.find(
+          (session) =>
+            session.providerId === input.providerId &&
+            session.sessionId === input.sessionId &&
+            session.sourcePath === input.sourcePath,
+        );
+      const deletedTitle = deleted?.title?.trim() || deleted?.summary?.trim();
       queryClient.setQueryData<SessionMeta[]>(["sessions"], (current) =>
         (current ?? []).filter(
           (session) =>
@@ -462,15 +457,20 @@ export const useDeleteSessionMutation = () => {
         ),
       );
       queryClient.removeQueries({
-        queryKey: ["sessionMessages", input.providerId, input.sourcePath],
+        queryKey: sessionKeys.messages(input.providerId, input.sourcePath),
+      });
+      queryClient.removeQueries({
+        queryKey: sessionKeys.transcript(input.providerId, input.sourcePath),
       });
 
       await queryClient.invalidateQueries({ queryKey: ["sessions"] });
 
       toast.success(
-        t("sessionManager.sessionDeleted", {
-          defaultValue: "会话已删除",
-        }),
+        deletedTitle
+          ? t("sessionManager.sessionDeletedNamed", { title: deletedTitle })
+          : t("sessionManager.sessionDeleted", {
+              defaultValue: "会话已删除",
+            }),
       );
     },
     onError: (error: Error) => {

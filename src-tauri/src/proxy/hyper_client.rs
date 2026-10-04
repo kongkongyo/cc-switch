@@ -48,20 +48,6 @@ impl OriginalHeaderCases {
 
         Self { cases }
     }
-
-    pub fn from_header_map(headers: &http::HeaderMap) -> Self {
-        let mut cases = Vec::with_capacity(headers.len());
-        for name in headers.keys() {
-            for _ in headers.get_all(name) {
-                cases.push((
-                    name.as_str().to_ascii_lowercase(),
-                    name.as_str().as_bytes().to_vec(),
-                ));
-            }
-        }
-
-        Self { cases }
-    }
 }
 
 type HyperClient = Client<
@@ -279,29 +265,15 @@ pub async fn send_request(
     timeout: std::time::Duration,
     proxy_url: Option<&str>,
 ) -> Result<ProxyResponse, ProxyError> {
-    // Extract our own OriginalHeaderCases if available. When an upstream proxy
-    // is configured, do not fall back to the direct hyper client merely because
-    // original casing metadata is missing; synthesize casing from the current
-    // headers so the request still goes through the required proxy.
-    let mut original_cases = original_extensions.get::<OriginalHeaderCases>().cloned();
-    let using_synthetic_cases = if original_cases
-        .as_ref()
-        .map(|c| c.cases.is_empty())
-        .unwrap_or(true)
-        && proxy_url.is_some()
-    {
-        original_cases = Some(OriginalHeaderCases::from_header_map(&headers));
-        true
-    } else {
-        false
-    };
+    // Extract our own OriginalHeaderCases if available
+    let original_cases = original_extensions.get::<OriginalHeaderCases>().cloned();
     let has_cases = original_cases
         .as_ref()
         .map(|c| !c.cases.is_empty())
         .unwrap_or(false);
     log::debug!(
         "[HyperClient] Sending request: target={}, header_count={}, \
-         has_host={}, has_original_cases={has_cases}, synthetic_cases={using_synthetic_cases}, proxy={:?}",
+         has_host={}, has_original_cases={has_cases}, proxy={:?}",
         log_display,
         headers.len(),
         headers.contains_key(http::header::HOST),

@@ -63,12 +63,6 @@ impl From<std::io::Error> for XaiOAuthError {
     }
 }
 
-fn client_for_upstream_proxy(proxy_url: Option<&str>) -> Result<reqwest::Client, XaiOAuthError> {
-    crate::proxy::http_client::client_for_provider_upstream_proxy(proxy_url)
-        .map(|client| client.unwrap_or_else(crate::proxy::http_client::get))
-        .map_err(XaiOAuthError::NetworkError)
-}
-
 #[derive(Debug, Clone, Deserialize)]
 struct DiscoveryDocument {
     issuer: String,
@@ -224,18 +218,8 @@ impl XaiOAuthManager {
     }
 
     pub async fn start_device_flow(&self) -> Result<GitHubDeviceCodeResponse, XaiOAuthError> {
-        self.start_device_flow_with_proxy(None).await
-    }
-
-    pub async fn start_device_flow_with_proxy(
-        &self,
-        provider_upstream_proxy_url: Option<&str>,
-    ) -> Result<GitHubDeviceCodeResponse, XaiOAuthError> {
-        let endpoints = self
-            .discover_endpoints_with_proxy(provider_upstream_proxy_url)
-            .await?;
-        let client = client_for_upstream_proxy(provider_upstream_proxy_url)?;
-        let response = client
+        let endpoints = self.discover_endpoints().await?;
+        let response = crate::proxy::http_client::get()
             .post(&endpoints.device_authorization_endpoint)
             .header("User-Agent", XAI_USER_AGENT)
             .form(&[("client_id", XAI_CLIENT_ID), ("scope", XAI_SCOPE)])
@@ -290,14 +274,6 @@ impl XaiOAuthManager {
         &self,
         device_code: &str,
     ) -> Result<Option<XaiOAuthAccount>, XaiOAuthError> {
-        self.poll_for_token_with_proxy(device_code, None).await
-    }
-
-    pub async fn poll_for_token_with_proxy(
-        &self,
-        device_code: &str,
-        provider_upstream_proxy_url: Option<&str>,
-    ) -> Result<Option<XaiOAuthAccount>, XaiOAuthError> {
         let now_ms = chrono::Utc::now().timestamp_millis();
         let entry = {
             let pending = self.pending_device_codes.read().await;
@@ -317,8 +293,7 @@ impl XaiOAuthManager {
         self.schedule_next_poll(device_code, entry.interval_secs)
             .await;
 
-        let client = client_for_upstream_proxy(provider_upstream_proxy_url)?;
-        let response = client
+        let response = crate::proxy::http_client::get()
             .post(&entry.token_endpoint)
             .header("User-Agent", XAI_USER_AGENT)
             .form(&[
@@ -391,15 +366,6 @@ impl XaiOAuthManager {
         &self,
         account_id: &str,
     ) -> Result<String, XaiOAuthError> {
-        self.get_valid_token_for_account_with_proxy(account_id, None)
-            .await
-    }
-
-    pub async fn get_valid_token_for_account_with_proxy(
-        &self,
-        account_id: &str,
-        provider_upstream_proxy_url: Option<&str>,
-    ) -> Result<String, XaiOAuthError> {
         if let Some(token) = self.cached_token_for_usable_account(account_id).await {
             return Ok(token);
         }
@@ -421,10 +387,7 @@ impl XaiOAuthManager {
             return Err(XaiOAuthError::ReauthRequired(account_id.to_string()));
         }
 
-        let tokens = match self
-            .refresh_with_token_with_proxy(&account.refresh_token, provider_upstream_proxy_url)
-            .await
-        {
+        let tokens = match self.refresh_with_token(&account.refresh_token).await {
             Ok(tokens) => tokens,
             Err(XaiOAuthError::RefreshTokenInvalid) => {
                 self.mark_reauth_required(account_id).await?;
@@ -438,26 +401,14 @@ impl XaiOAuthManager {
     }
 
     pub async fn get_valid_token(&self) -> Result<String, XaiOAuthError> {
-        self.get_valid_token_with_proxy(None).await
-    }
-
-    pub async fn get_valid_token_with_proxy(
-        &self,
-        provider_upstream_proxy_url: Option<&str>,
-    ) -> Result<String, XaiOAuthError> {
         match self.resolve_default_account_id().await {
-            Some(account_id) => {
-                self.get_valid_token_for_account_with_proxy(
-                    &account_id,
-                    provider_upstream_proxy_url,
-                )
-                .await
-            }
+            Some(account_id) => self.get_valid_token_for_account(&account_id).await,
             None => Err(XaiOAuthError::AccountNotFound(
                 "无可用的 xAI 账号，请登录或重新登录".to_string(),
             )),
         }
     }
+
     pub async fn default_account_id(&self) -> Option<String> {
         self.resolve_default_account_id().await
     }
@@ -529,20 +480,11 @@ impl XaiOAuthManager {
         Ok(())
     }
 
-    #[allow(dead_code)]
     async fn discover_endpoints(&self) -> Result<OAuthEndpoints, XaiOAuthError> {
-        self.discover_endpoints_with_proxy(None).await
-    }
-
-    async fn discover_endpoints_with_proxy(
-        &self,
-        provider_upstream_proxy_url: Option<&str>,
-    ) -> Result<OAuthEndpoints, XaiOAuthError> {
         if let Some(endpoints) = self.discovered_endpoints.read().await.clone() {
             return Ok(endpoints);
         }
-        let client = client_for_upstream_proxy(provider_upstream_proxy_url)?;
-        let response = client
+        let response = crate::proxy::http_client::get()
             .get(XAI_DISCOVERY_URL)
             .header("User-Agent", XAI_USER_AGENT)
             .send()
@@ -570,25 +512,12 @@ impl XaiOAuthManager {
         Ok(endpoints)
     }
 
-    #[allow(dead_code)]
     async fn refresh_with_token(
         &self,
         refresh_token: &str,
     ) -> Result<OAuthTokenResponse, XaiOAuthError> {
-        self.refresh_with_token_with_proxy(refresh_token, None)
-            .await
-    }
-
-    async fn refresh_with_token_with_proxy(
-        &self,
-        refresh_token: &str,
-        provider_upstream_proxy_url: Option<&str>,
-    ) -> Result<OAuthTokenResponse, XaiOAuthError> {
-        let endpoints = self
-            .discover_endpoints_with_proxy(provider_upstream_proxy_url)
-            .await?;
-        let client = client_for_upstream_proxy(provider_upstream_proxy_url)?;
-        let response = client
+        let endpoints = self.discover_endpoints().await?;
+        let response = crate::proxy::http_client::get()
             .post(&endpoints.token_endpoint)
             .header("User-Agent", XAI_USER_AGENT)
             .form(&[

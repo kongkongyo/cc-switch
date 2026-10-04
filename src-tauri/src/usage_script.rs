@@ -6,7 +6,6 @@ use url::{Host, Url};
 use crate::error::AppError;
 
 /// 执行用量查询脚本
-#[allow(clippy::too_many_arguments)]
 pub async fn execute_usage_script(
     script_code: &str,
     api_key: &str,
@@ -15,7 +14,6 @@ pub async fn execute_usage_script(
     access_token: Option<&str>,
     user_id: Option<&str>,
     template_type: Option<&str>,
-    provider_upstream_proxy_url: Option<&str>,
 ) -> Result<Value, AppError> {
     // 检测是否为自定义模板模式
     // 优先使用前端传递的 template_type
@@ -140,8 +138,7 @@ pub async fn execute_usage_script(
     validate_request_url(&request.url, base_url, is_custom_template)?;
 
     // 6. 发送 HTTP 请求
-    let response_data =
-        send_http_request(&request, timeout_secs, provider_upstream_proxy_url).await?;
+    let response_data = send_http_request(&request, timeout_secs).await?;
 
     // 7. 在独立作用域中执行 extractor（确保 Runtime/Context 在函数结束前释放）
     let result: Value = {
@@ -247,22 +244,9 @@ struct RequestConfig {
 }
 
 /// 发送 HTTP 请求
-async fn send_http_request(
-    config: &RequestConfig,
-    timeout_secs: u64,
-    provider_upstream_proxy_url: Option<&str>,
-) -> Result<String, AppError> {
-    // 有供应商专属上游代理时优先使用；没有时保留原来的全局客户端行为。
-    let client =
-        crate::proxy::http_client::client_for_provider_upstream_proxy(provider_upstream_proxy_url)
-            .map_err(|e| {
-                AppError::localized(
-                    "usage_script.proxy_config_invalid",
-                    format!("代理配置错误: {e}"),
-                    format!("Invalid proxy config: {e}"),
-                )
-            })?
-            .unwrap_or_else(crate::proxy::http_client::get);
+async fn send_http_request(config: &RequestConfig, timeout_secs: u64) -> Result<String, AppError> {
+    // 使用全局 HTTP 客户端（已包含代理配置）
+    let client = crate::proxy::http_client::get();
     // 约束超时范围，防止异常配置导致长时间阻塞（最小 2 秒，最大 30 秒）
     let request_timeout = std::time::Duration::from_secs(timeout_secs.clamp(2, 30));
 
@@ -725,7 +709,6 @@ mod tests {
                 "sk-test",
                 "https://api.example.com",
                 30,
-                None,
                 None,
                 None,
                 None,

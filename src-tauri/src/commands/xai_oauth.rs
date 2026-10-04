@@ -30,14 +30,6 @@ pub(crate) async fn query_xai_oauth_quota_for(
     state: &XaiOAuthState,
     account_id: Option<String>,
 ) -> Result<SubscriptionQuota, String> {
-    query_xai_oauth_quota_for_with_proxy(state, account_id, None).await
-}
-
-pub(crate) async fn query_xai_oauth_quota_for_with_proxy(
-    state: &XaiOAuthState,
-    account_id: Option<String>,
-    provider_upstream_proxy_url: Option<&str>,
-) -> Result<SubscriptionQuota, String> {
     let manager = state.0.read().await;
 
     // 解析最终使用的账号 ID：显式 > 默认账号 > 无账号 (not_found)
@@ -54,10 +46,7 @@ pub(crate) async fn query_xai_oauth_quota_for_with_proxy(
     };
 
     // 获取（必要时自动刷新）access_token
-    let token = match manager
-        .get_valid_token_for_account_with_proxy(&id, provider_upstream_proxy_url)
-        .await
-    {
+    let token = match manager.get_valid_token_for_account(&id).await {
         Ok(t) => t,
         Err(e) => {
             return Ok(SubscriptionQuota::error(
@@ -68,11 +57,10 @@ pub(crate) async fn query_xai_oauth_quota_for_with_proxy(
         }
     };
 
-    crate::services::subscription_grok::query_grok_quota_with_proxy(
+    crate::services::subscription_grok::query_grok_quota(
         &token,
         "xai_oauth",
         "Please re-login via cc-switch.",
-        provider_upstream_proxy_url,
     )
     .await
 }
@@ -103,7 +91,6 @@ struct ModelEntry {
 pub async fn get_xai_oauth_models(
     account_id: Option<String>,
     state: State<'_, XaiOAuthState>,
-    upstream_proxy_url: Option<String>,
 ) -> Result<Vec<FetchedModel>, String> {
     let manager = state.0.read().await;
     let resolved = match account_id
@@ -116,15 +103,11 @@ pub async fn get_xai_oauth_models(
     };
     let account_id = resolved.ok_or_else(|| "No usable xAI account available".to_string())?;
     let token = manager
-        .get_valid_token_for_account_with_proxy(&account_id, upstream_proxy_url.as_deref())
+        .get_valid_token_for_account(&account_id)
         .await
         .map_err(|error| format!("xAI OAuth token unavailable: {error}"))?;
 
-    let client = crate::proxy::http_client::client_for_provider_upstream_proxy(
-        upstream_proxy_url.as_deref(),
-    )?
-    .unwrap_or_else(crate::proxy::http_client::get);
-    let response = client
+    let response = crate::proxy::http_client::get()
         .get(format!("{XAI_API_BASE_URL}/models"))
         .bearer_auth(token)
         .timeout(Duration::from_secs(15))

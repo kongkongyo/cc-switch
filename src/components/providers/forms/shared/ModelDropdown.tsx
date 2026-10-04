@@ -1,6 +1,6 @@
 import { useState } from "react";
 import { useTranslation } from "react-i18next";
-import { ChevronDown } from "lucide-react";
+import { Check, ChevronDown } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import {
   Command,
@@ -16,12 +16,15 @@ import {
   PopoverTrigger,
 } from "@/components/ui/popover";
 import type { FetchedModel } from "@/lib/api/model-fetch";
+import { cn } from "@/lib/utils";
 
 export function ModelDropdown({
   models,
+  value,
   onSelect,
 }: {
   models: FetchedModel[];
+  value?: string;
   onSelect: (id: string) => void;
 }) {
   const { t } = useTranslation();
@@ -40,6 +43,7 @@ export function ModelDropdown({
     <Popover modal open={open} onOpenChange={setOpen}>
       <PopoverTrigger asChild>
         <Button
+          type="button"
           variant="outline"
           size="icon"
           className="shrink-0"
@@ -86,6 +90,15 @@ export function ModelDropdown({
                       setOpen(false);
                     }}
                   >
+                    {value !== undefined && (
+                      <Check
+                        aria-hidden="true"
+                        className={cn(
+                          "h-4 w-4",
+                          value === m.id ? "opacity-100" : "opacity-0",
+                        )}
+                      />
+                    )}
                     {m.id}
                   </CommandItem>
                 ))}

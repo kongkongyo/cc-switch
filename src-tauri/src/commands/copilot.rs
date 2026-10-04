@@ -177,16 +177,12 @@ pub async fn copilot_get_token_for_account(
 // ==================== 模型和使用量 ====================
 
 /// 获取 Copilot 可用模型列表（向后兼容：使用第一个账号）
-#[tauri::command(rename_all = "camelCase")]
+#[tauri::command]
 pub async fn copilot_get_models(
     state: State<'_, CopilotAuthState>,
-    upstream_proxy_url: Option<String>,
 ) -> Result<Vec<CopilotModel>, String> {
     let auth_manager = state.0.read().await;
-    auth_manager
-        .fetch_models_with_proxy(upstream_proxy_url.as_deref())
-        .await
-        .map_err(|e| e.to_string())
+    auth_manager.fetch_models().await.map_err(|e| e.to_string())
 }
 
 /// 获取指定账号的 Copilot 可用模型列表
@@ -194,11 +190,10 @@ pub async fn copilot_get_models(
 pub async fn copilot_get_models_for_account(
     account_id: String,
     state: State<'_, CopilotAuthState>,
-    upstream_proxy_url: Option<String>,
 ) -> Result<Vec<CopilotModel>, String> {
     let auth_manager = state.0.read().await;
     auth_manager
-        .fetch_models_for_account_with_proxy(&account_id, upstream_proxy_url.as_deref())
+        .fetch_models_for_account(&account_id)
         .await
         .map_err(|e| e.to_string())
 }

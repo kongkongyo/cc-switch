@@ -5,6 +5,6 @@ import { useManagedAuth } from "./useManagedAuth";
  *
  * 复用通用 useManagedAuth，仅指定 provider 为 "codex_oauth"
  */
-export function useCodexOauth(upstreamProxyUrl?: string) {
-  return useManagedAuth("codex_oauth", undefined, upstreamProxyUrl);
+export function useCodexOauth() {
+  return useManagedAuth("codex_oauth");
 }

@@ -1,6 +1,6 @@
 import { invoke } from "@tauri-apps/api/core";
 import type { TFunction } from "i18next";
-import { toast } from "sonner";
+import { toast } from "@/lib/toast";
 
 export interface FetchedModel {
   id: string;
@@ -8,7 +8,6 @@ export interface FetchedModel {
 }
 
 export interface ModelFetchOptions {
-  upstreamProxyUrl?: string;
   apiFormat?: string;
   requestHeaders?: Record<string, string>;
 }
@@ -40,7 +39,6 @@ export async function fetchModelsForConfig(
     isFullUrl,
     modelsUrl,
     customUserAgent,
-    upstreamProxyUrl: options?.upstreamProxyUrl,
     apiFormat: options?.apiFormat,
     requestHeaders: options?.requestHeaders,
   });
@@ -63,22 +61,18 @@ export async function getOpenCodeModels(): Promise<OpenCodeModelRef[]> {
  */
 export async function fetchCodexOauthModels(
   accountId?: string | null,
-  upstreamProxyUrl?: string,
 ): Promise<FetchedModel[]> {
   return invoke("get_codex_oauth_models", {
     accountId: accountId || null,
-    upstreamProxyUrl,
   });
 }
 
 /** 获取当前 xAI OAuth 账号可访问的模型列表。 */
 export async function fetchXaiOauthModels(
   accountId?: string | null,
-  upstreamProxyUrl?: string,
 ): Promise<FetchedModel[]> {
   return invoke("get_xai_oauth_models", {
     accountId: accountId || null,
-    upstreamProxyUrl,
   });
 }
 

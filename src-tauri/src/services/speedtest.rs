@@ -27,14 +27,6 @@ impl SpeedtestService {
         urls: Vec<String>,
         timeout_secs: Option<u64>,
     ) -> Result<Vec<EndpointLatency>, AppError> {
-        Self::test_endpoints_with_proxy(urls, timeout_secs, None).await
-    }
-
-    pub async fn test_endpoints_with_proxy(
-        urls: Vec<String>,
-        timeout_secs: Option<u64>,
-        provider_upstream_proxy_url: Option<&str>,
-    ) -> Result<Vec<EndpointLatency>, AppError> {
         if urls.is_empty() {
             return Ok(vec![]);
         }
@@ -73,7 +65,7 @@ impl SpeedtestService {
         }
 
         let timeout = Self::sanitize_timeout(timeout_secs);
-        let (client, request_timeout) = Self::build_client(timeout, provider_upstream_proxy_url)?;
+        let (client, request_timeout) = Self::build_client(timeout)?;
 
         let tasks = valid_targets.into_iter().map(|(idx, trimmed, parsed_url)| {
             let client = client.clone();
@@ -124,19 +116,11 @@ impl SpeedtestService {
         Ok(results.into_iter().flatten().collect::<Vec<_>>())
     }
 
-    fn build_client(
-        timeout_secs: u64,
-        provider_upstream_proxy_url: Option<&str>,
-    ) -> Result<(Client, std::time::Duration), AppError> {
-        // 使用供应商专属代理优先，其次沿用全局 HTTP 客户端。
-        // 返回 timeout Duration 供请求级别使用。
+    fn build_client(timeout_secs: u64) -> Result<(Client, std::time::Duration), AppError> {
+        // 使用全局 HTTP 客户端（已包含代理配置）
+        // 返回 timeout Duration 供请求级别使用
         let timeout = std::time::Duration::from_secs(timeout_secs);
-        let client = crate::proxy::http_client::client_for_provider_upstream_proxy(
-            provider_upstream_proxy_url,
-        )
-        .map_err(AppError::Message)?
-        .unwrap_or_else(crate::proxy::http_client::get);
-        Ok((client, timeout))
+        Ok((crate::proxy::http_client::get(), timeout))
     }
 
     fn sanitize_timeout(timeout_secs: Option<u64>) -> u64 {
