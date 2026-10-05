@@ -6,7 +6,7 @@
 
 **一键切换 API 供应商，统一管理 MCP、Skills 与提示词，不用再手改 JSON / TOML / YAML 配置文件。**
 
-[![Version](https://img.shields.io/badge/version-4.0.0--fork.1-blue.svg)](https://github.com/kongkongyo/cc-switch/releases)
+[![Version](https://img.shields.io/badge/version-4.0.1--fork.1-blue.svg)](https://github.com/kongkongyo/cc-switch/releases)
 [![Platform](https://img.shields.io/badge/platform-Windows%20%7C%20macOS%20%7C%20Linux-lightgrey.svg)](https://github.com/kongkongyo/cc-switch/releases)
 [![Built with Tauri](https://img.shields.io/badge/built%20with-Tauri%202-orange.svg)](https://tauri.app/)
 [![Downloads](https://img.shields.io/github/downloads/kongkongyo/cc-switch/total)](https://github.com/kongkongyo/cc-switch/releases/latest)
@@ -22,7 +22,7 @@
 
 </div>
 
-基于 [farion1231/cc-switch](https://github.com/farion1231/cc-switch) `v4.0.0`，本 Fork 版本为 `4.0.0-fork.1`。
+基于 [farion1231/cc-switch](https://github.com/farion1231/cc-switch) `v4.0.1`，本 Fork 版本为 `4.0.1-fork.1`。
 
 **个人自用修改版。** 安装包和更新请使用[本 Fork Releases](https://github.com/kongkongyo/cc-switch/releases)。
 
@@ -310,7 +310,7 @@ xattr -cr "/Applications/CC Switch.app"
 
 ## 功能特性
 
-[完整更新日志](CHANGELOG.md) | [发布说明](docs/release-notes/v4.0.0-zh.md)
+[完整更新日志](CHANGELOG.md) | [发布说明](docs/release-notes/v4.0.1-zh.md)
 
 ### 各工具支持的功能
 

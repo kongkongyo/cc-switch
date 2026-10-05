@@ -6,7 +6,7 @@
 
 **API-Anbieter mit einem Klick wechseln und MCP, Skills und Prompts zentral verwalten — ohne JSON-, TOML- oder YAML-Konfigurationsdateien von Hand zu bearbeiten.**
 
-[![Version](https://img.shields.io/badge/version-4.0.0--fork.1-blue.svg)](https://github.com/kongkongyo/cc-switch/releases)
+[![Version](https://img.shields.io/badge/version-4.0.1--fork.1-blue.svg)](https://github.com/kongkongyo/cc-switch/releases)
 [![Platform](https://img.shields.io/badge/platform-Windows%20%7C%20macOS%20%7C%20Linux-lightgrey.svg)](https://github.com/kongkongyo/cc-switch/releases)
 [![Built with Tauri](https://img.shields.io/badge/built%20with-Tauri%202-orange.svg)](https://tauri.app/)
 [![Downloads](https://img.shields.io/github/downloads/kongkongyo/cc-switch/total)](https://github.com/kongkongyo/cc-switch/releases/latest)
@@ -22,7 +22,7 @@
 
 </div>
 
-Basiert auf [farion1231/cc-switch](https://github.com/farion1231/cc-switch) `v4.0.0`; Fork-Version: `4.0.0-fork.1`. Downloads: [Fork Releases](https://github.com/kongkongyo/cc-switch/releases).
+Basiert auf [farion1231/cc-switch](https://github.com/farion1231/cc-switch) `v4.0.1`; Fork-Version: `4.0.1-fork.1`. Downloads: [Fork Releases](https://github.com/kongkongyo/cc-switch/releases).
 
 ## Unterschiede zum Upstream
 
@@ -307,7 +307,7 @@ Ausführliche Anleitungen zu allen Funktionen finden Sie im **[Benutzerhandbuch]
 
 ## Funktionen
 
-[Vollständiges Changelog](CHANGELOG.md) | [Release Notes](docs/release-notes/v4.0.0-en.md)
+[Vollständiges Changelog](CHANGELOG.md) | [Release Notes](docs/release-notes/v4.0.1-en.md)
 
 ### Funktionen je Werkzeug
 

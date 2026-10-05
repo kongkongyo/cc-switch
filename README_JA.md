@@ -6,7 +6,7 @@
 
 **ワンクリックで API プロバイダを切り替え、MCP・Skills・プロンプトを一元管理。JSON / TOML / YAML の設定ファイルを手作業で編集する必要はもうありません。**
 
-[![Version](https://img.shields.io/badge/version-4.0.0--fork.1-blue.svg)](https://github.com/kongkongyo/cc-switch/releases)
+[![Version](https://img.shields.io/badge/version-4.0.1--fork.1-blue.svg)](https://github.com/kongkongyo/cc-switch/releases)
 [![Platform](https://img.shields.io/badge/platform-Windows%20%7C%20macOS%20%7C%20Linux-lightgrey.svg)](https://github.com/kongkongyo/cc-switch/releases)
 [![Built with Tauri](https://img.shields.io/badge/built%20with-Tauri%202-orange.svg)](https://tauri.app/)
 [![Downloads](https://img.shields.io/github/downloads/kongkongyo/cc-switch/total)](https://github.com/kongkongyo/cc-switch/releases/latest)
@@ -22,7 +22,7 @@
 
 </div>
 
-[farion1231/cc-switch](https://github.com/farion1231/cc-switch) `v4.0.0` ベース。Fork バージョン: `4.0.0-fork.1`。[Fork Releases](https://github.com/kongkongyo/cc-switch/releases) からダウンロードしてください。
+[farion1231/cc-switch](https://github.com/farion1231/cc-switch) `v4.0.1` ベース。Fork バージョン: `4.0.1-fork.1`。[Fork Releases](https://github.com/kongkongyo/cc-switch/releases) からダウンロードしてください。
 
 ## 上流との違い
 
@@ -307,7 +307,7 @@ xattr -cr "/Applications/CC Switch.app"
 
 ## 特長
 
-[完全な更新履歴](CHANGELOG.md) | [リリースノート](docs/release-notes/v4.0.0-ja.md)
+[完全な更新履歴](CHANGELOG.md) | [リリースノート](docs/release-notes/v4.0.1-ja.md)
 
 ### ツール別の対応機能
 

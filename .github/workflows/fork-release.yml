@@ -339,7 +339,7 @@ jobs:
           name: CC Switch v${{ env.VERSION }}
           prerelease: false
           body: |
-            基于上游 v4.0.0，主要功能和界面沿用上游实现。
+            基于上游 v4.0.1，主要功能和界面沿用上游实现。
 
             ## 与上游的区别
             | 使用场景 | 本 Fork 保留的增强 |

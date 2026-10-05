@@ -722,7 +722,7 @@
     "enableClaudePluginIntegration": "套用至 Claude Code 外掛程式",
     "enableClaudePluginIntegrationDescription": "開啟後 VS Code Claude Code 外掛程式的供應商將隨本軟體切換",
     "skipClaudeOnboarding": "跳過 Claude Code 初次安裝確認",
-    "skipClaudeOnboardingDescription": "開啟後跳過 Claude Code 初次安裝確認",
+    "skipClaudeOnboardingDescription": "Claude Code 第一次啟動時會先走一遍引導流程，要求選擇主題並登入 Anthropic 帳號。如果你用的是第三方供應商，不需要登入官方帳號，開啟後就能略過這一步直接使用。原理是在 ~/.claude.json 中寫入 hasCompletedOnboarding: true；關閉時刪除該欄位，下次啟動會重新出現引導。",
     "codexAuth": "Codex 應用增強",
     "preserveCodexOfficialAuthOnSwitch": "非接管切換時保留官方登入",
     "preserveCodexOfficialAuthOnSwitchDescription": "控制未開啟本機路由時切換第三方供應商是否保留 Codex 官方登入；路由接管期間一律保留",
@@ -2495,7 +2495,7 @@
       "title": "MCP 標題（唯一）",
       "titlePlaceholder": "my-mcp-server",
       "name": "顯示名稱",
-      "namePlaceholder": "例如 @modelcontextprotocol/server-time",
+      "namePlaceholder": "例如 mcp-server-time",
       "enabledApps": "啟用至應用程式",
       "noAppsWarning": "至少選擇一個應用程式",
       "description": "描述",
@@ -2585,7 +2585,7 @@
         "description": "通用 HTTP 請求工具，支援 GET/POST 等 HTTP 方法，適合快速請求 API / 抓取網頁資料"
       },
       "time": {
-        "name": "@modelcontextprotocol/server-time",
+        "name": "mcp-server-time",
         "description": "時間查詢工具，提供目前時間、時區轉換、日期計算等功能"
       },
       "memory": {

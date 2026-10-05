@@ -722,7 +722,7 @@
     "enableClaudePluginIntegration": "Apply to Claude Code extension",
     "enableClaudePluginIntegrationDescription": "When enabled, the VS Code Claude Code extension provider will switch with this app",
     "skipClaudeOnboarding": "Skip Claude Code first-run confirmation",
-    "skipClaudeOnboardingDescription": "When enabled, Claude Code will skip the first-run confirmation",
+    "skipClaudeOnboardingDescription": "On first launch, Claude Code runs an onboarding flow that asks you to pick a theme and sign in to an Anthropic account. If you use a third-party provider you don't need that sign-in, so turning this on skips straight past it. It works by writing hasCompletedOnboarding: true to ~/.claude.json; turning it off removes that field, and the onboarding appears again on the next launch.",
     "codexAuth": "Codex App Enhancements",
     "preserveCodexOfficialAuthOnSwitch": "Keep official login for direct switches",
     "preserveCodexOfficialAuthOnSwitchDescription": "Controls third-party switches when local routing is off. Takeover routing always preserves the Codex official login.",
@@ -2494,7 +2494,7 @@
       "title": "MCP Title (Unique)",
       "titlePlaceholder": "my-mcp-server",
       "name": "Display Name",
-      "namePlaceholder": "e.g. @modelcontextprotocol/server-time",
+      "namePlaceholder": "e.g. mcp-server-time",
       "enabledApps": "Enable to Apps",
       "noAppsWarning": "At least one app must be selected",
       "description": "Description",
@@ -2584,7 +2584,7 @@
         "description": "Universal HTTP request tool, supports GET/POST and other HTTP methods, suitable for quick API requests and web data scraping"
       },
       "time": {
-        "name": "@modelcontextprotocol/server-time",
+        "name": "mcp-server-time",
         "description": "Time query tool providing current time, timezone conversion, and date calculation features"
       },
       "memory": {
