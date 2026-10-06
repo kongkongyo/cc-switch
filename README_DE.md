@@ -6,7 +6,7 @@
 
 **API-Anbieter mit einem Klick wechseln und MCP, Skills und Prompts zentral verwalten — ohne JSON-, TOML- oder YAML-Konfigurationsdateien von Hand zu bearbeiten.**
 
-[![Version](https://img.shields.io/badge/version-4.0.1--fork.1-blue.svg)](https://github.com/kongkongyo/cc-switch/releases)
+[![Version](https://img.shields.io/badge/version-4.0.2--fork.1-blue.svg)](https://github.com/kongkongyo/cc-switch/releases)
 [![Platform](https://img.shields.io/badge/platform-Windows%20%7C%20macOS%20%7C%20Linux-lightgrey.svg)](https://github.com/kongkongyo/cc-switch/releases)
 [![Built with Tauri](https://img.shields.io/badge/built%20with-Tauri%202-orange.svg)](https://tauri.app/)
 [![Downloads](https://img.shields.io/github/downloads/kongkongyo/cc-switch/total)](https://github.com/kongkongyo/cc-switch/releases/latest)
@@ -22,7 +22,7 @@
 
 </div>
 
-Basiert auf [farion1231/cc-switch](https://github.com/farion1231/cc-switch) `v4.0.1`; Fork-Version: `4.0.1-fork.1`. Downloads: [Fork Releases](https://github.com/kongkongyo/cc-switch/releases).
+Basiert auf [farion1231/cc-switch](https://github.com/farion1231/cc-switch) `v4.0.2`; Fork-Version: `4.0.2-fork.1`. Downloads: [Fork Releases](https://github.com/kongkongyo/cc-switch/releases).
 
 ## Unterschiede zum Upstream
 
@@ -307,7 +307,12 @@ Ausführliche Anleitungen zu allen Funktionen finden Sie im **[Benutzerhandbuch]
 
 ## Funktionen
 
-[Vollständiges Changelog](CHANGELOG.md) | [Release Notes](docs/release-notes/v4.0.1-en.md)
+[Vollständiges Changelog](CHANGELOG.md) | [Release Notes](docs/release-notes/v4.0.2-en.md)
+
+- **Upstream-Neuerungen dieser Version** — MCP-Server können mit dem integrierten MCP von Pi 1.0 synchronisiert werden. Nach einem Upgrade erscheint beim ersten Start eine Zusammenfassung; sie ist auch unter „Settings → About → Recent updates“ verfügbar.
+- **Modellkonfiguration** — Änderungen an aggregierten Claude-Modellen wirken sofort. Abgerufene Codex-Modelle lassen sich suchen und per Auswahl in die Modellzuordnung übernehmen; zum Neuladen des Modellkatalogs muss Codex neu gestartet werden.
+
+> Das Menü für aggregierte Modelle benötigt Claude Code 2.1.243 oder neuer. Ältere Versionen können das Standardmodell oder `/model <Modell-ID>` verwenden. Die Datenbank wird auf Version 20 aktualisiert; vorher wird automatisch ein Backup unter `~/.cc-switch/backups/` erstellt. Versionen 4.0.1, 4.0.0 und 3.x können die aktualisierte Datenbank nicht direkt öffnen. Die Pi-MCP-Synchronisierung ist standardmäßig deaktiviert; das Upgrade allein verändert die Pi-Konfiguration nicht.
 
 ### Funktionen je Werkzeug
 
@@ -321,7 +326,7 @@ Ausführliche Anleitungen zu allen Funktionen finden Sie im **[Benutzerhandbuch]
 | OpenCode | Parallel | – | – | ✓ | ✓ | AGENTS.md | ✓ | ✓ |
 | OpenClaw | Parallel | – | – | – | – | Workspace-Editor | ✓ | – |
 | Hermes | Parallel | – | – | ✓ | ✓ | Memory-Verwaltung | ✓ | – |
-| Pi | Parallel | – | – | – | ✓ | AGENTS.md, SYSTEM.md, Prompt-Vorlagen | ✓ | ✓ |
+| Pi | Parallel | – | – | ✓ (Pi 1.0+) | ✓ | AGENTS.md, SYSTEM.md, Prompt-Vorlagen | ✓ | ✓ |
 | MiniMax Code | Parallel | – | – | ✓ | ✓ | AGENTS.md | ✓ | ✓ |
 
 - **Wechsel**: Es ist jeweils nur ein Anbieter aktiv; **Parallel**: Mehrere Anbieter werden gleichzeitig in die eigene Konfiguration des Werkzeugs geschrieben; welcher verwendet wird, wählen Sie im Werkzeug aus.

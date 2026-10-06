@@ -6,7 +6,7 @@
 
 **一键切换 API 供应商，统一管理 MCP、Skills 与提示词，不用再手改 JSON / TOML / YAML 配置文件。**
 
-[![Version](https://img.shields.io/badge/version-4.0.1--fork.1-blue.svg)](https://github.com/kongkongyo/cc-switch/releases)
+[![Version](https://img.shields.io/badge/version-4.0.2--fork.1-blue.svg)](https://github.com/kongkongyo/cc-switch/releases)
 [![Platform](https://img.shields.io/badge/platform-Windows%20%7C%20macOS%20%7C%20Linux-lightgrey.svg)](https://github.com/kongkongyo/cc-switch/releases)
 [![Built with Tauri](https://img.shields.io/badge/built%20with-Tauri%202-orange.svg)](https://tauri.app/)
 [![Downloads](https://img.shields.io/github/downloads/kongkongyo/cc-switch/total)](https://github.com/kongkongyo/cc-switch/releases/latest)
@@ -22,7 +22,7 @@
 
 </div>
 
-基于 [farion1231/cc-switch](https://github.com/farion1231/cc-switch) `v4.0.1`，本 Fork 版本为 `4.0.1-fork.1`。
+基于 [farion1231/cc-switch](https://github.com/farion1231/cc-switch) `v4.0.2`，本 Fork 版本为 `4.0.2-fork.1`。
 
 **个人自用修改版。** 安装包和更新请使用[本 Fork Releases](https://github.com/kongkongyo/cc-switch/releases)。
 
@@ -310,7 +310,12 @@ xattr -cr "/Applications/CC Switch.app"
 
 ## 功能特性
 
-[完整更新日志](CHANGELOG.md) | [发布说明](docs/release-notes/v4.0.1-zh.md)
+[完整更新日志](CHANGELOG.md) | [发布说明](docs/release-notes/v4.0.2-zh.md)
+
+- **本次上游更新** — 支持 Pi 1.0 内置 MCP 同步；升级后首次打开显示更新摘要，之后可在「设置 → 关于 → 近期更新」查看。
+- **模型配置改进** — Claude 聚合模型修改即时生效；Codex 获取的模型可搜索、勾选后直接加入模型映射表，模型目录仍需重启 Codex 才会重新读取。
+
+> Claude 聚合模型菜单需要 Claude Code 2.1.243 或更新版本；旧版可使用默认模型或手动输入 `/model <模型 ID>`。本版数据库升级到 20，升级前自动备份到 `~/.cc-switch/backups/`；升级后的数据库不能直接用 4.0.1、4.0.0 或 3.x 打开。Pi MCP 同步默认关闭，升级不会自动改写 Pi 配置。
 
 ### 各工具支持的功能
 
@@ -324,7 +329,7 @@ xattr -cr "/Applications/CC Switch.app"
 | OpenCode | 共存 | – | – | ✓ | ✓ | AGENTS.md | ✓ | ✓ |
 | OpenClaw | 共存 | – | – | – | – | 工作区编辑器 | ✓ | – |
 | Hermes | 共存 | – | – | ✓ | ✓ | 记忆管理 | ✓ | – |
-| Pi | 共存 | – | – | – | ✓ | AGENTS.md、SYSTEM.md、提示词模板 | ✓ | ✓ |
+| Pi | 共存 | – | – | ✓ (Pi 1.0+) | ✓ | AGENTS.md、SYSTEM.md、提示词模板 | ✓ | ✓ |
 | MiniMax Code | 共存 | – | – | ✓ | ✓ | AGENTS.md | ✓ | ✓ |
 
 - **切换**：同一时间只启用一个供应商；**共存**：多个供应商同时写入工具自身的配置，在工具里选择使用。

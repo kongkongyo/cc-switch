@@ -6,7 +6,7 @@
 
 **ワンクリックで API プロバイダを切り替え、MCP・Skills・プロンプトを一元管理。JSON / TOML / YAML の設定ファイルを手作業で編集する必要はもうありません。**
 
-[![Version](https://img.shields.io/badge/version-4.0.1--fork.1-blue.svg)](https://github.com/kongkongyo/cc-switch/releases)
+[![Version](https://img.shields.io/badge/version-4.0.2--fork.1-blue.svg)](https://github.com/kongkongyo/cc-switch/releases)
 [![Platform](https://img.shields.io/badge/platform-Windows%20%7C%20macOS%20%7C%20Linux-lightgrey.svg)](https://github.com/kongkongyo/cc-switch/releases)
 [![Built with Tauri](https://img.shields.io/badge/built%20with-Tauri%202-orange.svg)](https://tauri.app/)
 [![Downloads](https://img.shields.io/github/downloads/kongkongyo/cc-switch/total)](https://github.com/kongkongyo/cc-switch/releases/latest)
@@ -22,7 +22,7 @@
 
 </div>
 
-[farion1231/cc-switch](https://github.com/farion1231/cc-switch) `v4.0.1` ベース。Fork バージョン: `4.0.1-fork.1`。[Fork Releases](https://github.com/kongkongyo/cc-switch/releases) からダウンロードしてください。
+[farion1231/cc-switch](https://github.com/farion1231/cc-switch) `v4.0.2` ベース。Fork バージョン: `4.0.2-fork.1`。[Fork Releases](https://github.com/kongkongyo/cc-switch/releases) からダウンロードしてください。
 
 ## 上流との違い
 
@@ -307,7 +307,12 @@ xattr -cr "/Applications/CC Switch.app"
 
 ## 特長
 
-[完全な更新履歴](CHANGELOG.md) | [リリースノート](docs/release-notes/v4.0.1-ja.md)
+[完全な更新履歴](CHANGELOG.md) | [リリースノート](docs/release-notes/v4.0.2-ja.md)
+
+- **今回の上流更新** — Pi 1.0 内蔵の MCP への同期に対応。更新後の初回起動時に更新概要が表示され、「設定 → このアプリについて → 最近の更新」からも確認できます。
+- **モデル設定の改善** — Claude の集約モデルの変更が即座に反映されます。Codex で取得したモデルは検索・選択してモデルマッピング表に追加できます。モデルカタログを再読み込みするには Codex の再起動が必要です。
+
+> 集約モデルメニューには Claude Code 2.1.243 以降が必要です。旧版ではデフォルトモデル、または `/model <モデル ID>` を使用できます。データベースはバージョン 20 に移行し、移行前に `~/.cc-switch/backups/` へ自動バックアップします。移行後のデータベースは 4.0.1、4.0.0、3.x で直接開けません。Pi の MCP 同期は初期状態では無効で、更新だけで Pi の設定が変更されることはありません。
 
 ### ツール別の対応機能
 
@@ -321,7 +326,7 @@ xattr -cr "/Applications/CC Switch.app"
 | OpenCode | 共存 | – | – | ✓ | ✓ | AGENTS.md | ✓ | ✓ |
 | OpenClaw | 共存 | – | – | – | – | ワークスペースエディタ | ✓ | – |
 | Hermes | 共存 | – | – | ✓ | ✓ | メモリ | ✓ | – |
-| Pi | 共存 | – | – | – | ✓ | AGENTS.md、SYSTEM.md、プロンプトテンプレート | ✓ | ✓ |
+| Pi | 共存 | – | – | ✓ (Pi 1.0+) | ✓ | AGENTS.md、SYSTEM.md、プロンプトテンプレート | ✓ | ✓ |
 | MiniMax Code | 共存 | – | – | ✓ | ✓ | AGENTS.md | ✓ | ✓ |
 
 - **切り替え**：同時に有効にできるプロバイダは 1 つだけです。**共存**：複数のプロバイダを同時にツール自身の設定に書き込み、ツール内で選んで使用します。

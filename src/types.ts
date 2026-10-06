@@ -409,6 +409,8 @@ export interface Settings {
   firstRunNoticeConfirmed?: boolean;
   // User has confirmed the one-time "new layout" dialog shown to upgrading users
   newLayoutNoticeConfirmed?: boolean;
+  // Highest app version whose "what's new" summary the user has seen on this device
+  whatsNewSeenVersion?: string;
   // User has confirmed the auto-sync traffic warning
   autoSyncConfirmed?: boolean;
   // User has confirmed the common config first-run notice
@@ -729,6 +731,7 @@ export interface McpApps {
   opencode: boolean;
   openclaw: boolean;
   hermes: boolean;
+  pi?: boolean;
 }
 
 // MCP 服务器条目（v3.7.0 统一结构）
