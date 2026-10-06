@@ -1195,15 +1195,18 @@ mod tests {
         }
         let dir = tempdir().expect("tempdir");
         let (_path, conn) = hermes_db(dir.path());
+        // Batch fixture writes so Windows CI does not flush each row to disk.
+        let tx = conn.unchecked_transaction().expect("begin fixture transaction");
         for i in 0..=SQLITE_SCAN_LIMIT {
             let id = format!("s{i}");
-            conn.execute(
+            tx.execute(
                 "INSERT INTO sessions (id, started_at) VALUES (?1, 1.0)",
                 [&id],
             )
             .unwrap();
-            insert_message(&conn, &id, "user", "hello", 1.0);
+            insert_message(&tx, &id, "user", "hello", 1.0);
         }
+        tx.commit().expect("commit fixture transaction");
 
         let found = first_user_messages(&conn);
         assert_eq!(found.len(), SQLITE_SCAN_LIMIT);
