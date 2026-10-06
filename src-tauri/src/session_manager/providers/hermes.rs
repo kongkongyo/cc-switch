@@ -1196,7 +1196,9 @@ mod tests {
         let dir = tempdir().expect("tempdir");
         let (_path, conn) = hermes_db(dir.path());
         // Batch fixture writes so Windows CI does not flush each row to disk.
-        let tx = conn.unchecked_transaction().expect("begin fixture transaction");
+        let tx = conn
+            .unchecked_transaction()
+            .expect("begin fixture transaction");
         for i in 0..=SQLITE_SCAN_LIMIT {
             let id = format!("s{i}");
             tx.execute(
