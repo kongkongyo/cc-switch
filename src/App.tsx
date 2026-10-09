@@ -71,8 +71,13 @@ import { APP_DISPLAY_NAME, AppGlyph } from "@/components/shell/AppGlyph";
 import { ProfileSwitcher } from "@/components/profiles/ProfileSwitcher";
 import { ProviderList } from "@/components/providers/ProviderList";
 import { AddProviderDialog } from "@/components/providers/AddProviderDialog";
+import {
+  hasOpencodeDefinition,
+  isNativeOpencodeConfig,
+} from "@/components/providers/forms/helpers/opencodeFormUtils";
 import { EditProviderDialog } from "@/components/providers/EditProviderDialog";
 import { ConfirmDialog } from "@/components/ConfirmDialog";
+import { discardUnsavedChanges, hasUnsavedChanges } from "@/lib/unsavedChanges";
 import { SettingsPage } from "@/components/settings/SettingsPage";
 import { AuthCenterPanel } from "@/components/settings/AuthCenterPanel";
 import { AppsPage } from "@/components/apps/AppsPage";
@@ -619,8 +624,17 @@ function App() {
     setUsageProvider(null);
   };
 
+  // 整页编辑器里有未保存的修改：先确认，确认放弃后再执行这次导航
+  const [pendingLeave, setPendingLeave] = useState<(() => void) | null>(null);
+  const confirmLeave = (proceed: () => void) => {
+    if (!hasUnsavedChanges()) return false;
+    setPendingLeave(() => proceed);
+    return true;
+  };
+
   const openSettings = (section: SettingsSection = "general") => {
     if (managementBusyRef.current) return;
+    if (confirmLeave(() => openSettings(section))) return;
     closeProviderPanels();
     if (currentViewRef.current !== "settings") {
       settingsReturnViewRef.current = currentViewRef.current;
@@ -635,6 +649,7 @@ function App() {
 
   const selectApp = (app: AppId) => {
     if (managementBusyRef.current) return;
+    if (confirmLeave(() => selectApp(app))) return;
     closeProviderPanels();
     setActiveApp(app);
     localStorage.setItem(APP_STORAGE_KEY, app);
@@ -647,6 +662,7 @@ function App() {
       return;
     }
     if (managementBusyRef.current) return;
+    if (confirmLeave(() => openPage(page))) return;
     closeProviderPanels();
     if (page === "prompts" && currentViewRef.current !== "prompts") {
       // 提示词页默认选中侧栏里最后选的那个应用
@@ -659,21 +675,24 @@ function App() {
   useTrayAppPageSeen(currentView === "providers" ? activeApp : null);
 
   useTrayNavigation((navigation) => {
-    if (navigation.section) {
-      openSettings(navigation.section);
-      return;
-    }
-    if (!navigation.app) return;
-    selectApp(navigation.app);
-    // 托盘先换应用：新应用那格还没报上来，按它实际生效的模式
-    if (navigation.intent === "add") openAddProvider(undefined);
-    if (navigation.intent === "needsRoute" && navigation.providerId) {
-      setTrayNeedsRoute({
-        app: navigation.app,
-        providerId: navigation.providerId,
-        nonce: Date.now(),
-      });
-    }
+    const navigate = () => {
+      if (navigation.section) {
+        openSettings(navigation.section);
+        return;
+      }
+      if (!navigation.app) return;
+      selectApp(navigation.app);
+      // 托盘先换应用：新应用那格还没报上来，按它实际生效的模式
+      if (navigation.intent === "add") openAddProvider(undefined);
+      if (navigation.intent === "needsRoute" && navigation.providerId) {
+        setTrayNeedsRoute({
+          app: navigation.app,
+          providerId: navigation.providerId,
+          nonce: Date.now(),
+        });
+      }
+    };
+    if (managementBusyRef.current || !confirmLeave(navigate)) navigate();
   });
 
   // 侧栏、⌘K 进用量统计看全部应用；只有应用页 ⋯ 进来时带应用筛选
@@ -838,16 +857,25 @@ function App() {
       provider.category !== "omo" &&
       provider.category !== "omo-slim"
     ) {
-      const { npm, models } = provider.settingsConfig;
+      // A copy gets a new ID, so it cannot inherit a built-in definition.
+      // Native V2 declarations name their package in `package`, not `npm`.
+      const isNative = isNativeOpencodeConfig(
+        JSON.stringify(provider.settingsConfig),
+        provider.meta?.opencodeConfigFormat,
+      );
       if (
-        typeof npm !== "string" ||
-        !npm.trim() ||
-        !models ||
-        typeof models !== "object" ||
-        Array.isArray(models) ||
-        Object.keys(models).length === 0
+        !hasOpencodeDefinition(
+          provider.settingsConfig,
+          isNative ? "package" : "npm",
+        )
       ) {
-        toast.error(t("opencode.duplicateRequiresDefinition"));
+        toast.error(
+          t(
+            isNative
+              ? "opencode.duplicateRequiresNativeDefinition"
+              : "opencode.duplicateRequiresDefinition",
+          ),
+        );
         return;
       }
     }
@@ -1126,7 +1154,7 @@ function App() {
         <>
           {currentView === "providers" &&
             activeApp !== "mcode" &&
-            (settingsData?.showProfileSwitcher ?? true) && (
+            (settingsData?.showProfileSwitcher ?? false) && (
               <ProfileSwitcher activeApp={activeApp} />
             )}
           {activeApp === "hermes" && (
@@ -1574,6 +1602,22 @@ function App() {
         variant={confirmAction?.action === "remove" ? "info" : "destructive"}
         onConfirm={() => void handleConfirmAction()}
         onCancel={() => setConfirmAction(null)}
+      />
+
+      <ConfirmDialog
+        isOpen={pendingLeave !== null}
+        title={t("common.unsavedLeaveTitle")}
+        message={t("common.unsavedLeaveMessage")}
+        confirmText={t("common.unsavedLeaveConfirm")}
+        cancelText={t("common.unsavedLeaveCancel")}
+        zIndex="top"
+        onConfirm={() => {
+          const proceed = pendingLeave;
+          setPendingLeave(null);
+          discardUnsavedChanges();
+          proceed?.();
+        }}
+        onCancel={() => setPendingLeave(null)}
       />
 
       <ConfirmDialog
