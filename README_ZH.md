@@ -6,7 +6,7 @@
 
 **一键切换 API 供应商，统一管理 MCP、Skills 与提示词，不用再手改 JSON / TOML / YAML 配置文件。**
 
-[![Version](https://img.shields.io/badge/version-4.0.5--fork.1-blue.svg)](https://github.com/kongkongyo/cc-switch/releases)
+[![Version](https://img.shields.io/badge/version-4.0.10--fork.1-blue.svg)](https://github.com/kongkongyo/cc-switch/releases)
 [![Platform](https://img.shields.io/badge/platform-Windows%20%7C%20macOS%20%7C%20Linux-lightgrey.svg)](https://github.com/kongkongyo/cc-switch/releases)
 [![Built with Tauri](https://img.shields.io/badge/built%20with-Tauri%202-orange.svg)](https://tauri.app/)
 [![Downloads](https://img.shields.io/github/downloads/kongkongyo/cc-switch/total)](https://github.com/kongkongyo/cc-switch/releases/latest)
@@ -22,7 +22,7 @@
 
 </div>
 
-基于 [farion1231/cc-switch](https://github.com/farion1231/cc-switch) `v4.0.5`，本 Fork 版本为 `4.0.5-fork.1`。
+基于 [farion1231/cc-switch](https://github.com/farion1231/cc-switch) `v4.0.10`，本 Fork 版本为 `4.0.10-fork.1`。
 
 **个人自用修改版。** 安装包和更新请使用[本 Fork Releases](https://github.com/kongkongyo/cc-switch/releases)。
 
@@ -96,6 +96,11 @@ Claude Code / Codex / Gemini 官方渠道低至 3.8 / 0.2 / 0.9 折，充值更�
 <tr>
 <td width="180"><a href="https://runapi.host/register?aff=iOKB"><img src="assets/partners/logos/runapi.jpg" alt="RunAPI" width="150"></a></td>
 <td>感谢 RunAPI 赞助本项目！RunAPI 是高效稳定的 AI 模型 API 中转平台，一个 API Key 即可访问 OpenAI、Claude、Gemini、DeepSeek、Grok 等 150+ 主流模型，低至 1 折，极其稳定，可以无缝兼容 Claude Code、OpenClaw 等工具。RunAPI为CC switch的用户提供了特别福利，使用<a href="https://runapi.host/register?aff=iOKB">此链接</a>注册并首次充值即可享受10%的优惠折扣！</td>
+</tr>
+
+<tr>
+<td width="180"><a href="https://www.openmodel.ai?ref=cc-switch"><img src="assets/partners/logos/openmodel-banner.jpg" alt="OpenModel" width="150"></a></td>
+<td>感谢 OpenModel 赞助本项目！OpenModel 为 Codex 和 Claude Code 提供客户端专属折扣，所支持的模型通过 Codex 调用最高优惠 90%、通过 Claude Code 调用最高优惠 60%，帮助开发者在不改变工作方式的前提下降低 API 成本。只需填入 OpenModel API Key，像往常一样继续使用 Codex 或 Claude Code，系统会自动识别所支持的客户端并应用折扣路由，无需额外参数或手动路由。你还可以为每个 API Key 单独设置回退策略：折扣路由暂时不可用时，选择按标准价格继续调用或直接停止。CC Switch 用户通过<a href="https://www.openmodel.ai?ref=cc-switch">此链接</a>注册，并使用优惠码 <strong>"cc-switch"</strong>，即可享受首次充值九折优惠！</td>
 </tr>
 
 <tr>
@@ -324,10 +329,10 @@ xattr -cr "/Applications/CC Switch.app"
 
 ## 功能特性
 
-[完整更新日志](CHANGELOG.md) | [发布说明](docs/release-notes/v4.0.5-zh.md)
+[完整更新日志](CHANGELOG.md) | [发布说明](docs/release-notes/v4.0.10-zh.md)
 
-- **本次上游更新** — Codex 支持 GitHub Copilot 账号（需开启路由）；用量热力图可展开完整历史；备份管理显示位置与占用空间；MCP 和提示词改为整页编辑，离开未保存的编辑页会提醒。
-- **修复与改进** — 修复 Codex 聚合模型隐藏、Claude 经 Responses 协议调用子代理的参数和流式响应问题；Skills 支持全选，导入时会同步到勾选的工具。
+- **本次上游更新** — 供应商支持上传图片并存入「我的图标」；用量页显示首字时间，新增 Sub2API 用量查询模板；Codex 支持会话压缩、子代理默认模型和推理强度；Skills 支持一键全部更新。
+- **修复与改进** — 改进模型获取与选择、一键导入链接及聚合模式；修复旧 Codex 官方会话恢复、用量统计、设置目录自动保存和供应商编辑页闪烁等问题，并新增多家供应商预设。
 
 > 数据库仍为 20，从 4.0.2 升级没有结构变化；4.0.1、4.0.0 和 3.x 不能直接打开该数据库。Claude 聚合模型菜单需要 Claude Code 2.1.243 或更新版本；Codex 仍需重启才能重新读取模型目录。Pi MCP 同步默认关闭，升级不会自动改写 Pi 配置。
 
@@ -376,9 +381,10 @@ xattr -cr "/Applications/CC Switch.app"
 ### 聚合模式
 
 - **一个模型列表，多家供应商** — 在 Claude Code 或 Codex 的页面切到「聚合」，添加几家供应商，它们的模型会同时出现在客户端的模型选择器里；选哪个模型，请求就发给哪一家，不用回到 CC Switch 切换
-- **随时添加和移除** — 在供应商卡片上点“添加”或“移除”，再选一家作为默认供应商，没有指定聚合模型的请求都交给它；官方账号只能作为默认供应商，不能加入聚合
+- **随时添加和移除** — 在供应商卡片上点“添加”或“移除”，再选一家作为默认供应商，没有指定聚合模型的请求都交给它；Codex 的 OpenAI Official 只能作为默认供应商；聚合模式暂不支持 Claude 官方订阅
 - **注意** — 聚合不提供故障转移；Claude Code 需要 2.1.243 或更新版本；Codex 的聚合列表变化后需要重启，Claude Code 不需要。同一会话里换模型后，新模型要重新建立提示词缓存，第一轮费用会高一些
 - 聚合模式的许多设计参考了 [opencodex](https://github.com/lidge-jun/opencodex)，感谢作者和贡献者
+- 使用攻略：[聚合模式图文指南](docs/guides/aggregation-mode-guide-zh.md) · [聚合模式手册](docs/user-manual/zh/4-proxy/4.6-aggregation.md)
 
 ### MCP、提示词与 Skills
 
@@ -404,7 +410,7 @@ xattr -cr "/Applications/CC Switch.app"
 
 - **云同步** — 通过 WebDAV（坚果云、Nextcloud、群晖 NAS 等）或 S3 兼容存储（AWS S3、Cloudflare R2、阿里云 OSS、腾讯云 COS 等）在多台设备之间同步；也可以把 CC Switch 配置目录放到 Dropbox、OneDrive、iCloud 等网盘文件夹中
 - **CLI 工具管理** — 在侧栏的「应用」页查看 Claude Code、Codex 等命令行工具的当前版本和最新版本，一键安装、升级或全部升级，并诊断重复安装；Windows 上还能管理 WSL 里的工具（见常见问题）
-- **Deep Link**（`ccswitch://`）— 通过链接一键导入供应商、MCP 服务器和提示词，或添加技能仓库
+- **Deep Link**（`ccswitch://`）— 通过链接一键导入供应商、MCP 服务器和提示词，或添加技能仓库。用 [在线生成器](https://ccswitch.io/deplink.html) 生成链接；站长想在网站上放导入按钮，见 [站长接入指南](https://github.com/farion1231/cc-switch/blob/main/docs/guides/deeplink-site-integration-guide-zh.md)
 - **小工具** — 跳过 Claude Code 初次安装确认、隐藏 AI 署名、让 VS Code 的 Claude Code 插件随本软件切换供应商等
 - 深色 / 浅色 / 跟随系统主题、开机自启、Fork 更新检查与手动下载、原子写入、自动备份（「设置 → 数据」里可以看到所有备份的位置和占用空间）、国际化（简中/繁中/英/日）
 

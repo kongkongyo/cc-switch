@@ -6,7 +6,7 @@
 
 **ワンクリックで API プロバイダを切り替え、MCP・Skills・プロンプトを一元管理。JSON / TOML / YAML の設定ファイルを手作業で編集する必要はもうありません。**
 
-[![Version](https://img.shields.io/badge/version-4.0.5--fork.1-blue.svg)](https://github.com/kongkongyo/cc-switch/releases)
+[![Version](https://img.shields.io/badge/version-4.0.10--fork.1-blue.svg)](https://github.com/kongkongyo/cc-switch/releases)
 [![Platform](https://img.shields.io/badge/platform-Windows%20%7C%20macOS%20%7C%20Linux-lightgrey.svg)](https://github.com/kongkongyo/cc-switch/releases)
 [![Built with Tauri](https://img.shields.io/badge/built%20with-Tauri%202-orange.svg)](https://tauri.app/)
 [![Downloads](https://img.shields.io/github/downloads/kongkongyo/cc-switch/total)](https://github.com/kongkongyo/cc-switch/releases/latest)
@@ -22,7 +22,7 @@
 
 </div>
 
-[farion1231/cc-switch](https://github.com/farion1231/cc-switch) `v4.0.5` ベース。Fork バージョン: `4.0.5-fork.1`。[Fork Releases](https://github.com/kongkongyo/cc-switch/releases) からダウンロードしてください。
+[farion1231/cc-switch](https://github.com/farion1231/cc-switch) `v4.0.10` ベース。Fork バージョン: `4.0.10-fork.1`。[Fork Releases](https://github.com/kongkongyo/cc-switch/releases) からダウンロードしてください。
 
 ## 上流との違い
 
@@ -94,6 +94,11 @@ Claude Code / Codex / Gemini 公式チャンネルが最安で元価格の 38% /
 <tr>
 <td width="180"><a href="https://runapi.host/register?aff=iOKB"><img src="assets/partners/logos/runapi.jpg" alt="RunAPI" width="150"></a></td>
 <td>本プロジェクトのスポンサーである RunAPI に感謝いたします！RunAPI は高効率で安定した AI モデル API ゲートウェイです。一つの API Key で、OpenAI、Claude、Gemini、DeepSeek、Grok など 150 種類以上の主要モデルにアクセス可能。料金は公式価格の最大 10%、安定性にも優れ、Claude Code や OpenClaw などのツールとシームレスに連携できます。CC Switch ユーザー限定特典：<a href="https://runapi.host/register?aff=iOKB">こちらのリンク</a>から登録し、初回チャージで 10% オフの割引をお楽しみいただけます！</td>
+</tr>
+
+<tr>
+<td width="180"><a href="https://www.openmodel.ai?ref=cc-switch"><img src="assets/partners/logos/openmodel-banner.jpg" alt="OpenModel" width="150"></a></td>
+<td>本プロジェクトのスポンサーである OpenModel に感謝いたします！OpenModel は Codex と Claude Code 向けにクライアント専用の割引を提供しており、対応モデルを Codex 経由で使うと最大 90% オフ、Claude Code 経由で使うと最大 60% オフになります。開発スタイルを変えることなく API コストを削減できます。OpenModel の API Key を設定するだけで、いつも通り Codex や Claude Code を使い続けられます。対応クライアントは自動で判別され、追加パラメータや手動でのルーティング設定なしに割引ルートが適用されます。さらに API Key ごとにフォールバック動作を設定でき、割引ルートが一時的に利用できない場合に標準価格で続行するか停止するかを選べます。CC Switch ユーザーは<a href="https://www.openmodel.ai?ref=cc-switch">こちらのリンク</a>から登録し、プロモコード <strong>"cc-switch"</strong> を使うと初回チャージが 10% オフになります！</td>
 </tr>
 
 <tr>
@@ -321,10 +326,10 @@ xattr -cr "/Applications/CC Switch.app"
 
 ## 特長
 
-[完全な更新履歴](CHANGELOG.md) | [リリースノート](docs/release-notes/v4.0.5-ja.md)
+[完全な更新履歴](CHANGELOG.md) | [リリースノート](docs/release-notes/v4.0.10-ja.md)
 
-- **今回の上流更新** — Codex で GitHub Copilot アカウントを利用できます（ルーティングが必要）。使用量ヒートマップで全履歴を展開でき、バックアップの場所と使用容量を確認できます。MCP とプロンプトは全画面で編集し、未保存のまま移動すると確認が表示されます。
-- **修正と改善** — Codex の集約モデルが非表示になる問題、Claude の Responses 経由のサブエージェント呼び出しとストリーミングを修正。Skills の全選択と、インポート時に選択したツールへの同期に対応。
+- **今回の上流更新** — プロバイダの画像をアップロードして「マイアイコン」で再利用できます。使用量ページに最初のトークンまでの時間と Sub2API の使用量照会テンプレートを追加。Codex はセッション圧縮、サブエージェントの既定モデルと推論強度に対応し、Skills は一括更新できます。
+- **修正と改善** — モデル取得と選択、ディープリンクのインポート、集約モードを改善。古い Codex 公式セッションの復元、使用量統計、設定ディレクトリの自動保存、プロバイダ編集画面のちらつきを修正し、プロバイダのプリセットを追加しました。
 
 > データベースは引き続きバージョン 20 で、4.0.2 からの更新で構造は変わりません。4.0.1、4.0.0、3.x では直接開けません。Claude の集約モデルメニューには Claude Code 2.1.243 以降が必要で、Codex はモデルカタログの再読み込みに再起動が必要です。Pi MCP 同期は初期状態で無効で、更新だけで Pi の設定は変更されません。
 
@@ -373,9 +378,10 @@ xattr -cr "/Applications/CC Switch.app"
 ### 集約モード
 
 - **1 つのモデル一覧に複数のプロバイダ** — Claude Code または Codex のページで「集約」に切り替えてプロバイダをいくつか追加すると、それぞれのモデルがクライアントのモデル選択画面にまとめて表示されます。選んだモデルに応じてそのプロバイダへリクエストが送られるので、CC Switch に戻って切り替える必要はありません
-- **いつでも追加・削除** — プロバイダカードの「追加」または「削除」をクリックし、さらに 1 社を既定のプロバイダに選びます。集約モデルを指定していないリクエストはすべて既定のプロバイダに送られます。公式アカウントは既定のプロバイダにだけでき、集約には追加できません
+- **いつでも追加・削除** — プロバイダカードの「追加」または「削除」をクリックし、さらに 1 社を既定のプロバイダに選びます。集約モデルを指定していないリクエストはすべて既定のプロバイダに送られます。Codex の OpenAI Official は既定のプロバイダ専用です。集約モードは現在 Claude の公式サブスクリプションに対応していません
 - **注意** — 集約ではフェイルオーバーを行いません。Claude Code は 2.1.243 以降が必要です。Codex は集約の一覧が変わると再起動が必要ですが、Claude Code は不要です。同じセッションの途中でモデルを変えると、新しいモデルでプロンプトキャッシュを作り直すため、最初のターンは費用がやや高くなります
 - 集約モードの設計の多くは [opencodex](https://github.com/lidge-jun/opencodex) を参考にしています。作者とコントリビューターに感謝します
+- ドキュメント：[集約モードのマニュアル](docs/user-manual/ja/4-proxy/4.6-aggregation.md) · [図解ガイド（中国語）](docs/guides/aggregation-mode-guide-zh.md)
 
 ### MCP、プロンプト & Skills
 
@@ -401,7 +407,7 @@ xattr -cr "/Applications/CC Switch.app"
 
 - **クラウド同期** — WebDAV（坚果云、Nextcloud、Synology NAS など）または S3 互換ストレージ（AWS S3、Cloudflare R2、Alibaba Cloud OSS、Tencent Cloud COS など）で複数のデバイス間を同期。CC Switch の設定ディレクトリを Dropbox、OneDrive、iCloud などのクラウドストレージのフォルダに置くことも可能
 - **CLI ツール管理** — サイドバーの「アプリ」ページで Claude Code、Codex などのコマンドラインツールの現在のバージョンと最新バージョンを確認し、ワンクリックでインストール、アップグレード、一括アップグレード。重複インストールの診断にも対応。Windows では WSL 内のツールも管理可能（よくある質問を参照）
-- **Deep Link**（`ccswitch://`）— リンクからプロバイダ、MCP サーバー、プロンプトをワンクリックでインポート、またはスキルリポジトリを追加
+- **Deep Link**（`ccswitch://`）— リンクからプロバイダ、MCP サーバー、プロンプトをワンクリックでインポート、またはスキルリポジトリを追加。リンクは [オンライン生成ツール](https://ccswitch.io/deplink.html) で作成可能。サイトにインポートボタンを置きたい運営者は [連携ガイド](https://github.com/farion1231/cc-switch/blob/main/docs/guides/deeplink-site-integration-guide-ja.md) を参照
 - **便利ツール** — Claude Code の初回確認のスキップ、AI 署名の非表示、VS Code の Claude Code 拡張を CC Switch のプロバイダ切り替えに追従させる機能など
 - ダーク / ライト / システムテーマ、自動起動、Fork の更新確認と手動ダウンロード、アトミック書き込み、自動バックアップ（「設定 → データ」ですべてのバックアップの場所と使用容量を確認可能）、多言語対応（簡体中文/繁體中文/英/日）
 
@@ -494,7 +500,7 @@ Codex では、CC Switch 内の「ChatGPT でログイン」から複数の Chat
 <details>
 <summary><strong>Claude Code で OpenAI 互換 API、Gemini、ローカルモデルを使えますか？</strong></summary>
 
-使えますが、ルーティングを使う必要があります。プロバイダを編集する際に、「高級オプション」の「上流フォーマット」でプロバイダに合った API 形式を選んでください。Chat Completions API のみを提供するサービス（多くのローカルモデルサービスがこれに当たります）は「OpenAI Chat Completions」、Responses API を提供するサービスは「OpenAI Responses API」、Gemini は「Gemini Native generateContent」を選びます。その後、Claude Code のページの「ルーティング」タブで「ルーティングを開始」をクリックしてください。形式の選択を誤ったり、ルーティングを開始していなかったりすると、通常は 404 または 405 エラーになります。
+使えますが、ルーティングを使う必要があります。プロバイダを編集する際に、「詳細オプション」の「上流フォーマット」でプロバイダに合った API 形式を選んでください。Chat Completions API のみを提供するサービス（多くのローカルモデルサービスがこれに当たります）は「OpenAI Chat Completions」、Responses API を提供するサービスは「OpenAI Responses API」、Gemini は「Gemini Native generateContent」を選びます。その後、Claude Code のページの「ルーティング」タブで「ルーティングを開始」をクリックしてください。形式の選択を誤ったり、ルーティングを開始していなかったりすると、通常は 404 または 405 エラーになります。
 
 逆に、Codex や Grok Build の「上流フォーマット」で「Anthropic Messages」を選ぶと、Claude 形式のプロバイダを使えます。この場合もルーティングが必要です。詳しくは [Claude Code で GPT を使う](docs/guides/claude-codex-routing-guide-ja.md) と [Codex で Claude を使う](docs/guides/codex-claude-routing-guide-ja.md) をご覧ください。
 

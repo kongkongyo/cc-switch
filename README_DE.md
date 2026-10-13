@@ -6,7 +6,7 @@
 
 **API-Anbieter mit einem Klick wechseln und MCP, Skills und Prompts zentral verwalten — ohne JSON-, TOML- oder YAML-Konfigurationsdateien von Hand zu bearbeiten.**
 
-[![Version](https://img.shields.io/badge/version-4.0.5--fork.1-blue.svg)](https://github.com/kongkongyo/cc-switch/releases)
+[![Version](https://img.shields.io/badge/version-4.0.10--fork.1-blue.svg)](https://github.com/kongkongyo/cc-switch/releases)
 [![Platform](https://img.shields.io/badge/platform-Windows%20%7C%20macOS%20%7C%20Linux-lightgrey.svg)](https://github.com/kongkongyo/cc-switch/releases)
 [![Built with Tauri](https://img.shields.io/badge/built%20with-Tauri%202-orange.svg)](https://tauri.app/)
 [![Downloads](https://img.shields.io/github/downloads/kongkongyo/cc-switch/total)](https://github.com/kongkongyo/cc-switch/releases/latest)
@@ -22,7 +22,7 @@
 
 </div>
 
-Basiert auf [farion1231/cc-switch](https://github.com/farion1231/cc-switch) `v4.0.5`; Fork-Version: `4.0.5-fork.1`. Downloads: [Fork Releases](https://github.com/kongkongyo/cc-switch/releases).
+Basiert auf [farion1231/cc-switch](https://github.com/farion1231/cc-switch) `v4.0.10`; Fork-Version: `4.0.10-fork.1`. Downloads: [Fork Releases](https://github.com/kongkongyo/cc-switch/releases).
 
 ## Unterschiede zum Upstream
 
@@ -94,6 +94,11 @@ Registrieren Sie sich jetzt über <a href="https://pateway.ai/?ch=etzpm8&aff=WB6
 <tr>
 <td width="180"><a href="https://runapi.host/register?aff=iOKB"><img src="assets/partners/logos/runapi.jpg" alt="RunAPI" width="150"></a></td>
 <td>Danke an RunAPI für die Unterstützung dieses Projekts! RunAPI ist ein leistungsstarkes und zuverlässiges KI-Modell-API-Gateway — ein API-Schlüssel gibt Ihnen Zugriff auf mehr als 150 gängige Modelle, darunter OpenAI, Claude, Gemini, DeepSeek und Grok, zu Preisen ab 10 % des offiziellen Tarifs und mit ausgezeichneter Stabilität. Es arbeitet nahtlos mit Claude Code, OpenClaw und weiteren Werkzeugen zusammen. Exklusiver Vorteil für CC-Switch-Nutzer: Registrieren Sie sich über <a href="https://runapi.host/register?aff=iOKB">diesen Link</a> und erhalten Sie 10 % Rabatt auf Ihre erste Aufladung!</td>
+</tr>
+
+<tr>
+<td width="180"><a href="https://www.openmodel.ai?ref=cc-switch"><img src="assets/partners/logos/openmodel-banner.jpg" alt="OpenModel" width="150"></a></td>
+<td>Danke an OpenModel für die Unterstützung dieses Projekts! OpenModel bietet clientspezifische Rabatte von bis zu 90 % für Codex und bis zu 60 % für Claude Code auf unterstützte Modelle und hilft Entwicklern, ihre API-Kosten zu senken, ohne ihre Arbeitsweise zu ändern. Verbinden Sie einfach Ihren OpenModel-API-Schlüssel und nutzen Sie Codex oder Claude Code wie gewohnt weiter — unterstützte Clients werden automatisch erkannt und rabattierte Routen ohne zusätzliche Parameter oder manuelles Routing angewendet. Außerdem können Sie das Fallback-Verhalten pro API-Schlüssel festlegen und wählen, ob bei vorübergehend nicht verfügbarer Rabattroute zum Standardpreis weitergearbeitet oder die Anfrage gestoppt werden soll. CC-Switch-Nutzer können sich über <a href="https://www.openmodel.ai?ref=cc-switch">diesen Link</a> registrieren und mit dem Promo-Code <strong>"cc-switch"</strong> 10 % Rabatt auf ihre erste Aufladung erhalten!</td>
 </tr>
 
 <tr>
@@ -321,10 +326,10 @@ Ausführliche Anleitungen zu allen Funktionen finden Sie im **[Benutzerhandbuch]
 
 ## Funktionen
 
-[Vollständiges Changelog](CHANGELOG.md) | [Release Notes](docs/release-notes/v4.0.5-en.md)
+[Vollständiges Changelog](CHANGELOG.md) | [Release Notes](docs/release-notes/v4.0.10-en.md)
 
-- **Dieses Upstream-Update** — Codex unterstützt GitHub-Copilot-Konten (Routing erforderlich). Die Nutzungs-Heatmap lässt sich bis zum ersten Eintrag erweitern; die Backup-Verwaltung zeigt Speicherorte und Platzbedarf. MCP und Prompts werden auf ganzen Seiten bearbeitet, mit einer Warnung vor dem Verlassen ungespeicherter Änderungen.
-- **Korrekturen und Verbesserungen** — Versteckte Codex-Aggregationsmodelle sowie Subagent-Aufrufe und Streaming über Responses für Claude wurden korrigiert. Skills unterstützen die Auswahl aller Einträge und werden beim Import an die ausgewählten Werkzeuge verteilt.
+- **Dieses Upstream-Update** — Anbieterbilder lassen sich hochladen und unter „Meine Icons“ wiederverwenden. Die Nutzungsseite zeigt die Zeit bis zum ersten Token und bietet eine Sub2API-Abfragevorlage. Codex unterstützt Sitzungskomprimierung sowie Standardmodelle und Denkstufen für Subagenten; alle Skills lassen sich gemeinsam aktualisieren.
+- **Korrekturen und Verbesserungen** — Verbesserungen bei Modellabruf und Auswahl, Deep-Link-Importen und Aggregation. Fehler bei der Wiederherstellung alter offizieller Codex-Sitzungen, Nutzungsstatistiken, automatisch gespeicherten Konfigurationsverzeichnissen und flackernden Anbietereditoren wurden behoben; weitere Anbietervorlagen wurden ergänzt.
 
 > Die Datenbank bleibt auf Version 20; beim Update von 4.0.2 ändert sich die Struktur nicht. 4.0.1, 4.0.0 und 3.x können sie nicht direkt öffnen. Das aggregierte Modellmenü benötigt Claude Code 2.1.243 oder neuer; Codex muss zum Neuladen des Modellkatalogs neu gestartet werden. Pi-MCP-Synchronisierung bleibt standardmäßig deaktiviert; das Update ändert die Pi-Konfiguration nicht automatisch.
 
@@ -373,9 +378,10 @@ Ausführliche Anleitungen zu allen Funktionen finden Sie im **[Benutzerhandbuch]
 ### Aggregationsmodus
 
 - **Eine Modellliste, mehrere Anbieter** — Wechseln Sie auf der Seite von Claude Code oder Codex zu „Aggregation“ und fügen Sie einige Anbieter hinzu; ihre Modelle erscheinen dann gemeinsam in der Modellauswahl des Clients. Welches Modell Sie wählen, entscheidet, an welchen Anbieter die Anfrage geht — ohne Umweg über CC Switch
-- **Jederzeit hinzufügen und entfernen** — Klicken Sie auf der Anbieterkarte auf „Add“ oder „Remove“ und bestimmen Sie einen Anbieter als Standard; er übernimmt alle Anfragen, die kein aggregiertes Modell angeben. Offizielle Konten können nur Standardanbieter sein und nicht in die Aggregation aufgenommen werden
+- **Jederzeit hinzufügen und entfernen** — Klicken Sie auf der Anbieterkarte auf „Add“ oder „Remove“ und bestimmen Sie einen Anbieter als Standard; er übernimmt alle Anfragen, die kein aggregiertes Modell angeben. OpenAI Official in Codex kann nur Standardanbieter sein; offizielle Claude-Abonnements werden im Aggregationsmodus derzeit nicht unterstützt
 - **Hinweise** — Aggregation bietet kein Failover; Claude Code wird ab Version 2.1.243 benötigt; Codex muss nach Änderungen an der aggregierten Liste neu gestartet werden, Claude Code nicht. Wechseln Sie innerhalb einer Session das Modell, muss das neue Modell den Prompt-Cache neu aufbauen, sodass die erste Runde etwas mehr kostet
 - Viele Designideen des Aggregationsmodus stammen von [opencodex](https://github.com/lidge-jun/opencodex) — danke an den Autor und alle Mitwirkenden
+- Dokumentation: [Handbuch zum Aggregationsmodus (Englisch)](docs/user-manual/en/4-proxy/4.6-aggregation.md) · [Illustrierte Anleitung (Chinesisch)](docs/guides/aggregation-mode-guide-zh.md)
 
 ### MCP, Prompts & Skills
 
@@ -401,7 +407,7 @@ Ausführliche Anleitungen zu allen Funktionen finden Sie im **[Benutzerhandbuch]
 
 - **Cloud-Synchronisierung** — Geräteübergreifende Synchronisierung über WebDAV (Jianguoyun, Nextcloud, Synology NAS usw.) oder S3-kompatiblen Speicher (AWS S3, Cloudflare R2, Alibaba Cloud OSS, Tencent Cloud COS usw.); alternativ können Sie das CC-Switch-Konfigurationsverzeichnis in einen Cloud-Speicher-Ordner wie Dropbox, OneDrive oder iCloud legen
 - **CLI-Werkzeugverwaltung** — Auf der Seite „Apps“ in der Seitenleiste sehen Sie die installierte und die neueste Version von Kommandozeilenwerkzeugen wie Claude Code und Codex, können sie mit einem Klick installieren, aktualisieren oder alle auf einmal aktualisieren und doppelte Installationen diagnostizieren; unter Windows lassen sich auch Werkzeuge in WSL verwalten (siehe FAQ)
-- **Deep Link** (`ccswitch://`) — Anbieter, MCP-Server und Prompts per Link mit einem Klick importieren oder Skill-Repositorys hinzufügen
+- **Deep Link** (`ccswitch://`) — Anbieter, MCP-Server und Prompts per Link mit einem Klick importieren oder Skill-Repositorys hinzufügen; Links lassen sich mit dem [Online-Generator](https://ccswitch.io/deplink.html) erstellen; Website-Betreiber, die einen Import-Button einbauen möchten, finden alles im [Integrationsleitfaden (Englisch)](https://github.com/farion1231/cc-switch/blob/main/docs/guides/deeplink-site-integration-guide-en.md)
 - **Hilfsprogramme** — Überspringen der Erststart-Bestätigung von Claude Code, Ausblenden der KI-Attribution, Übernahme des in CC Switch gewählten Anbieters durch die Claude-Code-Erweiterung für VS Code und mehr
 - Dunkles / Helles / System-Theme, automatischer Start, Fork-Update-Prüfung und manueller Download, atomare Schreibvorgänge, automatische Backups (unter „Settings → Data“ sehen Sie Speicherort und Platzbedarf aller Backups), i18n (zh/zh-TW/en/ja)
 
