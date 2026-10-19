@@ -132,6 +132,9 @@ export function AboutSection({ isPortable }: AboutSectionProps) {
   }, []);
 
   const handleCheckUpdate = useCallback(async () => {
+    // Fork 专属：更新检查走 Fork 自己的 Releases（见 src/lib/updater.ts），
+    // 因此这里不采用上游的便携版直接下载分支（openPortableUpdateDownload 指向
+    // 上游仓库 farion1231/cc-switch，直接调用会跳到错误的下载地址）。
     if (hasUpdate && updateInfo?.releaseUrl) {
       setIsDownloading(true);
       try {
@@ -227,6 +230,9 @@ export function AboutSection({ isPortable }: AboutSectionProps) {
           </p>
           {updateInfo.notes && (
             <p className="line-clamp-3 text-fg-2">{updateInfo.notes}</p>
+          )}
+          {isPortable && (
+            <p className="text-fg-2">{t("settings.portableUpdateHint")}</p>
           )}
         </div>
       )}
