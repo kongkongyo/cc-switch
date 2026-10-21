@@ -6,7 +6,7 @@
 
 **一键切换 API 供应商，统一管理 MCP、Skills 与提示词，不用再手改 JSON / TOML / YAML 配置文件。**
 
-[![Version](https://img.shields.io/badge/version-4.0.15--fork.1-blue.svg)](https://github.com/kongkongyo/cc-switch/releases)
+[![Version](https://img.shields.io/badge/version-4.0.17--fork.1-blue.svg)](https://github.com/kongkongyo/cc-switch/releases)
 [![Platform](https://img.shields.io/badge/platform-Windows%20%7C%20macOS%20%7C%20Linux-lightgrey.svg)](https://github.com/kongkongyo/cc-switch/releases)
 [![Built with Tauri](https://img.shields.io/badge/built%20with-Tauri%202-orange.svg)](https://tauri.app/)
 [![Downloads](https://img.shields.io/github/downloads/kongkongyo/cc-switch/total)](https://github.com/kongkongyo/cc-switch/releases/latest)
@@ -22,7 +22,7 @@
 
 </div>
 
-基于 [farion1231/cc-switch](https://github.com/farion1231/cc-switch) `v4.0.15`，本 Fork 版本为 `4.0.15-fork.1`。
+基于 [farion1231/cc-switch](https://github.com/farion1231/cc-switch) `v4.0.17`，本 Fork 版本为 `4.0.17-fork.1`。
 
 **个人自用修改版。** 安装包和更新请使用[本 Fork Releases](https://github.com/kongkongyo/cc-switch/releases)。
 
@@ -39,7 +39,7 @@
 
 模型获取、直连／路由／聚合模式、配置切换和 Skills 同步均沿用上游实现。代理设置统一使用上游全局代理，不再提供供应商独立代理。
 
-托盘点击也沿用上游行为：Windows 左键显示并聚焦主窗口、右键打开菜单；macOS 左键打开菜单；Linux 通过托盘菜单操作。旧版左键再次点击隐藏窗口的增强不再保留。
+托盘沿用上游行为：Windows 左键显示主窗口、右键默认打开快捷面板；macOS 默认打开快捷面板。可在「设置 → 通用 → 托盘样式」切换为原生菜单；Linux 仍使用原生菜单，并提供打开快捷面板的入口。
 
 
 ## ❤️赞助商
@@ -241,7 +241,7 @@ Claude Code、Codex、Gemini CLI 等 AI 编程工具各有各的配置格式。�
 
 **CC Switch** 把这些工作集中到一个桌面应用里：选一个预设、填入 Key，一键即可切换。切换时只替换地址、Key、模型这几项连接信息，你自己加的插件、Hook、MCP 和注释都原样保留。
 
-- **一个应用，十个工具** — Claude Code、Claude Desktop、Codex、Gemini CLI、Grok Build、OpenCode、OpenClaw、Hermes、Pi、MiniMax Code
+- **一个应用，十一个工具** — Claude Code、Claude Desktop、Codex、Gemini CLI、Grok Build、OpenCode、OpenClaw、Hermes、Pi、MiniMax Code、Antigravity CLI
 - **告别手动编辑** — 90+ 供应商预设，包括 AWS Bedrock、NVIDIA NIM 和社区中转服务
 - **直连、路由、聚合，按需选择** — 直连是工具直接连供应商；路由经本机转发，能转换接口格式、自动故障转移，让 Claude Code 用 GPT、Codex 用 Claude；聚合把多家供应商的模型放进 Claude Code 或 Codex 的同一个模型列表，选哪个模型，请求就发给哪一家
 - **MCP、Skills 与提示词集中管理** — MCP 和 Skills 添加一次，按工具勾选同步；提示词按工具分别维护
@@ -324,12 +324,12 @@ xattr -cr "/Applications/CC Switch.app"
 
 ## 功能特性
 
-[完整更新日志](CHANGELOG.md) | [发布说明](docs/release-notes/v4.0.15-zh.md)
+[完整更新日志](CHANGELOG.md) | [发布说明](docs/release-notes/v4.0.17-zh.md)
 
-- **本次上游更新** — 供应商支持上传图片并存入「我的图标」；用量页显示首字时间，新增 Sub2API 用量查询模板；Codex 支持会话压缩、子代理默认模型和推理强度；Skills 支持一键全部更新。
-- **修复与改进** — 改进模型获取与选择、一键导入链接及聚合模式；修复旧 Codex 官方会话恢复、用量统计、设置目录自动保存和供应商编辑页闪烁等问题，并新增多家供应商预设。
+- **本次上游更新** — 新增 Antigravity CLI 管理，支持模型、MCP、Skills、提示词、会话和用量；托盘默认使用快捷面板，可在设置里切换为原生菜单；OpenCode 卡片支持设置默认模型。
+- **修复与改进** — 改进托盘缩放、多屏显示和额度展示；修复 Codex 登录保留、聚合会话压缩与用量统计、MCP 同步及 Windows 路由退出问题。
 
-> 数据库仍为 20，从 4.0.2 升级没有结构变化；4.0.1、4.0.0 和 3.x 不能直接打开该数据库。Claude 聚合模型菜单需要 Claude Code 2.1.243 或更新版本；Codex 仍需重启才能重新读取模型目录。Pi MCP 同步默认关闭，升级不会自动改写 Pi 配置。
+> 数据库从 20 自动升级至 21，为 Antigravity 增加 MCP 和 Skills 开关，默认关闭，不改变其他工具的开关；旧版应用不能直接打开升级后的数据库。Claude 聚合模型菜单需要 Claude Code 2.1.243 或更新版本；Codex 仍需重启才能重新读取模型目录。Pi MCP 同步默认关闭，升级不会自动改写 Pi 配置。
 
 ### 各工具支持的功能
 
@@ -345,6 +345,7 @@ xattr -cr "/Applications/CC Switch.app"
 | Hermes | 共存 | – | – | – | ✓ | ✓ | 记忆管理 | ✓ | – |
 | Pi | 共存 | – | – | – | ✓ | ✓ | AGENTS.md、SYSTEM.md、提示词模板 | ✓ | ✓ |
 | MiniMax Code | 共存 | – | – | – | ✓ | ✓ | AGENTS.md | ✓ | ✓ |
+| Antigravity CLI | 官方模型切换 / Key 卡打开终端 | – | – | – | ✓ | ✓ | AGENTS.md | ✓ | ✓ |
 
 - **切换**：同一时间只启用一个供应商；**共存**：多个供应商同时写入工具自身的配置，在工具里选择使用。
 - **本地路由**：由 CC Switch 在本机转发请求并转换接口格式，见下方[本地路由与故障转移](#本地路由与故障转移)。Claude Desktop 的供应商可选“直连”或“模型映射”，选“模型映射”时经本地路由转发。
@@ -383,7 +384,7 @@ xattr -cr "/Applications/CC Switch.app"
 
 ### MCP、提示词与 Skills
 
-- **统一 MCP 面板** — 一处管理所有 MCP 服务器，按工具勾选同步（Claude Code、Codex、Gemini CLI、Grok Build、OpenCode、Hermes、Pi、MiniMax Code），支持从各工具导入现有配置，支持 Deep Link 导入
+- **统一 MCP 面板** — 一处管理所有 MCP 服务器，按工具勾选同步（Claude Code、Codex、Gemini CLI、Grok Build、OpenCode、Hermes、Pi、MiniMax Code、Antigravity CLI），支持从各工具导入现有配置，支持 Deep Link 导入
 - **提示词** — 按工具分别管理的提示词库，使用 Markdown 编辑器；启用后写入该工具的提示词文件（CLAUDE.md / AGENTS.md / GEMINI.md），启用前会先把文件里原有的内容存回提示词库，不会丢失。Pi 还可以编辑 SYSTEM.md、APPEND_SYSTEM.md 和提示词模板
 - **Skills** — 搜索 skills.sh，或从 GitHub 仓库、ZIP 文件一键安装；检查更新并一键全部更新；同步到各工具的方式可选自动、只用软链接或只用复制，存储位置可选 `~/.agents/skills`
 - 三个面板都支持搜索，MCP 和 Skills 还可以按工具一键全部启用或停用；供应商、MCP 和提示词都在内容区整页编辑，有未保存的修改时离开会先提醒
@@ -414,7 +415,7 @@ xattr -cr "/Applications/CC Switch.app"
 <details>
 <summary><strong>CC Switch 支持哪些 AI 工具？</strong></summary>
 
-CC Switch 支持十个工具：**Claude Code**、**Claude Desktop**、**Codex**、**Gemini CLI**、**Grok Build**、**OpenCode**、**OpenClaw**、**Hermes**、**Pi**、**MiniMax Code**。每个工具都有专属的供应商预设和配置管理，各自支持哪些功能见[各工具支持的功能](#各工具支持的功能)。
+CC Switch 支持十一个工具：**Claude Code**、**Claude Desktop**、**Codex**、**Gemini CLI**、**Grok Build**、**OpenCode**、**OpenClaw**、**Hermes**、**Pi**、**MiniMax Code**、**Antigravity CLI**。每个工具都有专属的供应商预设和配置管理，各自支持哪些功能见[各工具支持的功能](#各工具支持的功能)。
 
 </details>
 
@@ -428,6 +429,7 @@ CC Switch 支持十个工具：**Claude Code**、**Claude Desktop**、**Codex**�
 - **聚合模式**：Claude Code 的聚合模型改动立即生效；Codex 进入或退出聚合、改动聚合模型列表后都要彻底重启，见下一条。
 - **Claude Desktop**：需要完全退出并重新打开 Claude Desktop；使用“模型映射”时，还需要保持 CC Switch 运行。
 - **OpenCode、OpenClaw、Hermes、Pi、MiniMax Code**：这些是共存式工具，点击“添加”（Pi 为“启用”）会把供应商写入工具自身的配置、与其他供应商共存，之后在工具里选择要使用的模型即可。
+- **Antigravity CLI**：官方登录卡管理模型，第三方 Key 卡通过「打开终端」在独立目录启动；MCP、Skills 和提示词共享，已运行的进程不会热切换。
 
 </details>
 

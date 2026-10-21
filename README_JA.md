@@ -6,7 +6,7 @@
 
 **ワンクリックで API プロバイダを切り替え、MCP・Skills・プロンプトを一元管理。JSON / TOML / YAML の設定ファイルを手作業で編集する必要はもうありません。**
 
-[![Version](https://img.shields.io/badge/version-4.0.15--fork.1-blue.svg)](https://github.com/kongkongyo/cc-switch/releases)
+[![Version](https://img.shields.io/badge/version-4.0.17--fork.1-blue.svg)](https://github.com/kongkongyo/cc-switch/releases)
 [![Platform](https://img.shields.io/badge/platform-Windows%20%7C%20macOS%20%7C%20Linux-lightgrey.svg)](https://github.com/kongkongyo/cc-switch/releases)
 [![Built with Tauri](https://img.shields.io/badge/built%20with-Tauri%202-orange.svg)](https://tauri.app/)
 [![Downloads](https://img.shields.io/github/downloads/kongkongyo/cc-switch/total)](https://github.com/kongkongyo/cc-switch/releases/latest)
@@ -22,7 +22,7 @@
 
 </div>
 
-[farion1231/cc-switch](https://github.com/farion1231/cc-switch) `v4.0.15` ベース。Fork バージョン: `4.0.15-fork.1`。[Fork Releases](https://github.com/kongkongyo/cc-switch/releases) からダウンロードしてください。
+[farion1231/cc-switch](https://github.com/farion1231/cc-switch) `v4.0.17` ベース。Fork バージョン: `4.0.17-fork.1`。[Fork Releases](https://github.com/kongkongyo/cc-switch/releases) からダウンロードしてください。
 
 ## 上流との違い
 
@@ -37,7 +37,7 @@
 
 モデル取得、Direct / Route / Stack モード、設定切り替え、Skills 同期は上流の実装を使用します。プロキシも上流のグローバル設定を使用し、プロバイダごとの個別プロキシは提供しません。
 
-トレイ操作も上流に従います。Windows は左クリックでメインウィンドウを表示してフォーカスし、右クリックでメニューを開きます。macOS は左クリックでメニューを開き、Linux はトレイメニューを使用します。再クリックでウィンドウを隠す旧機能は保持しません。
+トレイは上流に従い、Windows は左クリックでメインウィンドウを表示し、右クリックでクイックパネルを開きます。macOS はクイックパネルが既定です。「設定 → 一般 → トレイスタイル」でネイティブメニューに変更できます。Linux はネイティブメニューを維持し、パネルを開く項目を提供します。
 
 
 ## ❤️スポンサー
@@ -238,7 +238,7 @@ Claude Code、Codex、Gemini CLI などの AI コーディングツールは、�
 
 **CC Switch** は、こうした作業を 1 つのデスクトップアプリに集約します。プリセットを選んでキーを入力すれば、ワンクリックで切り替えられます。切り替え時に置き換えるのはアドレス、キー、モデルといった接続情報だけで、自分で追加したプラグイン、フック、MCP、コメントはそのまま残ります。
 
-- **1 つのアプリで 10 のツール** — Claude Code、Claude Desktop、Codex、Gemini CLI、Grok Build、OpenCode、OpenClaw、Hermes、Pi、MiniMax Code
+- **1 つのアプリで 11 のツール** — Claude Code、Claude Desktop、Codex、Gemini CLI、Grok Build、OpenCode、OpenClaw、Hermes、Pi、MiniMax Code、Antigravity CLI
 - **手動編集は不要** — AWS Bedrock、NVIDIA NIM、コミュニティリレーなど 90 以上のプロバイダプリセットを内蔵
 - **直接接続・ルーティング・集約を用途に応じて選択** — 直接接続はツールがプロバイダへ直接つなぎます。ルーティングはローカルで転送し、API 形式の変換と自動フェイルオーバーにより、Claude Code で GPT を、Codex で Claude を使えるようにします。集約は複数のプロバイダのモデルを Claude Code や Codex の 1 つのモデル一覧にまとめ、選んだモデルに応じてそのプロバイダへリクエストを送ります
 - **MCP・Skills・プロンプトを一元管理** — MCP と Skills は一度追加すれば、ツールごとにチェックを入れて同期。プロンプトはツールごとに個別に管理
@@ -321,12 +321,12 @@ xattr -cr "/Applications/CC Switch.app"
 
 ## 特長
 
-[完全な更新履歴](CHANGELOG.md) | [リリースノート](docs/release-notes/v4.0.15-ja.md)
+[完全な更新履歴](CHANGELOG.md) | [リリースノート](docs/release-notes/v4.0.17-ja.md)
 
-- **今回の上流更新** — プロバイダの画像をアップロードして「マイアイコン」で再利用できます。使用量ページに最初のトークンまでの時間と Sub2API の使用量照会テンプレートを追加。Codex はセッション圧縮、サブエージェントの既定モデルと推論強度に対応し、Skills は一括更新できます。
-- **修正と改善** — モデル取得と選択、ディープリンクのインポート、集約モードを改善。古い Codex 公式セッションの復元、使用量統計、設定ディレクトリの自動保存、プロバイダ編集画面のちらつきを修正し、プロバイダのプリセットを追加しました。
+- **今回の上流更新** — Antigravity CLI のモデル、MCP、Skills、プロンプト、セッション、使用量の管理を追加。トレイはクイックパネルが既定となり、設定でネイティブメニューに変更できます。OpenCode のカードから既定モデルを設定できます。
+- **修正と改善** — トレイの拡大表示、複数画面、クォータ表示を改善。Codex のログイン保持、集約セッションの圧縮と使用量統計、MCP 同期、Windows のルーティング終了を修正しました。
 
-> データベースは引き続きバージョン 20 で、4.0.2 からの更新で構造は変わりません。4.0.1、4.0.0、3.x では直接開けません。Claude の集約モデルメニューには Claude Code 2.1.243 以降が必要で、Codex はモデルカタログの再読み込みに再起動が必要です。Pi MCP 同期は初期状態で無効で、更新だけで Pi の設定は変更されません。
+> データベースは 20 から 21 に自動更新され、Antigravity の MCP と Skills のスイッチを追加します。初期状態は無効で、他のツールの設定は変わりません。旧版アプリでは更新後のデータベースを直接開けません。Claude の集約モデルメニューには Claude Code 2.1.243 以降が必要で、Codex はモデルカタログの再読み込みに再起動が必要です。Pi MCP 同期は初期状態で無効で、更新だけで Pi の設定は変更されません。
 
 ### ツール別の対応機能
 
@@ -342,6 +342,7 @@ xattr -cr "/Applications/CC Switch.app"
 | Hermes | 共存 | – | – | – | ✓ | ✓ | メモリ | ✓ | – |
 | Pi | 共存 | – | – | – | ✓ | ✓ | AGENTS.md、SYSTEM.md、プロンプトテンプレート | ✓ | ✓ |
 | MiniMax Code | 共存 | – | – | – | ✓ | ✓ | AGENTS.md | ✓ | ✓ |
+| Antigravity CLI | 公式モデル切替 / Key カードから起動 | – | – | – | ✓ | ✓ | AGENTS.md | ✓ | ✓ |
 
 - **切り替え**：同時に有効にできるプロバイダは 1 つだけです。**共存**：複数のプロバイダを同時にツール自身の設定に書き込み、ツール内で選んで使用します。
 - **ローカルルーティング**：CC Switch がローカルでリクエストを転送し、API 形式を変換します。詳しくは下記の[ローカルルーティング & フェイルオーバー](#ローカルルーティング--フェイルオーバー)をご覧ください。Claude Desktop のプロバイダでは「直接接続」か「モデルマッピング」を選択でき、「モデルマッピング」を選ぶとローカルルーティング経由で転送されます。
@@ -380,7 +381,7 @@ xattr -cr "/Applications/CC Switch.app"
 
 ### MCP、プロンプト & Skills
 
-- **統一 MCP パネル** — すべての MCP サーバーを 1 か所で管理し、ツールごとにチェックを入れて同期（Claude Code、Codex、Gemini CLI、Grok Build、OpenCode、Hermes、Pi、MiniMax Code）。各ツールの既存設定からのインポート、Deep Link インポートに対応
+- **統一 MCP パネル** — すべての MCP サーバーを 1 か所で管理し、ツールごとにチェックを入れて同期（Claude Code、Codex、Gemini CLI、Grok Build、OpenCode、Hermes、Pi、MiniMax Code、Antigravity CLI）。各ツールの既存設定からのインポート、Deep Link インポートに対応
 - **プロンプト** — ツールごとに管理するプロンプトライブラリ（Markdown エディタ付き）。有効化すると、そのツールのプロンプトファイル（CLAUDE.md / AGENTS.md / GEMINI.md）に書き込み。有効化の前にファイル内の既存の内容をプロンプトライブラリへ保存するため、内容が失われることはありません。Pi では SYSTEM.md、APPEND_SYSTEM.md、プロンプトテンプレートも編集可能
 - **Skills** — skills.sh を検索、または GitHub リポジトリや ZIP ファイルからワンクリックでインストール。更新の確認とワンクリックでの一括更新に対応。各ツールへの同期方式は「自動」「シンボリックリンクのみ」「コピーのみ」から選べ、保存場所として `~/.agents/skills` も選択可能
 - 3 つのパネルはいずれも検索に対応。MCP と Skills はツールごとにワンクリックで一括有効化・一括無効化も可能。プロバイダ、MCP、プロンプトはコンテンツ領域の全画面で編集し、未保存の変更があるままページを離れようとすると確認が表示されます
@@ -411,7 +412,7 @@ xattr -cr "/Applications/CC Switch.app"
 <details>
 <summary><strong>CC Switch はどの AI ツールに対応していますか？</strong></summary>
 
-CC Switch は **Claude Code**、**Claude Desktop**、**Codex**、**Gemini CLI**、**Grok Build**、**OpenCode**、**OpenClaw**、**Hermes**、**Pi**、**MiniMax Code** の 10 のツールに対応しています。各ツールに専用のプロバイダプリセットと設定管理が用意されています。ツールごとに対応している機能は[ツール別の対応機能](#ツール別の対応機能)をご覧ください。
+CC Switch は **Claude Code**、**Claude Desktop**、**Codex**、**Gemini CLI**、**Grok Build**、**OpenCode**、**OpenClaw**、**Hermes**、**Pi**、**MiniMax Code**、**Antigravity CLI** の 11 のツールに対応しています。各ツールに専用のプロバイダプリセットと設定管理が用意されています。ツールごとに対応している機能は[ツール別の対応機能](#ツール別の対応機能)をご覧ください。
 
 </details>
 
@@ -425,6 +426,7 @@ CC Switch は **Claude Code**、**Claude Desktop**、**Codex**、**Gemini CLI**�
 - **集約モード**：Claude Code の集約モデルの変更はすぐに反映されます。Codex は集約モードに入る・抜ける、または集約モデルの一覧を変更した後、完全に再起動する必要があります。次の質問をご覧ください。
 - **Claude Desktop**：Claude Desktop を完全に終了してから再度開いてください。「モデルマッピング」を使用する場合は、CC Switch を起動したままにしておく必要もあります。
 - **OpenCode、OpenClaw、Hermes、Pi、MiniMax Code**：これらは共存型のツールです。「追加」（Pi では「有効化」）をクリックするとプロバイダがツール自身の設定に書き込まれ、他のプロバイダと共存します。その後、ツール内で使用するモデルを選んでください。
+- **Antigravity CLI**：公式ログインカードでモデルを管理し、API Key カードは「ターミナルを開く」から専用ディレクトリで起動します。MCP、Skills、プロンプトは共有され、実行中のプロセスは切り替わりません。
 
 </details>
 

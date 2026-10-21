@@ -6,7 +6,7 @@
 
 **Switch API providers in one click and manage MCP, Skills, and Prompts in one place — no more hand-editing JSON / TOML / YAML config files.**
 
-[![Version](https://img.shields.io/badge/version-4.0.15--fork.1-blue.svg)](https://github.com/kongkongyo/cc-switch/releases)
+[![Version](https://img.shields.io/badge/version-4.0.17--fork.1-blue.svg)](https://github.com/kongkongyo/cc-switch/releases)
 [![Platform](https://img.shields.io/badge/platform-Windows%20%7C%20macOS%20%7C%20Linux-lightgrey.svg)](https://github.com/kongkongyo/cc-switch/releases)
 [![Built with Tauri](https://img.shields.io/badge/built%20with-Tauri%202-orange.svg)](https://tauri.app/)
 [![Downloads](https://img.shields.io/github/downloads/kongkongyo/cc-switch/total)](https://github.com/kongkongyo/cc-switch/releases/latest)
@@ -22,7 +22,7 @@ English | [中文](README_ZH.md) | [日本語](README_JA.md) | [Deutsch](README_
 
 </div>
 
-Based on [farion1231/cc-switch](https://github.com/farion1231/cc-switch) `v4.0.15`; fork version: `4.0.15-fork.1`. Download this fork from [Fork Releases](https://github.com/kongkongyo/cc-switch/releases).
+Based on [farion1231/cc-switch](https://github.com/farion1231/cc-switch) `v4.0.17`; fork version: `4.0.17-fork.1`. Download this fork from [Fork Releases](https://github.com/kongkongyo/cc-switch/releases).
 
 ## Differences from upstream
 
@@ -37,7 +37,7 @@ Based on [farion1231/cc-switch](https://github.com/farion1231/cc-switch) `v4.0.1
 
 Model fetching, Direct / Route / Stack modes, configuration switching, and Skills synchronization follow upstream. Proxy settings use upstream's global proxy; provider-specific proxies are no longer available.
 
-Tray clicks also follow upstream: Windows left-click shows and focuses the main window, while right-click opens the menu; macOS left-click opens the menu; Linux uses the tray menu. The previous click-again-to-hide enhancement is not retained.
+Tray behavior follows upstream: Windows left-click shows the main window and right-click opens the quick panel by default; macOS defaults to the quick panel. Select the native menu under Settings → General → Tray style. Linux keeps the native menu with an entry to open the quick panel.
 
 
 ## ❤️Sponsor
@@ -233,7 +233,7 @@ AI coding tools like Claude Code, Codex, and Gemini CLI each have their own conf
 
 **CC Switch** brings all of this into a single desktop app: pick a preset, enter your key, and switch in one click. Switching replaces only the connection details — endpoint, key, and model — so plugins, hooks, MCP, and comments you added yourself stay as they are.
 
-- **One App, Ten Tools** — Claude Code, Claude Desktop, Codex, Gemini CLI, Grok Build, OpenCode, OpenClaw, Hermes, Pi, and MiniMax Code
+- **One App, Eleven Tools** — Claude Code, Claude Desktop, Codex, Gemini CLI, Grok Build, OpenCode, OpenClaw, Hermes, Pi, MiniMax Code, and Antigravity CLI
 - **No More Manual Editing** — 90+ provider presets including AWS Bedrock, NVIDIA NIM, and community relays
 - **Direct, Routing, or Aggregation — Your Choice** — Direct connects the tool straight to the provider; Routing forwards requests through your machine, converting API formats and failing over automatically, so you can use GPT in Claude Code and Claude in Codex; Aggregation puts models from several providers into one model list in Claude Code or Codex, and each request goes to the provider of the model you pick
 - **Centralized MCP, Skills & Prompts** — Add MCP servers and Skills once, then choose which tools to sync them to; prompts are maintained separately for each tool
@@ -316,12 +316,12 @@ For detailed guides on every feature, check out the **[User Manual](docs/user-ma
 
 ## Features
 
-[Full Changelog](CHANGELOG.md) | [Release Notes](docs/release-notes/v4.0.15-en.md)
+[Full Changelog](CHANGELOG.md) | [Release Notes](docs/release-notes/v4.0.17-en.md)
 
-- **This upstream update** — Upload provider images to a reusable "My Icons" library; view first-token time in usage statistics and query usage with the new Sub2API template. Codex supports session compression and default subagent models and reasoning effort; Skills can all be updated in one click.
-- **Fixes and improvements** — Improves model fetching and selection, deep-link imports, and aggregation; fixes old official Codex session recovery, usage statistics, configuration-directory autosaves, and provider editor flicker, and adds more provider presets.
+- **This upstream update** — Adds Antigravity CLI management for models, MCP, Skills, prompts, sessions, and usage. The tray defaults to a quick panel, with a native-menu option in settings. OpenCode cards can set the default model.
+- **Fixes and improvements** — Improves tray scaling, multiple displays, and quota presentation; fixes Codex login preservation, aggregated-session compression and usage tracking, MCP sync, and Windows routing shutdown.
 
-> The database remains at version 20, with no schema change when upgrading from 4.0.2. Versions 4.0.1, 4.0.0, and 3.x cannot directly open it. Claude's aggregated model menu requires Claude Code 2.1.243 or later; Codex still needs a restart to reload its model catalog. Pi MCP sync is off by default, so upgrading does not automatically change Pi's configuration.
+> The database automatically upgrades from 20 to 21, adding Antigravity MCP and Skills switches, disabled by default, without changing other tools' switches. Older app versions cannot directly open the upgraded database. Claude's aggregated model menu requires Claude Code 2.1.243 or later; Codex still needs a restart to reload its model catalog. Pi MCP sync is off by default, so upgrading does not automatically change Pi's configuration.
 
 ### Supported Features by Tool
 
@@ -337,6 +337,7 @@ For detailed guides on every feature, check out the **[User Manual](docs/user-ma
 | Hermes | Coexist | – | – | – | ✓ | ✓ | Memory | ✓ | – |
 | Pi | Coexist | – | – | – | ✓ | ✓ | AGENTS.md, SYSTEM.md, prompt templates | ✓ | ✓ |
 | MiniMax Code | Coexist | – | – | – | ✓ | ✓ | AGENTS.md | ✓ | ✓ |
+| Antigravity CLI | Official model switch / launch key profiles | – | – | – | ✓ | ✓ | AGENTS.md | ✓ | ✓ |
 
 - **Switch**: only one provider is active at a time; **Coexist**: multiple providers are written into the tool's own config at the same time, and you pick one inside the tool.
 - **Local Routing**: CC Switch forwards requests on your machine and converts API formats; see [Local Routing & Failover](#local-routing--failover) below. Claude Desktop providers can use "Direct" or "Model Mapping"; with "Model Mapping", requests go through local routing.
@@ -375,7 +376,7 @@ For detailed guides on every feature, check out the **[User Manual](docs/user-ma
 
 ### MCP, Prompts & Skills
 
-- **Unified MCP panel** — Manage all MCP servers in one place, choose which tools to sync each one to (Claude Code, Codex, Gemini CLI, Grok Build, OpenCode, Hermes, Pi, MiniMax Code), import existing configs from each tool, and import via Deep Link
+- **Unified MCP panel** — Manage all MCP servers in one place, choose which tools to sync each one to (Claude Code, Codex, Gemini CLI, Grok Build, OpenCode, Hermes, Pi, MiniMax Code, Antigravity CLI), import existing configs from each tool, and import via Deep Link
 - **Prompts** — A per-tool prompt library with a Markdown editor; enabling a prompt writes it to that tool's prompt file (CLAUDE.md / AGENTS.md / GEMINI.md), and the file's existing content is saved back to the library first, so nothing is lost. Pi can also edit SYSTEM.md, APPEND_SYSTEM.md, and prompt templates
 - **Skills** — Search skills.sh, or install in one click from GitHub repos or ZIP files; check for updates and update all in one click; sync to each tool automatically, via symlinks only, or via copies only; you can optionally store them in `~/.agents/skills`
 - All three panels support search, and MCP and Skills can also be enabled or disabled all at once per tool; providers, MCP servers, and prompts are edited full-page in the content area, and you're warned before leaving with unsaved changes
@@ -406,7 +407,7 @@ For detailed guides on every feature, check out the **[User Manual](docs/user-ma
 <details>
 <summary><strong>Which AI tools does CC Switch support?</strong></summary>
 
-CC Switch supports ten tools: **Claude Code**, **Claude Desktop**, **Codex**, **Gemini CLI**, **Grok Build**, **OpenCode**, **OpenClaw**, **Hermes**, **Pi**, **MiniMax Code**. Each tool has dedicated provider presets and configuration management; see [Supported Features by Tool](#supported-features-by-tool) for what each one supports.
+CC Switch supports eleven tools: **Claude Code**, **Claude Desktop**, **Codex**, **Gemini CLI**, **Grok Build**, **OpenCode**, **OpenClaw**, **Hermes**, **Pi**, **MiniMax Code**, **Antigravity CLI**. Each tool has dedicated provider presets and configuration management; see [Supported Features by Tool](#supported-features-by-tool) for what each one supports.
 
 </details>
 
@@ -420,6 +421,7 @@ It depends on the tool:
 - **Aggregation mode**: changes to Claude Code's aggregated models take effect immediately; for Codex, entering or leaving Aggregation and changing the aggregated model list all require a full restart — see the next entry.
 - **Claude Desktop**: fully quit and reopen Claude Desktop; when using "Model Mapping", also keep CC Switch running.
 - **OpenCode, OpenClaw, Hermes, Pi, MiniMax Code**: these are coexist-mode tools — clicking "Add" ("Enable" for Pi) writes the provider into the tool's own config alongside the others; you then pick the model you want inside the tool.
+- **Antigravity CLI**: Official profiles manage the model; API-key profiles launch from "Open Terminal" in a private directory. MCP, Skills, and prompts are shared; running processes do not switch live.
 
 </details>
 
