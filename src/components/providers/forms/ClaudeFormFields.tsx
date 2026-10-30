@@ -837,6 +837,12 @@ export function ClaudeFormFields({
     </>
   );
 
+  const copilotRoutingNotice = isCopilotPreset && (
+    <p className="text-xs leading-relaxed text-fg-2">
+      {t("copilot.automaticFormatHint")}
+    </p>
+  );
+
   // 上游格式、认证字段：经典布局放在高级选项里，Stack 布局放在连接区。
   const apiFormatLabel = t("providerForm.apiFormat", {
     defaultValue: "上游格式",
@@ -858,9 +864,15 @@ export function ClaudeFormFields({
                 })}
               </HelpTip>
             </div>
-            <Select value={apiFormat} onValueChange={onApiFormatChange}>
+            <Select
+              value={apiFormat}
+              onValueChange={onApiFormatChange}
+              disabled={isCopilotPreset}
+            >
               <SelectTrigger id="apiFormat" className="w-full">
-                <SelectValue />
+                <SelectValue>
+                  {isCopilotPreset ? t("copilot.automaticFormat") : undefined}
+                </SelectValue>
               </SelectTrigger>
               <SelectContent>
                 <SelectItem value="anthropic">
@@ -1003,6 +1015,7 @@ export function ClaudeFormFields({
     return (
       <>
         {oauthSections}
+        {copilotRoutingNotice}
         {apiFormatField}
         {apiKeySection}
         {showAuthField && authFieldSelect}
@@ -1033,7 +1046,7 @@ export function ClaudeFormFields({
                 type="button"
                 variant={null}
                 size="sm"
-                className="h-8 w-full justify-start gap-1.5 px-0 text-sm font-medium text-fg-1 hover:opacity-70"
+                className="h-8 w-full justify-start gap-1.5 px-0 text-sm font-medium text-fg-1 hover:opacity-70 active:scale-100"
               >
                 {stackAdvancedExpanded ? (
                   <ChevronDown className="h-4 w-4" />
@@ -1060,6 +1073,7 @@ export function ClaudeFormFields({
   return (
     <>
       {oauthSections}
+      {copilotRoutingNotice}
       {apiKeySection}
       {templateSection}
       {endpointSection}
@@ -1076,7 +1090,7 @@ export function ClaudeFormFields({
               type="button"
               variant={null}
               size="sm"
-              className="h-8 w-full justify-start gap-1.5 px-0 text-sm font-medium text-fg-1 hover:opacity-70"
+              className="h-8 w-full justify-start gap-1.5 px-0 text-sm font-medium text-fg-1 hover:opacity-70 active:scale-100"
             >
               {advancedExpanded ? (
                 <ChevronDown className="h-4 w-4" />

@@ -2,11 +2,11 @@
 
 # CC Switch (Fork)
 
-### Der All-in-One-Manager für Claude Code, Claude Desktop, Codex, Gemini CLI, Grok Build, OpenCode, OpenClaw, Hermes Agent, Pi & MiniMax Code
+### Der All-in-One-Manager für Claude Code, Claude Desktop, Codex, Gemini CLI, Grok Build, OpenCode, OpenClaw, Hermes Agent, Pi, MiniMax Code, Kimi Code, DeepSeek Harness & Oh My Pi, Antigravity CLI
 
 **API-Anbieter mit einem Klick wechseln und MCP, Skills und Prompts zentral verwalten — ohne JSON-, TOML- oder YAML-Konfigurationsdateien von Hand zu bearbeiten.**
 
-[![Version](https://img.shields.io/badge/version-4.0.17--fork.1-blue.svg)](https://github.com/kongkongyo/cc-switch/releases)
+[![Version](https://img.shields.io/badge/version-4.0.22--fork.1-blue.svg)](https://github.com/kongkongyo/cc-switch/releases)
 [![Platform](https://img.shields.io/badge/platform-Windows%20%7C%20macOS%20%7C%20Linux-lightgrey.svg)](https://github.com/kongkongyo/cc-switch/releases)
 [![Built with Tauri](https://img.shields.io/badge/built%20with-Tauri%202-orange.svg)](https://tauri.app/)
 [![Downloads](https://img.shields.io/github/downloads/kongkongyo/cc-switch/total)](https://github.com/kongkongyo/cc-switch/releases/latest)
@@ -22,7 +22,7 @@
 
 </div>
 
-Basiert auf [farion1231/cc-switch](https://github.com/farion1231/cc-switch) `v4.0.17`; Fork-Version: `4.0.17-fork.1`. Downloads: [Fork Releases](https://github.com/kongkongyo/cc-switch/releases).
+Basiert auf [farion1231/cc-switch](https://github.com/farion1231/cc-switch) `v4.0.22`; Fork-Version: `4.0.22-fork.1`. Downloads: [Fork Releases](https://github.com/kongkongyo/cc-switch/releases).
 
 ## Unterschiede zum Upstream
 
@@ -64,11 +64,6 @@ Arbeiten Sie hauptsächlich mit Programmierung? Probieren Sie einen **Kimi Code 
 </tr>
 
 <tr>
-<td width="180"><a href="https://zetaapi.ai/go/u117"><img src="assets/partners/logos/zetaapi-banner.png" alt="ZetaAPI" width="150"></a></td>
-<td>Danke an ZetaAPI für die Unterstützung dieses Projekts! ZetaAPI legt den Fokus auf echte Modelltreue — keine verwässerten Antworten, keine Qualitätsminderung — und Preise von nur 35 % der offiziellen Tarife. Die Plattform mischt keinen Traffic, ersetzt Modelle nicht heimlich durch minderwertige Alternativen und nutzt kein gefälschtes Modell-Routing. Sie unterstützt Claude Code, Codex, Gemini, ChatGPT und weitere gängige KI-Modelle und hilft Nutzern, die API-Kosten deutlich zu senken und gleichzeitig eine zuverlässige Modellqualität zu gewährleisten. Gleichzeitig bietet ZetaAPI eine SLA-gestützte Stabilität auf Unternehmensniveau, Standard-API-Kompatibilität, einen API-Key für mehrere Modelle, schnelle Integration und nutzungsbasierte Abrechnung — geeignet für KI-Produkte, Coding-Agents, interne Unternehmenstools, Kundenservice-Systeme, Content-Erstellung und Automatisierungs-Workflows. Falls bei einem Modell nachgewiesen wird, dass es nicht der angegebenen Qualität entspricht, sichert ZetaAPI dies mit einer 10-fachen Entschädigungsgarantie ab und bietet Nutzern ein stabileres, transparenteres und vertrauenswürdigeres Erlebnis. Registrieren Sie sich über <a href="https://zetaapi.ai/go/u117">diesen Link</a> und verwenden Sie bei Ihrer ersten Aufladung den Promo-Code CC-SWITCH, um als CC-Switch-Nutzer einen exklusiven Rabatt von 10 % auf Ihre erste Aufladung zu erhalten!</td>
-</tr>
-
-<tr>
 <td width="180"><a href="https://apinebula.ai/VjM74M"><img src="assets/partners/logos/apinebula_banner.png" alt="APINebula" width="150"></a></td>
 <td>Danke an APINEBULA für die Unterstützung dieses Projekts! APINEBULA ist eine Enterprise-KI-Aggregationsplattform unter Galaxy Video Bureau und nutzt umfangreiche Plattformressourcen, um Entwicklern, Teams und Unternehmen stabilen und kosteneffizienten Zugang zu APIs großer Sprachmodelle zu bieten. Die Plattform bündelt führende vollwertige Modelle wie Claude, GPT und Gemini. Über eine einzige API erhalten Sie Zugriff auf weltweit führende KI-Modelle, mit Preisen ab 10 % des Originalpreises. APINEBULA ist für KI-Programmierung, Agent-Entwicklung und Integration in Geschäftssysteme ausgelegt und unterstützt enterprise-grade hohe Parallelität, formale Verträge, Firmenüberweisungen und Rechnungsstellung. APINEBULA bietet Nutzern dieser Software besondere Rabatte: Registrieren Sie sich über <a href="https://apinebula.ai/VjM74M">diesen Link</a> und geben Sie beim ersten Aufladen den Aktionscode <strong>"ccswitch"</strong> ein, um <strong>10 % Rabatt</strong> zu erhalten.</td>
 </tr>
@@ -81,9 +76,14 @@ Offizielle Kanäle von Claude Code / Codex / Gemini zu 38 % / 2 % / 9 % des Orig
 
 <tr>
 <td width="180"><a href="https://pateway.ai/?ch=etzpm8&aff=WB6M6F67#/"><img src="assets/partners/logos/pateway.png" alt="PatewayAI" width="150"></a></td>
-<td>Danke an PatewayAI für die Unterstützung dieses Projekts! PatewayAI ist ein API-Relay-Anbieter für anspruchsvolle KI-Entwickler, der sich auf das direkte Relayen offizieller hochwertiger Modell-APIs konzentriert. Er bietet die komplette Claude-Reihe und die Codex-Serie, zu 100 % aus offiziellen Kanälen bezogen — keine Verwässerung, keine Fälschungen, Überprüfung ausdrücklich erwünscht. Die Abrechnung ist transparent, und jede Rechnung auf Token-Ebene lässt sich Zeile für Zeile prüfen.
-Er unterstützt zudem unternehmensgerechte Nebenläufigkeit und stellt Unternehmenskunden eine dedizierte Verwaltungsplattform bereit — formelle Verträge und Rechnungsstellung sind verfügbar; Kontaktdaten finden Sie auf der offiziellen Website.
-Registrieren Sie sich jetzt über <a href="https://pateway.ai/?ch=etzpm8&aff=WB6M6F67#/">diesen Link</a> und erhalten Sie ein Testguthaben von 3 $. Aufladungen sind ab 60 % des Originalpreises möglich, mit einem beidseitigen Empfehlungsbonus von bis zu 150 $!</td>
+<td>Danke an PatewayAI für die Unterstützung dieses Projekts! PatewayAI ist ein API-Relay-Anbieter für erfahrene KI-Entwickler und unterstützt Claude, die GPT-Serie sowie zahlreiche gängige chinesische Modelle vollständig. Alle Modelle stammen aus offiziellen, hochwertigen Kanälen – nie verwässert, nie gefälscht – und die Abrechnung ist transparent und nachvollziehbar.
+Im Economy-Modus zahlen Sie ab 5 % des Originalpreises. Registrieren Sie sich über <a href="https://pateway.ai/?ch=etzpm8&aff=WB6M6F67#/">diesen Link</a> und erhalten Sie 1 $ kostenloses Testguthaben; bei gelegentlichen Aktionen gibt es zusätzlich Gratisguthaben.
+Die Plattform unterstützt außerdem Parallelität auf Unternehmensniveau, eine eigene Verwaltungskonsole, formelle Verträge und Rechnungen und bietet einen beidseitigen Empfehlungsbonus auf Aufladungen von bis zu 150 $.</td>
+</tr>
+
+<tr>
+<td width="180"><a href="https://hao.ai/invite/DTBZS3OR"><img src="assets/partners/logos/haoai-banner.png" alt="hao.ai" width="150"></a></td>
+<td>Danke an hao.ai für die Unterstützung dieses Projekts! hao.ai ist ein schnelles, stabiles, einheitliches LLM-API-Gateway für Entwickler und Teams. Mit einem API-Key und einer einheitlichen Schnittstelle greifen Sie auf GPT, Claude, xAI Grok und weitere führende Modelle zu – kompatibel mit gängigen Protokollen und SDKs wie OpenAI und Anthropic. Die Plattform bietet Modell-Routing, Failover, Teamverwaltung und vollständige Aufrufprotokolle, mit Modellpreisen ab 15 % der offiziellen Referenzpreise – so lassen sich AI-Anwendungen einfacher, stabiler und günstiger bauen. hao.ai bietet CC Switch-Nutzern einen besonderen Vorteil: Wer sich über <a href="https://hao.ai/invite/DTBZS3OR">diesen Link</a> registriert, erhält bei der ersten Bestellung 5 % Bonusguthaben!</td>
 </tr>
 
 <tr>
@@ -97,6 +97,11 @@ Registrieren Sie sich jetzt über <a href="https://pateway.ai/?ch=etzpm8&aff=WB6
 </tr>
 
 <tr>
+<td width="180"><a href="https://dit.ai?utm_source=ccswitch"><img src="assets/partners/logos/dit-banner.png" alt="DIT.ai" width="150"></a></td>
+<td>Danke an DIT.ai für die Unterstützung dieses Projekts! Dieselben Modelle, oft zu einem deutlich niedrigeren Preis. Eine OpenAI-kompatible API für mehr als 50 Modelle wie GPT, Claude, Gemini und weitere, mit Routing über mehr als 160 Anbieter zur besten verfügbaren Preis-Leistungs-Option, typischerweise 30–70 % unter den offiziellen Listenpreisen. Base-URL und API-Schlüssel austauschen, den bestehenden Stack behalten und loslegen. CC-Switch-Nutzer können sich über <a href="https://dit.ai?utm_source=ccswitch">diesen Link</a> registrieren und mit dem Code <strong>cc-switch</strong> 30 % Rabatt auf die erste Aufladung erhalten.</td>
+</tr>
+
+<tr>
 <td width="180"><a href="https://www.openmodel.ai?ref=cc-switch"><img src="assets/partners/logos/openmodel-banner.jpg" alt="OpenModel" width="150"></a></td>
 <td>Danke an OpenModel für die Unterstützung dieses Projekts! OpenModel bietet clientspezifische Rabatte von bis zu 90 % für Codex und bis zu 60 % für Claude Code auf unterstützte Modelle und hilft Entwicklern, ihre API-Kosten zu senken, ohne ihre Arbeitsweise zu ändern. Verbinden Sie einfach Ihren OpenModel-API-Schlüssel und nutzen Sie Codex oder Claude Code wie gewohnt weiter — unterstützte Clients werden automatisch erkannt und rabattierte Routen ohne zusätzliche Parameter oder manuelles Routing angewendet. Außerdem können Sie das Fallback-Verhalten pro API-Schlüssel festlegen und wählen, ob bei vorübergehend nicht verfügbarer Rabattroute zum Standardpreis weitergearbeitet oder die Anfrage gestoppt werden soll. CC-Switch-Nutzer können sich über <a href="https://www.openmodel.ai?ref=cc-switch">diesen Link</a> registrieren und mit dem Promo-Code <strong>"cc-switch"</strong> 10 % Rabatt auf ihre erste Aufladung erhalten!</td>
 </tr>
@@ -107,13 +112,30 @@ Registrieren Sie sich jetzt über <a href="https://pateway.ai/?ch=etzpm8&aff=WB6
 </tr>
 
 <tr>
-<td width="180"><a href="https://www.shengsuanyun.com/?from=CH_4HHXMRYF"><img src="assets/partners/logos/shengsuanyun.png" alt="Shengsuanyun" width="150"></a></td>
-<td>Danke an Shengsuanyun für die Unterstützung dieses Projekts! Shengsuanyun ist eine Superfabrik für KI-native Teams — eine Plattform zur parallelen Ausführung von KI-Aufgaben in industrieller Qualität. Ihr Modellmarktplatz bündelt die Fähigkeiten von Claude, ChatGPT, Gemini und weiteren in- und ausländischen LLM- und Multimedia-Modellen mit Direktbezug. Absolut kein Reverse Engineering und keine Verwässerung — die plattformweite Modell-SLA-Verfügbarkeit erreicht 99,7 %, und die <a href="https://watch.shengsuanyun.com/status/shengsuanyun">Monitoring-Dashboards</a> zeigen durchgehend grün an. Es bietet außerdem unternehmensgerechte, anpassbare Gateways für fein abgestufte Kosten- und Berechtigungsverwaltung im Team, intelligentes Routing, Sicherheitsschutz und BYOK-Hosting (Bring Your Own Key). Die Plattform rechnet nach Nutzung sowie über einen Token-Plan (in Kürze verfügbar) ab, und Rechnungsstellung ist möglich. Registrieren Sie sich über <a href="https://www.shengsuanyun.com/?from=CH_4HHXMRYF">diesen Link</a> als Neukunde und erhalten Sie ein Guthaben von ¥10 sowie 10 % Bonus auf Ihre erste Aufladung.</td>
+<td width="180"><a href="https://buytoken.work/sign-up?aff=cc-switch"><img src="assets/partners/logos/buytoken-banner.png" alt="BuyToken" width="150"></a></td>
+<td>Danke an BuyToken für die Unterstützung dieses Projekts! BuyToken bietet Relay-Dienste für Claude Code, Codex, DeepSeek und mehr, mit Parallelität auf Enterprise-Niveau und schneller Rechnungsstellung – ausgelegt als stabiler, langfristiger Dienst. Für CC Switch-Nutzer gibt es ein besonderes Angebot: Wer sich über <a href="https://buytoken.work/sign-up?aff=cc-switch">diesen Link</a> registriert, erhält 3 ¥ Testguthaben und 10 % Rabatt auf die erste Aufladung!</td>
 </tr>
 
 <tr>
-<td width="180"><a href="https://aigocode.net/invite/CC-SWITCH"><img src="assets/partners/logos/aigocode.png" alt="AIGoCode" width="150"></a></td>
-<td>Danke an AIGoCode für die Unterstützung dieses Projekts! AIGoCode ist eine All-in-One-Plattform, die Claude Code, Codex und die neuesten Gemini-Modelle integriert und Ihnen stabile, effiziente und äußerst kostengünstige KI-Coding-Dienste bietet. Die Plattform stellt flexible Abonnementpläne bereit, birgt kein Risiko einer Kontosperrung, ermöglicht Direktzugriff ohne VPN und reagiert blitzschnell. AIGoCode hat ein besonderes Angebot für CC-Switch-Nutzer vorbereitet: Wenn Sie sich über <a href="https://aigocode.net/invite/CC-SWITCH">diesen Link</a> registrieren, erhalten Sie bei Ihrer ersten Aufladung zusätzliche 10 % Bonusguthaben!</td>
+<td width="180"><a href="https://gpt.ge/signup?aff=URNP"><img src="assets/partners/logos/vapi-banner.jpg" alt="V-API" width="150"></a></td>
+<td>Danke an V-API für die Unterstützung dieses Projekts! V-API ist eine seit drei Jahren etablierte Marke, die Privatpersonen, Entwicklern und Unternehmen eine stabile, schnelle und sichere Plattform für hochwertige LLM-API-Dienste bietet – inklusive Vertragsabschluss und offizieller Rechnungen (normale / spezielle Mehrwertsteuerrechnung). Für CC Switch-Nutzer gibt es ein besonderes Angebot: Wer sich über <a href="https://gpt.ge/signup?aff=URNP">diesen Link</a> registriert, erhält bei der ersten Bestellung 2 ¥ Nachlass und zusätzlich 10 % Rabatt!</td>
+</tr>
+
+<tr>
+<td width="180"><a href="https://agentmarket.fluxapay.xyz/marketplace/tokenplans"><img src="assets/partners/logos/fluxa-banner.png" alt="FluxA TokenPlan" width="150"></a></td>
+<td>Danke an FluxA &amp; Baidu AI Cloud für die Unterstützung dieses Projekts! FluxA und Baidu AI Cloud haben gemeinsam AgenticPlan gestartet: KI-Agenten erhalten damit die Fähigkeit, Modelle, APIs und Werkzeuge eigenständig zu kaufen, zu verwalten und zu nutzen. Enthalten ist der Baidu-Qianfan-TokenPlan mit bis zu 40 % Rabatt und Zugriff auf Spitzenmodelle wie DeepSeek V4, GLM 5.2 und Kimi. Dazu kommt Guthaben für die APIs des FluxA AgentMarket, das mehr als 13.000 kostenpflichtige APIs freischaltet – für Suche, Daten-Scraping, soziale Medien, Finanzen, Krypto, Bildgenerierung, Video und mehr.<br>Mit Zustimmung der Nutzerinnen und Nutzer kann ein KI-Agent außerdem mit der offiziellen Visa-Karte bezahlen, um selbstständig Ressourcen zu beschaffen, API-Schlüssel zu verwalten, die Nutzung zu überwachen und Verlängerungen zu planen. So entwickelt sich der Agent von „Aufgaben eigenständig erledigen“ zu „eigenständig Budgets planen und Aufgaben erledigen“. Kaufen Sie über <a href="https://agentmarket.fluxapay.xyz/marketplace/tokenplans">diesen Link</a>!</td>
+</tr>
+
+<tr>
+<td width="180"><a href="https://aigocode.net/invite/CC-SWITCH"><picture><source media="(prefers-color-scheme: dark)" srcset="assets/partners/logos/aigocode-dark.png"><img src="assets/partners/logos/aigocode-light.png" alt="AIGoCode" width="150"></picture></a></td>
+<td>Danke an AIGoCode für die Unterstützung dieses Projekts! AIGoCode ist eine abonnementbasierte KI-Coding-Plattform – nicht nur Abrechnung pro Token. Ein Konto, ein Monatsplan für Claude Code, Codex und Gemini, mit Direktverbindung in Festlandchina und schnellen Antworten. Abonnieren Sie über <a href="https://aigocode.net/invite/CC-SWITCH">diesen Link</a> und erhalten Sie zusätzlich 10 % Guthaben!</td>
+</tr>
+
+<tr>
+<td width="180"><a href="https://teamorouter.cn/?utm_source=cc_switch&utm_medium=referral&utm_campaign=ai_directory"><img src="assets/partners/logos/TeamoRouter-banner.png" alt="TeamoRouter" width="150"></a></td>
+<td>Danke an TeamoRouter für die Unterstützung dieses Projekts! TeamoRouter ist ein Agentic-LLM-Gateway in Enterprise-Qualität, das für Entwickler, KI-Teams und Unternehmen entwickelt wurde. Ganz ohne Abonnement können Sie über eine einzige einheitliche API auf Claude Code, Codex, Gemini CLI, OpenAI Codex und weitere beliebte KI-Agenten zugreifen — bei API-Preisen mit Rabatten von bis zu 90 %.
+Anders als typische API-Relay-Dienste bündelt TeamoRouter Hunderte offizieller Modellanbieter und vertrauenswürdiger Infrastrukturpartner, darunter OpenAI, Anthropic, Vertex, Azure und AWS Bedrock. Jeder Anbieter wird auf 100%ige Kompatibilität mit dem Agent-Protokoll, Cache-Performance und Nachverfolgbarkeit von Anfragen geprüft und liefert so stabile Qualität statt reverse-engineerter oder verwässerter Endpunkte. Die Plattform bietet nahezu offizielle TTFT, 99,6 % SLA, Durchsatz in Unternehmensgröße von bis zu 5.000 QPM und branchenführende Cache-Trefferquoten, die die Token-Kosten für langlaufende Agent-Workflows drastisch senken.
+TeamoRouter bietet außerdem Enterprise-Funktionen wie zentrale Abrechnung, Team-Verwaltung, BYOK, intelligentes Routing, Nutzungsanalysen, dynamische Anbieter-Optimierung und dedizierten Support. Für ein noch einfacheres Erlebnis können Sie mit Teamo Desktop Claude Code, Codex, Gemini CLI und weitere beliebte KI-Agenten per Ein-Klick-Einrichtung nutzen — ohne Verwaltung von API-Schlüsseln oder manuelle Gateway-Konfiguration. Registrieren Sie sich als neuer Nutzer über <a href="https://teamorouter.cn/?utm_source=cc_switch&utm_medium=referral&utm_campaign=ai_directory">diesen Link</a> und erhalten Sie 10 % Rabatt auf Ihre erste Aufladung.</td>
 </tr>
 
 <tr>
@@ -127,8 +149,13 @@ Registrieren Sie sich jetzt über <a href="https://pateway.ai/?ch=etzpm8&aff=WB6
 </tr>
 
 <tr>
-<td width="180"><a href="https://agentmarket.fluxapay.xyz/marketplace/tokenplans"><img src="assets/partners/logos/fluxa-banner.png" alt="FluxA TokenPlan" width="150"></a></td>
-<td>Danke an FluxA &amp; Baidu AI Cloud für die Unterstützung dieses Projekts! FluxA und Baidu AI Cloud haben gemeinsam AgenticPlan gestartet: KI-Agenten erhalten damit die Fähigkeit, Modelle, APIs und Werkzeuge eigenständig zu kaufen, zu verwalten und zu nutzen. Enthalten ist der Baidu-Qianfan-TokenPlan mit bis zu 40 % Rabatt und Zugriff auf Spitzenmodelle wie DeepSeek V4, GLM 5.2 und Kimi. Dazu kommt Guthaben für die APIs des FluxA AgentMarket, das mehr als 13.000 kostenpflichtige APIs freischaltet – für Suche, Daten-Scraping, soziale Medien, Finanzen, Krypto, Bildgenerierung, Video und mehr.<br>Mit Zustimmung der Nutzerinnen und Nutzer kann ein KI-Agent außerdem mit der offiziellen Visa-Karte bezahlen, um selbstständig Ressourcen zu beschaffen, API-Schlüssel zu verwalten, die Nutzung zu überwachen und Verlängerungen zu planen. So entwickelt sich der Agent von „Aufgaben eigenständig erledigen“ zu „eigenständig Budgets planen und Aufgaben erledigen“. Kaufen Sie über <a href="https://agentmarket.fluxapay.xyz/marketplace/tokenplans">diesen Link</a>!</td>
+<td width="180"><a href="https://open.ospreyai.cn"><img src="assets/partners/logos/ospreyai-banner.png" alt="OspreyAI" width="150"></a></td>
+<td>Danke an OspreyAI für die Unterstützung dieses Projekts! ACS OspreyAI ist eine All-in-One-Multimodell-API-Plattform für Entwickler und Unternehmen. Mit einem einzigen API-Key rufen Sie führende chinesische und internationale Modelle auf, darunter Claude, Gemini, GPT, GLM, Kimi, Qwen, DeepSeek und Tencent Hunyuan. Die Plattform ist mit gängigen API-Protokollen wie OpenAI und Anthropic kompatibel und funktioniert mit KI-Tools wie Claude Code, Codex, OpenCode, Pi und Hermes. Internationale Modelle sind 20–40 % günstiger als die offiziellen Preise, chinesische Modelle 30–50 %. Einheitliches Aufladen, einheitliche Abrechnung, Nutzungsabfragen und flexibler Modellwechsel machen die Plattform ideal für KI-Anwendungsentwicklung, Content-Produktion und automatisierte Workflows. Erstellen Sie über <a href="https://open.ospreyai.cn">diesen Link</a> ein Konto, um einen Rabatt zu erhalten und schnell führende Modelle aus China und aller Welt anzubinden.</td>
+</tr>
+
+<tr>
+<td width="180"><a href="https://www.shengsuanyun.com/?from=CH_4HHXMRYF"><img src="assets/partners/logos/shengsuanyun.png" alt="Shengsuanyun" width="150"></a></td>
+<td>Danke an Shengsuanyun für die Unterstützung dieses Projekts! Shengsuanyun ist eine Superfabrik für KI-native Teams — eine Plattform zur parallelen Ausführung von KI-Aufgaben in industrieller Qualität. Ihr Modellmarktplatz bündelt die Fähigkeiten von Claude, ChatGPT, Gemini und weiteren in- und ausländischen LLM- und Multimedia-Modellen mit Direktbezug. Absolut kein Reverse Engineering und keine Verwässerung — die plattformweite Modell-SLA-Verfügbarkeit erreicht 99,7 %, und die <a href="https://watch.shengsuanyun.com/status/shengsuanyun">Monitoring-Dashboards</a> zeigen durchgehend grün an. Es bietet außerdem unternehmensgerechte, anpassbare Gateways für fein abgestufte Kosten- und Berechtigungsverwaltung im Team, intelligentes Routing, Sicherheitsschutz und BYOK-Hosting (Bring Your Own Key). Die Plattform rechnet nach Nutzung sowie über einen Token-Plan (in Kürze verfügbar) ab, und Rechnungsstellung ist möglich. Registrieren Sie sich über <a href="https://www.shengsuanyun.com/?from=CH_4HHXMRYF">diesen Link</a> als Neukunde und erhalten Sie ein Guthaben von ¥10 sowie 10 % Bonus auf Ihre erste Aufladung.</td>
 </tr>
 
 <tr>
@@ -144,13 +171,6 @@ Registrieren Sie sich jetzt über <a href="https://pateway.ai/?ch=etzpm8&aff=WB6
 <tr>
 <td width="180"><a href="https://9527.codes/register?aff=e5zI"><img src="assets/partners/logos/9527-banner.png" alt="9527CODE" width="150"></a></td>
 <td>Danke an 9527CODE für die Unterstützung dieses Projekts! 9527 CODE ist eine KI-Relay-Plattform auf Enterprise-Niveau mit vollem Funktionsumfang, die auf Stabilität und Servicequalität ausgerichtet ist und für Claude Code, Codex und andere gängige KI-Modelle schnelle, stabile und hochwertige Relay-Dienste bereitstellt. Besonderer Wert liegt auf langfristiger Stabilität, Leitungsqualität und dauerhafter Verfügbarkeit, um Unternehmen und intensiven KI-Nutzern eine stabile, effiziente All-in-one-Lösung für den Modellzugriff zu bieten. Seit einem Jahr im Dauerbetrieb, mit 99,9 % Servicestabilität und technischem Support rund um die Uhr (7×24) durch echte Mitarbeiter. Wer sich über den <a href="https://9527.codes/register?aff=e5zI">exklusiven Link</a> dieses Projekts registriert, erhält als Neukunde nach Kontaktaufnahme mit dem Kundenservice ein Testguthaben; die Empfehlungsprämie ist unbegrenzt!</td>
-</tr>
-
-<tr>
-<td width="180"><a href="https://teamorouter.cn/?utm_source=cc_switch&utm_medium=referral&utm_campaign=ai_directory"><img src="assets/partners/logos/TeamoRouter-banner.png" alt="TeamoRouter" width="150"></a></td>
-<td>Danke an TeamoRouter für die Unterstützung dieses Projekts! TeamoRouter ist ein Agentic-LLM-Gateway in Enterprise-Qualität, das für Entwickler, KI-Teams und Unternehmen entwickelt wurde. Ganz ohne Abonnement können Sie über eine einzige einheitliche API auf Claude Code, Codex, Gemini CLI, OpenAI Codex und weitere beliebte KI-Agenten zugreifen — bei API-Preisen mit Rabatten von bis zu 90 %.
-Anders als typische API-Relay-Dienste bündelt TeamoRouter Hunderte offizieller Modellanbieter und vertrauenswürdiger Infrastrukturpartner, darunter OpenAI, Anthropic, Vertex, Azure und AWS Bedrock. Jeder Anbieter wird auf 100%ige Kompatibilität mit dem Agent-Protokoll, Cache-Performance und Nachverfolgbarkeit von Anfragen geprüft und liefert so stabile Qualität statt reverse-engineerter oder verwässerter Endpunkte. Die Plattform bietet nahezu offizielle TTFT, 99,6 % SLA, Durchsatz in Unternehmensgröße von bis zu 5.000 QPM und branchenführende Cache-Trefferquoten, die die Token-Kosten für langlaufende Agent-Workflows drastisch senken.
-TeamoRouter bietet außerdem Enterprise-Funktionen wie zentrale Abrechnung, Team-Verwaltung, BYOK, intelligentes Routing, Nutzungsanalysen, dynamische Anbieter-Optimierung und dedizierten Support. Für ein noch einfacheres Erlebnis können Sie mit Teamo Desktop Claude Code, Codex, Gemini CLI und weitere beliebte KI-Agenten per Ein-Klick-Einrichtung nutzen — ohne Verwaltung von API-Schlüsseln oder manuelle Gateway-Konfiguration. Registrieren Sie sich als neuer Nutzer über <a href="https://teamorouter.cn/?utm_source=cc_switch&utm_medium=referral&utm_campaign=ai_directory">diesen Link</a> und erhalten Sie 10 % Rabatt auf Ihre erste Aufladung.</td>
 </tr>
 
 <tr>
@@ -238,7 +258,7 @@ Claude Code, Codex, Gemini CLI und andere KI-Programmierwerkzeuge haben jeweils 
 
 **CC Switch** bündelt all das in einer einzigen Desktop-App: Preset auswählen, Schlüssel eintragen und mit einem Klick wechseln. Beim Wechsel werden nur die Verbindungsdaten — Endpunkt, Schlüssel und Modell — ersetzt; selbst hinzugefügte Plugins, Hooks, MCP und Kommentare bleiben unverändert.
 
-- **Eine App, elf Werkzeuge** — Claude Code, Claude Desktop, Codex, Gemini CLI, Grok Build, OpenCode, OpenClaw, Hermes, Pi, MiniMax Code, Antigravity CLI
+- **Eine App, vierzehn Werkzeuge** — Claude Code, Claude Desktop, Codex, Gemini CLI, Grok Build, OpenCode, OpenClaw, Hermes, Pi, MiniMax Code, Kimi Code, DeepSeek Harness, Oh My Pi, Antigravity CLI
 - **Kein manuelles Bearbeiten mehr** — 90+ Anbieter-Presets einschließlich AWS Bedrock, NVIDIA NIM und Community-Relays
 - **Direct, Routing oder Aggregation — ganz nach Bedarf** — Bei Direct verbindet sich das Werkzeug direkt mit dem Anbieter; Routing leitet die Anfragen über Ihren Rechner, konvertiert dabei Schnittstellenformate und bietet automatisches Failover, sodass Claude Code GPT und Codex Claude nutzen kann; Aggregation bringt die Modelle mehrerer Anbieter in eine gemeinsame Modellliste von Claude Code oder Codex — welches Modell Sie wählen, entscheidet, an welchen Anbieter die Anfrage geht
 - **MCP, Skills & Prompts zentral verwalten** — MCP und Skills einmal hinzufügen und pro Werkzeug per Häkchen synchronisieren; Prompts werden je Werkzeug separat gepflegt
@@ -299,7 +319,7 @@ Prüfen Sie unter Einstellungen → Über auf Updates. Bei einer neueren Version
 
 1. **Anbieter hinzufügen**: Wählen Sie in der Seitenleiste das Werkzeug aus, das Sie verwalten möchten, und klicken Sie oben rechts auf der Seite auf „+“ („Add Provider“) → Wählen Sie ein Preset oder erstellen Sie eine eigene Konfiguration
 2. **Anbieter wechseln**:
-   - Hauptoberfläche: Anbieter auswählen → auf „Enable“ klicken (bei OpenCode, OpenClaw, Hermes und MiniMax Code heißt die Schaltfläche „Add“, bei Pi „Enable“ / „Remove“; diese fünf Werkzeuge arbeiten im Parallelmodus, sodass Sie mehrere Anbieter gleichzeitig hinzufügen können)
+   - Hauptoberfläche: Anbieter auswählen → auf „Enable“ klicken (bei OpenCode, OpenClaw, Hermes, MiniMax Code und Kimi Code, DeepSeek Harness heißt die Schaltfläche „Add“, bei Pi und Oh My Pi, Antigravity CLI „Enable“ / „Remove“; diese sieben Werkzeuge arbeiten im Parallelmodus, sodass Sie mehrere Anbieter gleichzeitig hinzufügen können)
    - System-Tray: Jedes Werkzeug hat eine eigene Zeile mit Name, Modus, Anbieter und Kontingent; klicken Sie im Untermenü direkt auf den Anbieternamen (Claude Code, Claude Desktop, Codex, Gemini CLI, Grok Build)
 3. **Wirksam werden**: Claude Code erfordert keinen Neustart; bei Codex, Gemini CLI und Grok Build starten Sie das Terminal oder das CLI-Werkzeug neu, bei Claude Desktop die App selbst (siehe FAQ)
 4. **Zurück zum offiziellen Login**: Wechseln Sie zum mitgelieferten offiziellen Anbieter in der Liste (z. B. „Claude Official“), starten Sie das Werkzeug neu und folgen Sie dann seinem Login-/OAuth-Vorgang
@@ -313,7 +333,7 @@ Prüfen Sie unter Einstellungen → Über auf Updates. Bei einer neueren Version
 - **Skills**: Klicken Sie in der Seitenleiste auf „Skills“ → „Discover Skills“ → skills.sh durchsuchen oder GitHub-Repositorys durchstöbern → mit einem Klick in unterstützte Werkzeuge installieren
 - **Projekte**: Aktivieren Sie zuerst unter „Settings → General“ die Option „Show project switcher“; öffnen Sie dann auf der Seite von Claude Code, Claude Desktop oder Codex den Projektumschalter oben → „New project“, um die aktuelle Konfiguration zu speichern; später wählen Sie das Projekt einfach im Umschalter aus, um die gesamte Konfiguration auf einmal zu wechseln
 - **Sessions**: Klicken Sie in der Seitenleiste auf „Sessions“ → Sitzungsverlauf durchsehen und durchsuchen, die Leseansicht öffnen oder Sessions der einzelnen Werkzeuge fortsetzen
-- **Accounts**: Klicken Sie in der Seitenleiste auf „Accounts“ und melden Sie sich bei GitHub-Copilot-, ChatGPT- und xAI-(Grok-)Konten an, um die Abonnements als Anbieter zu nutzen
+- **Accounts**: Klicken Sie in der Seitenleiste auf „Accounts“ und melden Sie sich bei GitHub-Copilot-, ChatGPT-, xAI-(Grok-) und Kimi-Code-Konten an, um die Abonnements als Anbieter zu nutzen. Kimi Code unterstützt mehrere offizielle Konten mit jeweils eigenen Zugangsdaten und einem eigenen nativen Anbieter. Die erste Anmeldung verwendet den nativen Standard-Speicherplatz für Zugangsdaten. Hinzufügen, erneute Anmeldung und Abmeldung erfolgen hier. Offizielle Kimi-OAuth-Knoten in der nativen Konfiguration sind auf der Anbieterseite geschützt; nach dem Entfernen eines nativen Knotens kann sein gespeichertes Profil gelöscht werden.
 
 > **Hinweis**: Beim Erststart importiert CC Switch Ihre bestehende Konfiguration von Claude Code, Codex, Gemini CLI und Grok Build automatisch als Anbieter namens `default` und fügt für diese Werkzeuge sowie für Claude Desktop jeweils den offiziellen Anbieter hinzu, sodass nichts von Ihrer bisherigen Konfiguration verloren geht.
 
@@ -321,12 +341,12 @@ Ausführliche Anleitungen zu allen Funktionen finden Sie im **[Benutzerhandbuch]
 
 ## Funktionen
 
-[Vollständiges Changelog](CHANGELOG.md) | [Release Notes](docs/release-notes/v4.0.17-en.md)
+[Vollständiges Changelog](CHANGELOG.md) | [Release Notes](docs/release-notes/v4.0.22-en.md)
 
-- **Dieses Upstream-Update** — Verwaltung der Antigravity CLI mit Modellen, MCP, Skills, Prompts, Sitzungen und Nutzung. Das Tray öffnet standardmäßig ein Schnellpanel; das native Menü bleibt auswählbar. OpenCode-Karten können das Standardmodell festlegen.
-- **Korrekturen und Verbesserungen** — Verbesserte Tray-Skalierung, Mehrbildschirm- und Kontingentanzeige; Korrekturen an Codex-Anmeldungen, Sitzungskomprimierung und Nutzungsstatistiken, MCP-Synchronisierung und dem Beenden des Routings unter Windows.
+- **Dieses Upstream-Update** — Verwaltung von Kimi Code, Oh My Pi und DeepSeek Harness; Wechsel zwischen offiziellen Claude-Konten, Sortieren der Codex-Modelle per Drag-and-drop, App-Reihenfolge und zusätzliche Terminalargumente.
+- **Korrekturen und Verbesserungen** — Neu geordnete Nutzungseinstellungen und Verbesserungen bei Kontingenten, Sitzungsimporten, Skills-Suche und Ordneraktionen, Proxy-Konvertierung und Konfigurationslesen.
 
-> Die Datenbank wird automatisch von 20 auf 21 aktualisiert. Neue Antigravity-Schalter für MCP und Skills sind standardmäßig deaktiviert; Schalter anderer Werkzeuge bleiben unverändert. Ältere App-Versionen können die aktualisierte Datenbank nicht direkt öffnen. Das aggregierte Modellmenü benötigt Claude Code 2.1.243 oder neuer; Codex muss zum Neuladen des Modellkatalogs neu gestartet werden. Pi-MCP-Synchronisierung bleibt standardmäßig deaktiviert; das Update ändert die Pi-Konfiguration nicht automatisch.
+> Die Datenbank wird unter Beibehaltung vorhandener Einstellungen automatisch von 21 auf 24 aktualisiert. Ältere App-Versionen können die aktualisierte Datenbank nicht direkt öffnen. Die MCP-Synchronisierung neuer Werkzeuge ist standardmäßig deaktiviert. Das aggregierte Modellmenü benötigt Claude Code 2.1.243 oder neuer; Codex muss zum Neuladen des Modellkatalogs neu gestartet werden.
 
 ### Funktionen je Werkzeug
 
@@ -342,6 +362,9 @@ Ausführliche Anleitungen zu allen Funktionen finden Sie im **[Benutzerhandbuch]
 | Hermes | Parallel | – | – | – | ✓ | ✓ | Memory-Verwaltung | ✓ | – |
 | Pi | Parallel | – | – | – | ✓ | ✓ | AGENTS.md, SYSTEM.md, Prompt-Vorlagen | ✓ | ✓ |
 | MiniMax Code | Parallel | – | – | – | ✓ | ✓ | AGENTS.md | ✓ | ✓ |
+| Kimi Code | Parallel | – | – | – | ✓ | ✓ | AGENTS.md | ✓ | ✓ |
+| DeepSeek Harness | Parallel | – | – | – | ✓ | ✓ | AGENTS.md | ✓ | ✓ |
+| Oh My Pi | Parallel | – | – | – | ✓ | ✓ | AGENTS.md | ✓ | – |
 | Antigravity CLI | Offizielles Modell wechseln / Key-Profil starten | – | – | – | ✓ | ✓ | AGENTS.md | ✓ | ✓ |
 
 - **Wechsel**: Es ist jeweils nur ein Anbieter aktiv; **Parallel**: Mehrere Anbieter werden gleichzeitig in die eigene Konfiguration des Werkzeugs geschrieben; welcher verwendet wird, wählen Sie im Werkzeug aus.
@@ -381,7 +404,7 @@ Ausführliche Anleitungen zu allen Funktionen finden Sie im **[Benutzerhandbuch]
 
 ### MCP, Prompts & Skills
 
-- **Einheitliches MCP-Panel** — Alle MCP-Server an einer Stelle verwalten, pro Werkzeug per Häkchen synchronisieren (Claude Code, Codex, Gemini CLI, Grok Build, OpenCode, Hermes, Pi, MiniMax Code, Antigravity CLI), bestehende Konfigurationen aus den einzelnen Werkzeugen importieren, Import per Deep Link
+- **Einheitliches MCP-Panel** — Alle MCP-Server an einer Stelle verwalten, pro Werkzeug per Häkchen synchronisieren (Claude Code, Codex, Gemini CLI, Grok Build, OpenCode, Hermes, Pi, MiniMax Code, Kimi Code, DeepSeek Harness, Oh My Pi, Antigravity CLI), bestehende Konfigurationen aus den einzelnen Werkzeugen importieren, Import per Deep Link
 - **Prompts** — Je Werkzeug separat verwaltete Prompt-Bibliothek mit Markdown-Editor; nach dem Aktivieren wird der Prompt in die Prompt-Datei des Werkzeugs geschrieben (CLAUDE.md / AGENTS.md / GEMINI.md), wobei der bisherige Inhalt der Datei vorher in die Prompt-Bibliothek zurückgesichert wird und nicht verloren geht. Bei Pi lassen sich außerdem SYSTEM.md, APPEND_SYSTEM.md und Prompt-Vorlagen bearbeiten
 - **Skills** — skills.sh durchsuchen oder mit einem Klick aus GitHub-Repositorys bzw. ZIP-Dateien installieren; nach Updates suchen und alle mit einem Klick aktualisieren; die Synchronisierung in die einzelnen Werkzeuge erfolgt wahlweise automatisch, nur per Symlink oder nur per Kopie, als Speicherort ist optional `~/.agents/skills` wählbar
 - Alle drei Panels unterstützen die Suche; bei MCP und Skills können Sie zudem pro Werkzeug alle Einträge mit einem Klick aktivieren oder deaktivieren. Anbieter, MCP und Prompts werden ganzseitig im Inhaltsbereich bearbeitet; wenn Sie die Seite mit ungespeicherten Änderungen verlassen, werden Sie vorher gewarnt
@@ -412,7 +435,7 @@ Ausführliche Anleitungen zu allen Funktionen finden Sie im **[Benutzerhandbuch]
 <details>
 <summary><strong>Welche KI-Werkzeuge unterstützt CC Switch?</strong></summary>
 
-CC Switch unterstützt elf Werkzeuge: **Claude Code**, **Claude Desktop**, **Codex**, **Gemini CLI**, **Grok Build**, **OpenCode**, **OpenClaw**, **Hermes**, **Pi**, **MiniMax Code**, **Antigravity CLI**. Jedes Werkzeug verfügt über dedizierte Anbieter-Presets und Konfigurationsverwaltung; welche Funktionen jeweils unterstützt werden, sehen Sie unter [Funktionen je Werkzeug](#funktionen-je-werkzeug).
+CC Switch unterstützt vierzehn Werkzeuge: **Claude Code**, **Claude Desktop**, **Codex**, **Gemini CLI**, **Grok Build**, **OpenCode**, **OpenClaw**, **Hermes**, **Pi**, **MiniMax Code**, **Kimi Code**, **DeepSeek Harness**, **Oh My Pi**, **Antigravity CLI**. Jedes Werkzeug verfügt über dedizierte Anbieter-Presets und Konfigurationsverwaltung; welche Funktionen jeweils unterstützt werden, sehen Sie unter [Funktionen je Werkzeug](#funktionen-je-werkzeug).
 
 </details>
 
@@ -425,7 +448,7 @@ Das hängt vom Werkzeug ab:
 - **Codex, Gemini CLI, Grok Build**: Starten Sie Ihr Terminal oder das CLI-Werkzeug neu, damit die Änderungen wirksam werden (CC Switch erinnert Sie nach dem Wechsel daran). Im Routing-Modus gehen Anfragen sofort an den neuen Anbieter; ändert der Wechsel jedoch das Modell, kann bei allen drei Werkzeugen trotzdem ein Neustart nötig sein.
 - **Aggregationsmodus**: In Claude Code werden Änderungen an den aggregierten Modellen sofort wirksam; Codex muss nach dem Wechsel in die Aggregation oder aus ihr heraus und nach jeder Änderung der aggregierten Modellliste vollständig neu gestartet werden, siehe nächste Frage.
 - **Claude Desktop**: Beenden Sie Claude Desktop vollständig und öffnen Sie es erneut; bei Verwendung von „Model Mapping“ muss CC Switch außerdem weiterlaufen.
-- **OpenCode, OpenClaw, Hermes, Pi, MiniMax Code**: Dies sind Werkzeuge im Parallelmodus — ein Klick auf „Add“ (bei Pi „Enable“) trägt den Anbieter zusätzlich zu den bereits vorhandenen in die eigene Konfiguration des Werkzeugs ein; das gewünschte Modell wählen Sie anschließend im Werkzeug aus.
+- **OpenCode, OpenClaw, Hermes, Pi, MiniMax Code, Kimi Code, DeepSeek Harness, Oh My Pi, Antigravity CLI**: Dies sind Werkzeuge im Parallelmodus — ein Klick auf „Add“ (bei Pi und Oh My Pi, Antigravity CLI „Enable“) trägt den Anbieter zusätzlich zu den bereits vorhandenen in die eigene Konfiguration des Werkzeugs ein; das gewünschte Modell wählen Sie anschließend im Werkzeug aus. Kimi Code, DeepSeek Harness bietet dafür auch „Switch“; Modelle, die noch als Haupt- oder Sekundärmodell referenziert werden, können nicht entfernt werden. Einzelheiten zu Konfiguration und Konten stehen im [Kimi-Code-Leitfaden](docs/kimi-code-integration-zh.md) (Chinesisch).
 - **Antigravity CLI**: Offizielle Profile verwalten das Modell; API-Key-Profile starten über „Terminal öffnen“ in einem eigenen Verzeichnis. MCP, Skills und Prompts werden geteilt; laufende Prozesse wechseln nicht automatisch.
 
 </details>

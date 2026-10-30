@@ -2,11 +2,11 @@
 
 # CC Switch (Fork)
 
-### Claude Code、Claude Desktop、Codex、Gemini CLI、Grok Build、OpenCode、OpenClaw、Hermes Agent、Pi、MiniMax Code 的全方位管理工具
+### Claude Code、Claude Desktop、Codex、Gemini CLI、Grok Build、OpenCode、OpenClaw、Hermes Agent、Pi、MiniMax Code、Kimi Code、DeepSeek Harness、Oh My Pi、Antigravity CLI 的全方位管理工具
 
 **一键切换 API 供应商，统一管理 MCP、Skills 与提示词，不用再手改 JSON / TOML / YAML 配置文件。**
 
-[![Version](https://img.shields.io/badge/version-4.0.17--fork.1-blue.svg)](https://github.com/kongkongyo/cc-switch/releases)
+[![Version](https://img.shields.io/badge/version-4.0.22--fork.1-blue.svg)](https://github.com/kongkongyo/cc-switch/releases)
 [![Platform](https://img.shields.io/badge/platform-Windows%20%7C%20macOS%20%7C%20Linux-lightgrey.svg)](https://github.com/kongkongyo/cc-switch/releases)
 [![Built with Tauri](https://img.shields.io/badge/built%20with-Tauri%202-orange.svg)](https://tauri.app/)
 [![Downloads](https://img.shields.io/github/downloads/kongkongyo/cc-switch/total)](https://github.com/kongkongyo/cc-switch/releases/latest)
@@ -22,7 +22,7 @@
 
 </div>
 
-基于 [farion1231/cc-switch](https://github.com/farion1231/cc-switch) `v4.0.17`，本 Fork 版本为 `4.0.17-fork.1`。
+基于 [farion1231/cc-switch](https://github.com/farion1231/cc-switch) `v4.0.22`，本 Fork 版本为 `4.0.22-fork.1`。
 
 **个人自用修改版。** 安装包和更新请使用[本 Fork Releases](https://github.com/kongkongyo/cc-switch/releases)。
 
@@ -66,11 +66,6 @@ Kimi K3 是 Moonshot AI 迄今能力最强的模型，也是全球首个开源 3
 </tr>
 
 <tr>
-<td width="180"><a href="https://zetaapi.ai/go/u117"><img src="assets/partners/logos/zetaapi-banner.png" alt="ZetaAPI" width="150"></a></td>
-<td>感谢 ZetaAPI 赞助本项目！ZetaAPI 主打模型不掺水、保真不降智、价格低至官方价 35 折，平台不混量、不暗中替换低质量模型、不做虚假路由，支持 Claude Code、Codex、Gemini、ChatGPT 等主流模型接入，帮助用户在保证模型质量的同时大幅降低 API 使用成本。同时，ZetaAPI 提供企业级 SLA 稳定性保障、标准接口兼容、一个 Key 接入多模型、快速集成、按量计费等能力，适用于 AI 产品、代码生成、企业内部工具、客服系统、内容生产和自动化流程等场景。若经验证发现模型质量与标称不符，ZetaAPI 承诺假一赔十，让用户用得更稳定、更透明、更放心。通过<a href="https://zetaapi.ai/go/u117">此链接</a>注册，并在首次充值时使用优惠码 CC-SWITCH，即可享受 CC Switch 用户专属的首次充值九折优惠！</td>
-</tr>
-
-<tr>
 <td width="180"><a href="https://apinebula.ai/VjM74M"><img src="assets/partners/logos/apinebula_banner.png" alt="APINebula" width="150"></a></td>
 <td>感谢 APINEBULA 赞助本项目！APINEBULA 是银河录像局旗下的企业级 AI 聚合平台，背靠大平台资源，面向开发者、团队与企业用户提供稳定、高性价比的大模型 API 接入服务。平台聚合 Claude、GPT、Gemini 等主流满血模型，一个接口，接入全球顶尖 AI 大模型，各大模型价格低至 1 折起，支持企业级高并发、正式合同、对公打款与开票服务，适合 AI 编程、Agent 开发、业务系统集成等多种场景！使用<a href="https://apinebula.ai/VjM74M">此链接</a>注册并在充值时填写 <strong>"ccswitch"</strong> 优惠码可享<strong>九折优惠</strong>！</td>
 </tr>
@@ -83,9 +78,14 @@ Claude Code / Codex / Gemini 官方渠道低至 3.8 / 0.2 / 0.9 折，充值更�
 
 <tr>
 <td width="180"><a href="https://pateway.ai/?ch=etzpm8&aff=WB6M6F67#/"><img src="assets/partners/logos/pateway.png" alt="PatewayAI" width="150"></a></td>
-<td>感谢 PatewayAI 赞助了本项目！PatewayAI 是一家面向重度 AI 开发者、专注官方直连高品质模型 API 中转服务商。提供 Claude 全系列与 Codex 系列模型，100% 官方源直供，不掺假不注水，欢迎检验。计费透明，Token 级账单可逐笔核验。
-同时支持企业级高并发，并为企业客户提供了专业的管理平台，企业客户可签订正式合同并开具发票，更多详情进入官网获取联系方式。
-现在通过<a href="https://pateway.ai/?ch=etzpm8&aff=WB6M6F67#/">此链接</a>注册即送 $3 试用额度，用户充值低至 6 折，邀请好友双向赠送，邀请奖励可达 $150！</td>
+<td>感谢 PatewayAI 赞助了本项目！PatewayAI 是一家面向资深 AI 开发者的 API 中转服务商，完整支持 Claude、GPT 系列以及各类国内主流模型。所有模型均来自官方高质量渠道，绝无稀释、绝无伪造，计费明细透明可查。
+经济模式低至 0.5 折，通过<a href="https://pateway.ai/?ch=etzpm8&aff=WB6M6F67#/">此链接</a>注册即可获得免费 1 美元试用额度，还可参与不定时营销活动领取免费额度。
+平台同时支持企业级并发、专属管理后台、正式合同与发票，并提供最高 150 美元的双向邀请充值推荐奖励。</td>
+</tr>
+
+<tr>
+<td width="180"><a href="https://hao.ai/invite/DTBZS3OR"><img src="assets/partners/logos/haoai-banner.png" alt="hao.ai" width="150"></a></td>
+<td>感谢 hao.ai 赞助了本项目！hao.ai 是面向开发者与团队的高速、稳定大模型统一 API 网关。通过一个 API Key 和统一接口，即可接入 GPT、Claude、xAI Grok 等主流模型，兼容 OpenAI、Anthropic 等常用协议与 SDK。平台提供模型路由、故障回退、团队管理及完整调用日志，模型价格低至官方参考价的 1.5 折，帮助用户更简单、更稳定、更低成本地构建 AI 应用。hao.ai 为 CC Switch 用户提供了特别福利，通过<a href="https://hao.ai/invite/DTBZS3OR">此链接</a>注册的用户，首单可享受 5% 赠送额度！</td>
 </tr>
 
 <tr>
@@ -99,23 +99,45 @@ Claude Code / Codex / Gemini 官方渠道低至 3.8 / 0.2 / 0.9 折，充值更�
 </tr>
 
 <tr>
+<td width="180"><a href="https://dit.ai?utm_source=ccswitch"><img src="assets/partners/logos/dit-banner.png" alt="DIT.ai" width="150"></a></td>
+<td>感谢 DIT.ai 赞助了本项目！同样的模型，更低的账单，一个 OpenAI 兼容 API 即可调用 GPT、Claude、Gemini 等 50 多个模型，并在 160 多家供应商之间路由到性价比最优的选项，价格通常比官方定价低 30–70%。只需更换 Base URL 和 API Key，即可在保留现有技术栈的情况下开始调用。CC Switch 用户通过<a href="https://dit.ai?utm_source=ccswitch">此链接</a>注册并使用优惠码 <strong>cc-switch</strong>，新人首充可享 7 折！</td>
+</tr>
+
+<tr>
 <td width="180"><a href="https://www.openmodel.ai?ref=cc-switch"><img src="assets/partners/logos/openmodel-banner.jpg" alt="OpenModel" width="150"></a></td>
 <td>感谢 OpenModel 赞助本项目！OpenModel 为 Codex 和 Claude Code 提供客户端专属折扣，所支持的模型通过 Codex 调用最高优惠 90%、通过 Claude Code 调用最高优惠 60%，帮助开发者在不改变工作方式的前提下降低 API 成本。只需填入 OpenModel API Key，像往常一样继续使用 Codex 或 Claude Code，系统会自动识别所支持的客户端并应用折扣路由，无需额外参数或手动路由。你还可以为每个 API Key 单独设置回退策略：折扣路由暂时不可用时，选择按标准价格继续调用或直接停止。CC Switch 用户通过<a href="https://www.openmodel.ai?ref=cc-switch">此链接</a>注册，并使用优惠码 <strong>"cc-switch"</strong>，即可享受首次充值九折优惠！</td>
 </tr>
 
 <tr>
 <td width="180"><a href="https://grooroute.pro/sign-up?aff=qqm9"><img src="assets/partners/logos/grooroute-banner.jpg" alt="GrooRoute Pro" width="150"></a></td>
-<td>Thanks to GrooRoute Pro for sponsoring this project! GrooRoute Pro is a reliable, smooth AI API relay platform with access to OpenAI, Claude, DeepSeek, and other mainstream models. Deployed on overseas servers, it lets you choose your own pricing-multiplier tier and offers both pay-as-you-go billing and subscription plans, so you can use it however suits you best — with stable routes and fast responses that make calling all kinds of AI capabilities easier. Exclusive benefit for CC Switch users: register via <a href="https://grooroute.pro/sign-up?aff=qqm9">this link</a> to get ¥5 in free trial credit!</td>
+<td>感谢 GrooRoute Pro 赞助了本项目！GrooRoute Pro 是可靠流畅的 AI API 中转服务平台，接入 OpenAI、Claude、DeepSeek 等多款主流大模型。平台采用海外服务器部署，支持倍率档位自选，兼具按量计费与订阅套餐两种方案，多种使用方式灵活可选，线路稳定、响应迅速，让使用者可以更轻松便捷地调用各类 AI 能力。GrooRoute Pro 为 CC Switch 用户准备了专属福利，点击<a href="https://grooroute.pro/sign-up?aff=qqm9">此链接</a>注册即可获得免费 5 元体验额度！</td>
 </tr>
 
 <tr>
-<td width="180"><a href="https://www.shengsuanyun.com/?from=CH_4HHXMRYF"><img src="assets/partners/logos/shengsuanyun.png" alt="Shengsuanyun" width="150"></a></td>
-<td>感谢胜算云赞助了本项目！胜算云是专为AI Native Teams服务的超级工厂，工业级AI任务并行执行平台，模型商城集采直供聚合接入了Claude、Chatgpt、Gemini等海内外LLM及图片视频多媒体模型算力，绝无逆向掺水、全站模型SLA可用性高达99.7%、<a href="https://watch.shengsuanyun.com/status/shengsuanyun">监测接口</a>日常全绿。更有企业级专属定制网关，实现团队精细化成本与权限管控，智能路由+安全防护+BYOK企业自带密钥托管。平台按量及tokens plan（即将上线）计费，可开票，使用<a href="https://www.shengsuanyun.com/?from=CH_4HHXMRYF">此链接</a>注册新用户可获10元模力及首充10%赠送。</td>
+<td width="180"><a href="https://buytoken.work/sign-up?aff=cc-switch"><img src="assets/partners/logos/buytoken-banner.png" alt="BuyToken" width="150"></a></td>
+<td>感谢 BuyToken 赞助了本项目！BuyToken 提供 Claude Code / Codex / DeepSeek 等各类中转服务，支持企业级并发、可极速开票，做的就是稳定长久站。本站也为 CC Switch 的用户提供了特别优惠，使用<a href="https://buytoken.work/sign-up?aff=cc-switch">此链接</a>注册，可得 3 元体验额度，并且通过本站充值的用户，首充 9 折！</td>
 </tr>
 
 <tr>
-<td width="180"><a href="https://aigocode.net/invite/CC-SWITCH"><img src="assets/partners/logos/aigocode.png" alt="AIGoCode" width="150"></a></td>
-<td>感谢 AIGoCode 赞助了本项目！AIGoCode 是一个集成了 Claude Code、Codex 以及 Gemini 最新模型的一站式平台，为你提供稳定、高效且高性价比的AI编程服务。本站提供灵活的订阅计划，零封号风险，国内直连，无需魔法，极速响应。AIGoCode 为 CC Switch 的用户提供了特别福利，通过<a href="https://aigocode.net/invite/CC-SWITCH">此链接</a>注册的用户首次充值可以获得额外10%奖励额度！</td>
+<td width="180"><a href="https://gpt.ge/signup?aff=URNP"><img src="assets/partners/logos/vapi-banner.jpg" alt="V-API" width="150"></a></td>
+<td>感谢 V-API 赞助了本项目！V-API 三年老品牌，致力于为个人、开发者和企业提供稳定、快速、安全的高品质的大语言模型 API 服务平台，支持合同签约、正规开票（普票 / 专票）。V-API 为 CC Switch 的用户提供了特别优惠，使用<a href="https://gpt.ge/signup?aff=URNP">此链接</a>注册的用户，可享受首单减 2 元和 9 折优惠！</td>
+</tr>
+
+<tr>
+<td width="180"><a href="https://agentmarket.fluxapay.xyz/marketplace/tokenplans"><img src="assets/partners/logos/fluxa-banner.png" alt="FluxA TokenPlan" width="150"></a></td>
+<td>感谢 FluxA &amp; Baidu AI Cloud 赞助了本项目！ FluxA 与百度智能云联合推出 AgenticPlan，为 AI Agent 提供自主购买/管理/使用模型、API、工具的能力。内含百度千帆 TokenPlan，低至6折，可使用 DeepSeek V4、GLM 5.2、Kimi 等旗舰模型，并获赠 FluxA AgentMarket API的调用额度，解锁搜索、数据抓取、社交媒体、金融、加密、生图、视频等 13000+ 付费 API。<br>在用户授权下，AI Agent 还可借助官方的Visa卡支付自主采购资源、管理 API Key、监控用量并规划续费，帮助 Agent 从「自主完成任务」升级为真正能够「自主规划预算，完成任务」。通过<a href="https://agentmarket.fluxapay.xyz/marketplace/tokenplans">此链接</a>购买！</td>
+</tr>
+
+<tr>
+<td width="180"><a href="https://aigocode.net/invite/CC-SWITCH"><picture><source media="(prefers-color-scheme: dark)" srcset="assets/partners/logos/aigocode-dark.png"><img src="assets/partners/logos/aigocode-light.png" alt="AIGoCode" width="150"></picture></a></td>
+<td>感谢 AIGoCode 赞助了本项目！AIGoCode 是订阅制 AI 编程平台，不只按 token 算钱。一个账号包月畅用 Claude Code、Codex、Gemini，国内直连、响应快。通过<a href="https://aigocode.net/invite/CC-SWITCH">此链接</a>订阅额外送 10% 额度！</td>
+</tr>
+
+<tr>
+<td width="180"><a href="https://teamorouter.cn/zh?utm_source=cc_switch&utm_medium=referral&utm_campaign=ai_directory"><img src="assets/partners/logos/TeamoRouter-banner.png" alt="TeamoRouter" width="150"></a></td>
+<td>感谢 TeamoRouter 赞助本项目！TeamoRouter 是一款面向开发者、AI 团队和企业的企业级 Agentic LLM 网关。无需任何订阅，你就可以通过一个统一 API 访问 Claude Code、Codex、Gemini CLI、OpenAI Codex 以及其他热门 AI Agent，同时享受最高可达 90% 折扣的 API 价格。
+不同于常见的 API 中转服务，TeamoRouter 聚合了数百家官方模型提供商和可信基础设施合作伙伴，包括 OpenAI、Anthropic、Vertex、Azure 和 AWS Bedrock。每个提供商都经过验证，确保 100% 兼容 Agent 协议，并具备可靠的缓存性能和请求可追踪性，从而提供稳定质量，而不是反向工程或缩水后的接口。平台提供接近官方水平的 TTFT、99.6% SLA、最高 5,000 QPM 的企业级吞吐量，以及行业领先的缓存命中率，可大幅降低长时间运行的 Agent 工作流中的 token 成本。
+TeamoRouter 还提供企业级功能，包括集中账单、团队管理、BYOK、智能路由、用量分析、动态提供商优化和专属支持。为了获得更简单的使用体验，Teamo Desktop 支持你一键使用 Claude Code、Codex、Gemini CLI 和其他热门 AI Agent，无需管理 API Key，也无需手动配置网关。新用户通过<a href="https://teamorouter.cn/zh?utm_source=cc_switch&utm_medium=referral&utm_campaign=ai_directory">此链接</a>注册，首次充值可享受 10% 折扣。</td>
 </tr>
 
 <tr>
@@ -129,8 +151,13 @@ Claude Code / Codex / Gemini 官方渠道低至 3.8 / 0.2 / 0.9 折，充值更�
 </tr>
 
 <tr>
-<td width="180"><a href="https://agentmarket.fluxapay.xyz/marketplace/tokenplans"><img src="assets/partners/logos/fluxa-banner.png" alt="FluxA TokenPlan" width="150"></a></td>
-<td>感谢 FluxA &amp; Baidu AI Cloud 赞助了本项目！ FluxA 与百度智能云联合推出 AgenticPlan，为 AI Agent 提供自主购买/管理/使用模型、API、工具的能力。内含百度千帆 TokenPlan，低至6折，可使用 DeepSeek V4、GLM 5.2、Kimi 等旗舰模型，并获赠 FluxA AgentMarket API的调用额度，解锁搜索、数据抓取、社交媒体、金融、加密、生图、视频等 13000+ 付费 API。<br>在用户授权下，AI Agent 还可借助官方的Visa卡支付自主采购资源、管理 API Key、监控用量并规划续费，帮助 Agent 从「自主完成任务」升级为真正能够「自主规划预算，完成任务」。通过<a href="https://agentmarket.fluxapay.xyz/marketplace/tokenplans">此链接</a>购买！</td>
+<td width="180"><a href="https://open.ospreyai.cn"><img src="assets/partners/logos/ospreyai-banner.png" alt="OspreyAI" width="150"></a></td>
+<td>感谢 OspreyAI 赞助了本项目！ACS OspreyAI 是面向开发者和企业的一站式多模型 API 服务平台。一个 API Key 即可调用 Claude、Gemini、GPT、GLM、Kimi、Qwen、DeepSeek、腾讯混元等国内外主流模型。平台兼容 OpenAI、Anthropic 等主流 API 协议，也可用于 Claude Code、Codex、OpenCode、Pi、Hermes 等主流 AI 工具。海外模型较官方价格可节省 20%—40%，国内模型可节省 30%—50%。支持统一充值、统一账单、用量查询和模型灵活切换，适用于 AI 应用开发、内容生产及自动化工作流等场景。通过<a href="https://open.ospreyai.cn">此链接</a>创建账号，即可获取优惠，快速接入国内外主流大模型。</td>
+</tr>
+
+<tr>
+<td width="180"><a href="https://www.shengsuanyun.com/?from=CH_4HHXMRYF"><img src="assets/partners/logos/shengsuanyun.png" alt="Shengsuanyun" width="150"></a></td>
+<td>感谢胜算云赞助了本项目！胜算云是专为AI Native Teams服务的超级工厂，工业级AI任务并行执行平台，模型商城集采直供聚合接入了Claude、Chatgpt、Gemini等海内外LLM及图片视频多媒体模型算力，绝无逆向掺水、全站模型SLA可用性高达99.7%、<a href="https://watch.shengsuanyun.com/status/shengsuanyun">监测接口</a>日常全绿。更有企业级专属定制网关，实现团队精细化成本与权限管控，智能路由+安全防护+BYOK企业自带密钥托管。平台按量及tokens plan（即将上线）计费，可开票，使用<a href="https://www.shengsuanyun.com/?from=CH_4HHXMRYF">此链接</a>注册新用户可获10元模力及首充10%赠送。</td>
 </tr>
 
 <tr>
@@ -146,14 +173,6 @@ Claude Code / Codex / Gemini 官方渠道低至 3.8 / 0.2 / 0.9 折，充值更�
 <tr>
 <td width="180"><a href="https://9527.codes/register?aff=e5zI"><img src="assets/partners/logos/9527-banner.png" alt="9527CODE" width="150"></a></td>
 <td>感谢 9527CODE 赞助本项目！9527 CODE 是专注于稳定性与服务质量的企业级满血 AI 中转平台，为 Claude Code、Codex 等主流 AI 模型提供高速、稳定、高质量的中转服务。更重视长期稳定、线路质量与持续可用性。面向企业及高强度 AI 用户，提供稳定、高效的一站式模型接入方案。持续运营一年，服务稳定性达 99.9%，提供 7×24 小时人工技术支持。通过本项目<a href="https://9527.codes/register?aff=e5zI">专属链接</a>注册，新人福利联系客服赠送体验额度，拉新返现无上限！</td>
-</tr>
-
-<tr>
-<td width="180"><a href="https://teamorouter.cn/zh?utm_source=cc_switch&utm_medium=referral&utm_campaign=ai_directory"><img src="assets/partners/logos/TeamoRouter-banner.png" alt="TeamoRouter" width="150"></a></td>
-<td>感谢 TeamoRouter 赞助本项目！TeamoRouter 是一款面向开发者、AI 团队和企业的企业级 Agentic LLM 网关。无需任何订阅，你就可以通过一个统一 API 访问 Claude Code、Codex、Gemini CLI、OpenAI Codex 以及其他热门 AI Agent，同时享受最高可达 90% 折扣的 API 价格。
-不同于常见的 API 中转服务，TeamoRouter 聚合了数百家官方模型提供商和可信基础设施合作伙伴，包括 OpenAI、Anthropic、Vertex、Azure 和 AWS Bedrock。每个提供商都经过验证，确保 100% 兼容 Agent 协议，并具备可靠的缓存性能和请求可追踪性，从而提供稳定质量，而不是反向工程或缩水后的接口。平台提供接近官方水平的 TTFT、99.6% SLA、最高 5,000 QPM 的企业级吞吐量，以及行业领先的缓存命中率，可大幅降低长时间运行的 Agent 工作流中的 token 成本。
-TeamoRouter 还提供企业级功能，包括集中账单、团队管理、BYOK、智能路由、用量分析、动态提供商优化和专属支持。为了获得更简单的使用体验，Teamo Desktop 支持你一键使用 Claude Code、Codex、Gemini CLI 和其他热门 AI Agent，无需管理 API Key，也无需手动配置网关。新用户通过<a href="https://teamorouter.cn/zh?utm_source=cc_switch&utm_medium=referral&utm_campaign=ai_directory">此链接</a>注册，首次充值可享受 10% 折扣。</td>
-</tr>
 </tr>
 
 <tr>
@@ -242,7 +261,7 @@ Claude Code、Codex、Gemini CLI 等 AI 编程工具各有各的配置格式。�
 
 **CC Switch** 把这些工作集中到一个桌面应用里：选一个预设、填入 Key，一键即可切换。切换时只替换地址、Key、模型这几项连接信息，你自己加的插件、Hook、MCP 和注释都原样保留。
 
-- **一个应用，十一个工具** — Claude Code、Claude Desktop、Codex、Gemini CLI、Grok Build、OpenCode、OpenClaw、Hermes、Pi、MiniMax Code、Antigravity CLI
+- **一个应用，十四个工具** — Claude Code、Claude Desktop、Codex、Gemini CLI、Grok Build、OpenCode、OpenClaw、Hermes、Pi、MiniMax Code、Kimi Code、DeepSeek Harness、Oh My Pi、Antigravity CLI
 - **告别手动编辑** — 90+ 供应商预设，包括 AWS Bedrock、NVIDIA NIM 和社区中转服务
 - **直连、路由、聚合，按需选择** — 直连是工具直接连供应商；路由经本机转发，能转换接口格式、自动故障转移，让 Claude Code 用 GPT、Codex 用 Claude；聚合把多家供应商的模型放进 Claude Code 或 Codex 的同一个模型列表，选哪个模型，请求就发给哪一家
 - **MCP、Skills 与提示词集中管理** — MCP 和 Skills 添加一次，按工具勾选同步；提示词按工具分别维护
@@ -303,7 +322,7 @@ xattr -cr "/Applications/CC Switch.app"
 
 1. **添加供应商**：在侧栏选中要管理的工具，点击页面右上角的“+”（添加供应商）→ 选择预设或创建自定义配置
 2. **切换供应商**：
-   - 主界面：选择供应商 → 点击“启用”（OpenCode、OpenClaw、Hermes、MiniMax Code 的按钮为“添加”，Pi 为“启用 / 移除”；这五个是共存式工具，可以同时添加多个供应商）
+   - 主界面：选择供应商 → 点击“启用”（OpenCode、OpenClaw、Hermes、MiniMax Code、Kimi Code、DeepSeek Harness 的按钮为“添加”，Pi 和 Oh My Pi、Antigravity CLI 为“启用 / 移除”；这八个是共存式工具，可以同时添加多个供应商）
    - 系统托盘：每个工具一行，显示“名称 · 模式 · 供应商 · 额度”，在子菜单里直接点击供应商名称（支持 Claude Code、Claude Desktop、Codex、Gemini CLI、Grok Build）
 3. **生效方式**：Claude Code 无需重启；Codex、Gemini CLI、Grok Build 需重启终端或对应的 CLI 工具；Claude Desktop 需重启应用本身（详见常见问题）
 4. **恢复官方登录**：切换到列表中自带的官方供应商（如“Claude Official”），重启工具后按照其登录/OAuth 流程操作
@@ -317,7 +336,7 @@ xattr -cr "/Applications/CC Switch.app"
 - **Skills**：点击侧栏的“Skills” →“发现技能” → 搜索 skills.sh 或浏览 GitHub 仓库 → 一键安装到支持的工具
 - **项目**：先在「设置 → 通用」里打开“显示项目切换”，然后在 Claude Code、Claude Desktop 或 Codex 页面，打开顶部的项目切换器 →“新建项目”，把当前配置保存下来，之后从切换器里选择即可整套切换
 - **会话**：点击侧栏的“会话” → 浏览、搜索会话历史，打开阅读页，或恢复各工具的会话
-- **授权中心**：点击侧栏的“授权中心”，登录 GitHub Copilot、ChatGPT、xAI（Grok）账号，把订阅当作供应商使用
+- **授权中心**：点击侧栏的“授权中心”，登录 GitHub Copilot、ChatGPT、xAI（Grok）、Kimi Code 账号，把订阅当作供应商使用。Kimi Code 支持同时保存多个官方账号，每个账号使用独立凭据和原生供应商，首个登录沿用 Kimi 原生默认凭据槽位，在此添加、重新登录和退出账号。仍在原生配置中的 Kimi 官方 OAuth 节点在供应商页受到保护；原生节点被移除后，可以删除留下的档案。
 
 > **注意**：首次启动时，CC Switch 会自动把 Claude Code、Codex、Gemini CLI、Grok Build 的现有配置导入为名为 `default` 的供应商，并为这几个工具和 Claude Desktop 添加官方供应商，原有配置不会丢失。
 
@@ -325,27 +344,30 @@ xattr -cr "/Applications/CC Switch.app"
 
 ## 功能特性
 
-[完整更新日志](CHANGELOG.md) | [发布说明](docs/release-notes/v4.0.17-zh.md)
+[完整更新日志](CHANGELOG.md) | [发布说明](docs/release-notes/v4.0.22-zh.md)
 
-- **本次上游更新** — 新增 Antigravity CLI 管理，支持模型、MCP、Skills、提示词、会话和用量；托盘默认使用快捷面板，可在设置里切换为原生菜单；OpenCode 卡片支持设置默认模型。
-- **修复与改进** — 改进托盘缩放、多屏显示和额度展示；修复 Codex 登录保留、聚合会话压缩与用量统计、MCP 同步及 Windows 路由退出问题。
+- **本次上游更新** — 新增 Kimi Code、Oh My Pi 与 DeepSeek Harness 管理；支持 Claude 官方多账号切换、Codex 模型拖动排序、应用排序及终端附加参数。
+- **修复与改进** — 重组用量统计设置，改进账号额度展示、会话用量导入、Skills 发现与本地目录操作，并修复代理格式转换和配置读取问题。
 
-> 数据库从 20 自动升级至 21，为 Antigravity 增加 MCP 和 Skills 开关，默认关闭，不改变其他工具的开关；旧版应用不能直接打开升级后的数据库。Claude 聚合模型菜单需要 Claude Code 2.1.243 或更新版本；Codex 仍需重启才能重新读取模型目录。Pi MCP 同步默认关闭，升级不会自动改写 Pi 配置。
+> 数据库会从 21 自动升级至 24，兼容已有配置；升级后的数据库不能由旧版应用直接打开。新增工具的 MCP 同步默认关闭。Claude 聚合模型菜单需要 Claude Code 2.1.243 或更新版本；Codex 仍需重启才能重新读取模型目录。
 
 ### 各工具支持的功能
 
-| 工具 | 供应商 | 本地路由 | 聚合 | 托盘切换 | MCP | Skills | 提示词 | 会话 | 用量统计 |
-| --- | --- | :---: | :---: | :---: | :---: | :---: | --- | :---: | :---: |
-| Claude Code | 切换 | ✓ | ✓ | ✓ | ✓ | ✓ | CLAUDE.md | ✓ | ✓ |
-| Claude Desktop | 切换 | 模型映射时 | – | ✓ | – | – | – | – | 模型映射时 |
-| Codex | 切换 | ✓ | ✓ | ✓ | ✓ | ✓ | AGENTS.md | ✓ | ✓ |
-| Gemini CLI | 切换 | ✓ | – | ✓ | ✓ | ✓ | GEMINI.md | ✓ | ✓ |
-| Grok Build | 切换 | ✓ | – | ✓ | ✓ | ✓ | AGENTS.md | ✓ | ✓ |
-| OpenCode | 共存 | – | – | – | ✓ | ✓ | AGENTS.md | ✓ | ✓ |
-| OpenClaw | 共存 | – | – | – | – | – | 工作区编辑器 | ✓ | – |
-| Hermes | 共存 | – | – | – | ✓ | ✓ | 记忆管理 | ✓ | – |
-| Pi | 共存 | – | – | – | ✓ | ✓ | AGENTS.md、SYSTEM.md、提示词模板 | ✓ | ✓ |
-| MiniMax Code | 共存 | – | – | – | ✓ | ✓ | AGENTS.md | ✓ | ✓ |
+| 工具                                          | 供应商 |  本地路由  | 聚合 | 托盘切换 | MCP | Skills | 提示词                           | 会话 |  用量统计  |
+| --------------------------------------------- | ------ | :--------: | :--: | :------: | :-: | :----: | -------------------------------- | :--: | :--------: |
+| Claude Code                                   | 切换   |     ✓      |  ✓   |    ✓     |  ✓  |   ✓    | CLAUDE.md                        |  ✓   |     ✓      |
+| Claude Desktop                                | 切换   | 模型映射时 |  –   |    ✓     |  –  |   –    | –                                |  –   | 模型映射时 |
+| Codex                                         | 切换   |     ✓      |  ✓   |    ✓     |  ✓  |   ✓    | AGENTS.md                        |  ✓   |     ✓      |
+| Gemini CLI                                    | 切换   |     ✓      |  –   |    ✓     |  ✓  |   ✓    | GEMINI.md                        |  ✓   |     ✓      |
+| Grok Build                                    | 切换   |     ✓      |  –   |    ✓     |  ✓  |   ✓    | AGENTS.md                        |  ✓   |     ✓      |
+| OpenCode                                      | 共存   |     –      |  –   |    –     |  ✓  |   ✓    | AGENTS.md                        |  ✓   |     ✓      |
+| OpenClaw                                      | 共存   |     –      |  –   |    –     |  –  |   –    | 工作区编辑器                     |  ✓   |     –      |
+| Hermes                                        | 共存   |     –      |  –   |    –     |  ✓  |   ✓    | 记忆管理                         |  ✓   |     –      |
+| Pi                                            | 共存   |     –      |  –   |    –     |  ✓  |   ✓    | AGENTS.md、SYSTEM.md、提示词模板 |  ✓   |     ✓      |
+| MiniMax Code                                  | 共存   |     –      |  –   |    –     |  ✓  |   ✓    | AGENTS.md                        |  ✓   |     ✓      |
+| [Kimi Code](docs/kimi-code-integration-zh.md) | 共存   |     –      |  –   |    –     |  ✓  |   ✓    | AGENTS.md                        |  ✓   |     ✓      |
+| DeepSeek Harness | 共存   |     –      |  –   |    –     |  ✓  |   ✓    | AGENTS.md                        |  ✓   |     ✓      |
+| Oh My Pi                                      | 共存   |     –      |  –   |    –     |  ✓  |   ✓    | AGENTS.md                        |  ✓   |     –      |
 | Antigravity CLI | 官方模型切换 / Key 卡打开终端 | – | – | – | ✓ | ✓ | AGENTS.md | ✓ | ✓ |
 
 - **切换**：同一时间只启用一个供应商；**共存**：多个供应商同时写入工具自身的配置，在工具里选择使用。
@@ -385,7 +407,7 @@ xattr -cr "/Applications/CC Switch.app"
 
 ### MCP、提示词与 Skills
 
-- **统一 MCP 面板** — 一处管理所有 MCP 服务器，按工具勾选同步（Claude Code、Codex、Gemini CLI、Grok Build、OpenCode、Hermes、Pi、MiniMax Code、Antigravity CLI），支持从各工具导入现有配置，支持 Deep Link 导入
+- **统一 MCP 面板** — 一处管理所有 MCP 服务器，按工具勾选同步（Claude Code、Codex、Gemini CLI、Grok Build、OpenCode、Hermes、Pi、MiniMax Code、Kimi Code、DeepSeek Harness、Oh My Pi、Antigravity CLI），支持从各工具导入现有配置，支持 Deep Link 导入
 - **提示词** — 按工具分别管理的提示词库，使用 Markdown 编辑器；启用后写入该工具的提示词文件（CLAUDE.md / AGENTS.md / GEMINI.md），启用前会先把文件里原有的内容存回提示词库，不会丢失。Pi 还可以编辑 SYSTEM.md、APPEND_SYSTEM.md 和提示词模板
 - **Skills** — 搜索 skills.sh，或从 GitHub 仓库、ZIP 文件一键安装；检查更新并一键全部更新；同步到各工具的方式可选自动、只用软链接或只用复制，存储位置可选 `~/.agents/skills`
 - 三个面板都支持搜索，MCP 和 Skills 还可以按工具一键全部启用或停用；供应商、MCP 和提示词都在内容区整页编辑，有未保存的修改时离开会先提醒
@@ -405,6 +427,10 @@ xattr -cr "/Applications/CC Switch.app"
 
 ### 系统与平台
 
+- **云同步** — 通过 WebDAV（坚果云、Nextcloud、群晖 NAS 等）或 S3 兼容存储（AWS S3、Cloudflare R2、阿里云 OSS、腾讯云 COS 等）在多台设备之间同步；也可以把 CC Switch 配置目录放到 Dropbox、OneDrive、iCloud 等网盘文件夹中
+- **CLI 工具管理** — 在侧栏的「应用」页查看 Claude Code、Codex 等命令行工具的当前版本和最新版本，一键安装、升级或全部升级，并诊断重复安装；Windows 上还能管理 WSL 里的工具（见常见问题）
+- **Deep Link**（`ccswitch://`）— 通过链接一键导入供应商、MCP 服务器和提示词，或添加技能仓库。用 [在线生成器](https://ccswitch.io/deplink.html) 生成链接；站长想在网站上放导入按钮，见 [站长接入指南](https://github.com/farion1231/cc-switch/blob/main/docs/guides/deeplink-site-integration-guide-zh.md)
+- **小工具** — 跳过 Claude Code 初次安装确认、隐藏 AI 署名、让 VS Code 的 Claude Code 插件随本软件切换供应商等
 - 深色 / 浅色 / 跟随系统主题、开机自启、Fork 更新检查与手动下载、原子写入、自动备份（「设置 → 数据」里可以看到所有备份的位置和占用空间）、国际化（简中/繁中/英/日，另有社区翻译的土耳其语）
 
 ## 常见问题
@@ -412,7 +438,7 @@ xattr -cr "/Applications/CC Switch.app"
 <details>
 <summary><strong>CC Switch 支持哪些 AI 工具？</strong></summary>
 
-CC Switch 支持十一个工具：**Claude Code**、**Claude Desktop**、**Codex**、**Gemini CLI**、**Grok Build**、**OpenCode**、**OpenClaw**、**Hermes**、**Pi**、**MiniMax Code**、**Antigravity CLI**。每个工具都有专属的供应商预设和配置管理，各自支持哪些功能见[各工具支持的功能](#各工具支持的功能)。
+CC Switch 支持十四个工具：**Claude Code**、**Claude Desktop**、**Codex**、**Gemini CLI**、**Grok Build**、**OpenCode**、**OpenClaw**、**Hermes**、**Pi**、**MiniMax Code**、**Kimi Code**、**DeepSeek Harness**、**Oh My Pi**、**Antigravity CLI**。每个工具都有专属的供应商预设和配置管理，各自支持哪些功能见[各工具支持的功能](#各工具支持的功能)。
 
 </details>
 
@@ -425,7 +451,7 @@ CC Switch 支持十一个工具：**Claude Code**、**Claude Desktop**、**Codex
 - **Codex、Gemini CLI、Grok Build**：需要重启终端或 CLI 工具才能生效（切换成功后会有提示）。路由模式下，请求会立即转发到新供应商；但如果切换改变了模型，这三个工具仍可能需要重启。
 - **聚合模式**：Claude Code 的聚合模型改动立即生效；Codex 进入或退出聚合、改动聚合模型列表后都要彻底重启，见下一条。
 - **Claude Desktop**：需要完全退出并重新打开 Claude Desktop；使用“模型映射”时，还需要保持 CC Switch 运行。
-- **OpenCode、OpenClaw、Hermes、Pi、MiniMax Code**：这些是共存式工具，点击“添加”（Pi 为“启用”）会把供应商写入工具自身的配置、与其他供应商共存，之后在工具里选择要使用的模型即可。
+- **OpenCode、OpenClaw、Hermes、Pi、MiniMax Code、Kimi Code、DeepSeek Harness、Oh My Pi、Antigravity CLI**：这些是共存式工具，点击“添加”（Pi 和 Oh My Pi、Antigravity CLI 为“启用”）会把供应商写入工具自身的配置、与其他供应商共存，之后在工具里选择要使用的模型即可。Kimi Code、DeepSeek Harness 还提供“切换”按钮选择供应商的模型；主模型或子代理模型池仍引用的模型不能移除。配置与账号详情见 [Kimi Code、DeepSeek Harness 接入说明](docs/kimi-code-integration-zh.md)。
 - **Antigravity CLI**：官方登录卡管理模型，第三方 Key 卡通过「打开终端」在独立目录启动；MCP、Skills 和提示词共享，已运行的进程不会热切换。
 
 </details>

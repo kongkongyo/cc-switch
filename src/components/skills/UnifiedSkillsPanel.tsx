@@ -60,6 +60,7 @@ import {
   MatrixColumnHighlight,
   MatrixSearch,
   NeutralBadge,
+  ompDiscoveryColumnNote,
   resolveBulkScope,
   showUndoToast,
 } from "@/components/mcp/AppMatrix";
@@ -876,6 +877,27 @@ const UnifiedSkillsPanel: React.FC<UnifiedSkillsPanelProps> = ({
     }
   };
 
+  const copyName = async (skill: InstalledSkill) => {
+    try {
+      await copyText(skill.name);
+      toast.success(t("skillsPage.toast.copiedName", { name: skill.name }), {
+        closeButton: true,
+      });
+    } catch (error) {
+      toast.error(t("common.error"), { description: String(error) });
+    }
+  };
+
+  const openDirectory = async (skill: InstalledSkill) => {
+    try {
+      await skillsApi.openInstalledFolder(skill.id);
+    } catch (error) {
+      toast.error(t("skillsPage.toast.openDirFailed"), {
+        description: extractErrorMessage(error),
+      });
+    }
+  };
+
   const showInstalled = (skillId: string) => {
     setSearchQuery("");
     setStatusFilter("all");
@@ -1300,6 +1322,7 @@ const UnifiedSkillsPanel: React.FC<UnifiedSkillsPanelProps> = ({
                             }
                           : undefined
                       }
+                      {...ompDiscoveryColumnNote(app, t)}
                       extraAction={{
                         label:
                           statusFilter === appFilter
@@ -1415,21 +1438,8 @@ const UnifiedSkillsPanel: React.FC<UnifiedSkillsPanelProps> = ({
                     onUpdate={() => void updateIds([skill.id])}
                     onOpenDocs={() => void openDocs(skill)}
                     onCopyDir={() => void copyDirectory(skill)}
-                    onOpenFolder={() => {
-                      void skillsApi
-                        .openInstalledFolder(skill.id)
-                        .catch((error) => {
-                          toast.error(
-                            t("skills.openFolderFailed", {
-                              defaultValue: "打开文件夹失败",
-                            }),
-                            {
-                              description:
-                                extractErrorMessage(error) || String(error),
-                            },
-                          );
-                        });
-                    }}
+                    onCopyName={() => void copyName(skill)}
+                    onOpenDir={() => void openDirectory(skill)}
                     onUninstall={() => {
                       if (writeLockRef.current || interactionBlocked) return;
                       setConfirm({ kind: "uninstall", ids: [skill.id] });
@@ -1792,7 +1802,8 @@ interface InstalledRowProps {
   onUpdate: () => void;
   onOpenDocs: () => void;
   onCopyDir: () => void;
-  onOpenFolder: () => void;
+  onCopyName: () => void;
+  onOpenDir: () => void;
   onUninstall: () => void;
 }
 
@@ -1814,7 +1825,8 @@ function InstalledRow({
   onUpdate,
   onOpenDocs,
   onCopyDir,
-  onOpenFolder,
+  onCopyName,
+  onOpenDir,
   onUninstall,
 }: InstalledRowProps) {
   const { t } = useTranslation();
@@ -1849,12 +1861,13 @@ function InstalledRow({
       </span>
       <div className="ms-2 flex min-w-0 flex-1 flex-col pe-3">
         <div className="flex min-w-0 items-center gap-1.5">
-          <span
-            title={skill.name}
-            className="min-w-0 truncate text-body font-medium"
+          <button
+            type="button"
+            onClick={onCopyName}
+            className="min-w-0 cursor-copy truncate text-start text-body font-medium hover:text-fg-1 hover:underline hover:underline-offset-[3px]"
           >
             {skill.name}
-          </span>
+          </button>
           {showDir && (
             <span
               title={skill.directory}
@@ -1969,11 +1982,11 @@ function InstalledRow({
                 {t("mcpPage.openDocs")}
               </DropdownMenuItem>
             )}
+            <DropdownMenuItem onSelect={onOpenDir}>
+              {t("skills.openFolder", { defaultValue: "打开文件夹" })}
+            </DropdownMenuItem>
             <DropdownMenuItem onSelect={onCopyDir}>
               {t("skillsPage.copyDir")}
-            </DropdownMenuItem>
-            <DropdownMenuItem onSelect={onOpenFolder}>
-              {t("skills.openFolder", { defaultValue: "打开文件夹" })}
             </DropdownMenuItem>
             <DropdownMenuSeparator />
             <DropdownMenuItem
